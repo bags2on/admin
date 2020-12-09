@@ -4,7 +4,9 @@ interface routeNamesMap {
 
 const routeNames: routeNamesMap = {
   root: '/',
-  ui: '/ui'
+  ui: '/ui',
+  createProduct: '/create-product',
+  activeOrders: '/active-orders'
 }
 
 export default routeNames

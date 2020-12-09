@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { ThemeProvider, CssBaseline } from '@material-ui/core'
 import { Router } from 'react-router-dom'
+import theme from './utils/theme'
 import history from './utils/history'
 
 import App from './App'
@@ -9,7 +11,10 @@ import App from './App'
 ReactDOM.render(
   <React.StrictMode>
     <Router history={history}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')
