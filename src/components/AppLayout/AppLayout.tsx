@@ -9,6 +9,11 @@ interface AppLayoutProps {
 const useStyles = makeStyles(() => ({
   root: {
     display: 'flex'
+  },
+  content: {
+    width: 'calc(100% - 275px)',
+    padding: '40px 30px 20px 30px',
+    backgroundColor: '#f5f5f4'
   }
 }))
 
@@ -21,7 +26,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     <div className={classes.root}>
       {/* {isAuthenticated && <Sidebar menuLinks={getSidebarLinks(userRole)} />} */}
       {isAuthenticated && <SideBar />}
-      <main>{children}</main>
+      <main className={classes.content}>{children}</main>
       {/* <MessageSnackBar message={message} onClear={onClearMessage} /> */}
     </div>
   )

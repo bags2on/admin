@@ -33,15 +33,18 @@ const useStyles = makeStyles(() => ({
 interface TextInputProps {
   name: string
   type?: string
+  rows?: number
   label?: string
   disabled?: boolean
+  multiline?: boolean
   fullWidth?: boolean
   placeholder?: string
+  autoComplete?: string
   onChange?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
-const TextInput: React.FC<TextInputProps> = (props) => {
-  const [field, meta] = useField(props)
+const TextInput: React.FC<TextInputProps> = ({ autoComplete = 'off', ...restProps }) => {
+  const [field, meta] = useField(restProps)
 
   const classes = useStyles()
 
@@ -49,8 +52,9 @@ const TextInput: React.FC<TextInputProps> = (props) => {
     <>
       <TextField
         {...field}
-        {...props}
+        {...restProps}
         variant="outlined"
+        autoComplete={autoComplete}
         error={!!meta.error}
         InputProps={{
           classes: {
