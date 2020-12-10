@@ -1,8 +1,9 @@
 import React from 'react'
 import List from '@material-ui/core/List'
-import SvgIcon from '@material-ui/core/Icon'
+import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
 import Typography from '@material-ui/core/Typography'
+import BuildIcon from '@material-ui/icons/Build'
 import { NavLink } from 'react-router-dom'
 import { ReactComponent as CreateProductIcon } from '../../../asset/svg/new_product.svg'
 import { ReactComponent as ActiveOrdersIcon } from '../../../asset/svg/ready_orders.svg'
@@ -40,6 +41,11 @@ const navItems = [
     text: 'Активные заказы',
     icon: ActiveOrdersIcon,
     path: routeNames.activeOrders
+  },
+  {
+    text: 'Temp UI page',
+    icon: BuildIcon,
+    path: routeNames.ui
   }
 ]
 
@@ -52,9 +58,9 @@ const NavList: React.FC = () => {
         {navItems.map((item) => (
           <ListItem key={item.text} component="li" className={classes.drawerItem}>
             <NavLink to={item.path} className={classes.linkWrapper}>
-              <SvgIcon className={classes.icon}>
+              <Icon className={classes.icon}>
                 <item.icon />
-              </SvgIcon>
+              </Icon>
               <Typography>{item.text}</Typography>
             </NavLink>
           </ListItem>

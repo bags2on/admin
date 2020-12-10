@@ -4,13 +4,15 @@ import routes from './utils/routeNames'
 import { Switch, Route } from 'react-router-dom'
 
 const UI = lazy(() => import('./pages/UI'))
+const CreateProduct = lazy(() => import('./pages/CreateProduct'))
 
 const App: React.FC = () => {
   return (
     <Suspense fallback={<p>Loading!</p>}>
       <AppLayout>
         <Switch>
-          <Route path={routes.catalog} component={UI} />
+          <Route exact path={routes.ui} component={UI} />
+          <Route path={routes.createProduct} component={CreateProduct} />
         </Switch>
       </AppLayout>
     </Suspense>

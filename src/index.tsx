@@ -4,7 +4,6 @@ import { ThemeProvider, CssBaseline } from '@material-ui/core'
 import { Router } from 'react-router-dom'
 import theme from './utils/theme'
 import history from './utils/history'
-
 import App from './App'
 // import reportWebVitals from './reportWebVitals'
 
