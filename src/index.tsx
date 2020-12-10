@@ -1,9 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { ApolloProvider } from '@apollo/client'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
 import { Router } from 'react-router-dom'
 import theme from './utils/theme'
 import history from './utils/history'
+import client from './apollo/client'
 import App from './App'
 // import reportWebVitals from './reportWebVitals'
 
@@ -11,8 +13,10 @@ ReactDOM.render(
   <React.StrictMode>
     <Router history={history}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
+        <ApolloProvider client={client}>
+          <CssBaseline />
+          <App />
+        </ApolloProvider>
       </ThemeProvider>
     </Router>
   </React.StrictMode>,
