@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '../../shared/Button/Button'
 import TextInput from '../../shared/FormFields/TextInput/TextInput'
+import { createProductSchema } from '../../utils/validation/validationSchemas'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -40,6 +41,7 @@ const CreateProduct: React.FC = () => {
     document.title = 'Создать товар'
   }, [])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = (values: any): void => {
     console.log(values)
   }
@@ -51,7 +53,10 @@ const CreateProduct: React.FC = () => {
   return (
     <div className={classes.root}>
       <Formik
+        // validateOnChange={false}
+        // validateOnBlur={false}
         onSubmit={handleSubmit}
+        validationSchema={createProductSchema}
         initialValues={{
           title: '',
           price: '',
@@ -62,8 +67,8 @@ const CreateProduct: React.FC = () => {
           images: []
         }}
       >
-        {() => (
-          <Form>
+        {({ values, isValid }) => (
+          <Form encType="multipart/form-data">
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 {/*  */}
@@ -96,6 +101,7 @@ const CreateProduct: React.FC = () => {
                         <TextInput label="Цена (грн.)" name="price" type="number" />
                       </Grid>
                       <Grid item xs={5}>
+                        {/* Clear discountPrice when hide! */}
                         <Button
                           color="secondary"
                           withShadow={false}
@@ -110,7 +116,12 @@ const CreateProduct: React.FC = () => {
                   </FormControl>
                   {hasDiscount && (
                     <FormControl className={clsx(classes.formField)}>
-                      <TextInput label="Акционная цена (грн.)" name="discountPrice" type="number" />
+                      <TextInput
+                        disabled={!!!values.price}
+                        label="Акционная цена (грн.)"
+                        name="discountPrice"
+                        type="number"
+                      />
                     </FormControl>
                   )}
                   <FormControl className={clsx(classes.formField)}>
@@ -119,7 +130,7 @@ const CreateProduct: React.FC = () => {
                   <Button
                     type="submit"
                     color="secondary"
-                    // disabled
+                    disabled={!isValid}
                     withShadow={false}
                     className={classes.submitButton}
                     userBgColor="#1CC283"

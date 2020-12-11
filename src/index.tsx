@@ -9,8 +9,8 @@ import client from './apollo/client'
 import App from './App'
 // import reportWebVitals from './reportWebVitals'
 
-ReactDOM.render(
-  <React.StrictMode>
+const Application = () => {
+  return (
     <Router history={history}>
       <ThemeProvider theme={theme}>
         <ApolloProvider client={client}>
@@ -19,7 +19,21 @@ ReactDOM.render(
         </ApolloProvider>
       </ThemeProvider>
     </Router>
-  </React.StrictMode>,
+  )
+}
+
+ReactDOM.render(
+  // <React.StrictMode>
+  //   <Router history={history}>
+  //     <ThemeProvider theme={theme}>
+  //       <ApolloProvider client={client}>
+  //         <CssBaseline />
+  //         <App />
+  //       </ApolloProvider>
+  //     </ThemeProvider>
+  //   </Router>
+  // </React.StrictMode>,
+  <Application />,
   document.getElementById('root')
 )
 

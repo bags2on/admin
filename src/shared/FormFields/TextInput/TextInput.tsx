@@ -55,7 +55,7 @@ const TextInput: React.FC<TextInputProps> = ({ autoComplete = 'off', ...restProp
         {...restProps}
         variant="outlined"
         autoComplete={autoComplete}
-        error={!!meta.error}
+        error={meta.touched && !!meta.error}
         InputProps={{
           classes: {
             root: classes.root,
