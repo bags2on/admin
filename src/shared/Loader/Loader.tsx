@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
   dot: {
     display: 'inline-block',
     animationFillMode: 'both',
-    backgroundColor: '#ff9900',
+    backgroundColor: (props: styleProps) => (props.dark ? '#343434' : '#ff9900'),
     width: (props: styleProps) => (props.fallback ? 5 : 3),
     height: (props: styleProps) => (props.fallback ? 70 : 20),
     margin: (props: styleProps) => (props.fallback ? '0 3px' : '0 2px'),

@@ -35,16 +35,24 @@ const UI: React.FC = () => {
           {() => (
             <Form>
               <h4>Text Inputs</h4>
-              <TextInput label="Имя" name="simpleInput" />
+              <TextInput label="Label" name="simpleInput" />
               <TextInput label="ERROR" name="errorInput" />
               <h4>Number Input</h4>
-              <TextInput label="Цена" name="price" type="number" />
+              <TextInput label="Label" name="price" type="number" />
               <h4>Button</h4>
               <Button>send message</Button>
               <p>button with loading</p>
               <Button loading>send message</Button>
               <p>light button</p>
               <Button color="secondary" withShadow={false}>
+                send message
+              </Button>
+              <p>light button loading</p>
+              <Button color="secondary" loading darkLoader withShadow={false}>
+                send message
+              </Button>
+              <p>disabled button</p>
+              <Button color="secondary" disabled darkLoader withShadow={false}>
                 send message
               </Button>
             </Form>

@@ -17,17 +17,19 @@ interface BottonProps {
   withShadow?: boolean
   darkLoader?: boolean
   className?: string
+  userBgColor?: string
   onClick?(event: React.MouseEvent<HTMLButtonElement>): void
 }
 
 interface BottonStyleTypes {
+  userBgColor?: string
   withShadow: boolean
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
     lineHeight: 'normal',
-    fontSize: '16px',
+    fontSize: 16,
     padding: '10px',
     fontWeight: 500,
     color: '#fff',
@@ -44,11 +46,19 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   secondary: {
-    background: theme.palette.secondary.main,
+    background: (props: BottonStyleTypes) => (props.userBgColor ? props.userBgColor : theme.palette.secondary.main),
     color: theme.palette.primary.light,
     '&:hover': {
       opacity: '0.9',
-      background: theme.palette.secondary.main
+      background: (props: BottonStyleTypes) => (props.userBgColor ? props.userBgColor : theme.palette.secondary.main)
+    },
+    '&:disabled': {
+      pointerEvents: 'initial',
+      cursor: 'not-allowed',
+      background: '#e8e8e8',
+      '&:hover': {
+        background: '#e8e8e8'
+      }
     }
   }
 }))
@@ -59,12 +69,14 @@ const Button: React.FC<BottonProps> = ({
   darkLoader,
   color = 'main',
   withShadow = true,
+  className,
+  userBgColor,
   ...otherProps
 }: BottonProps) => {
-  const classes = useStyles({ withShadow })
+  const classes = useStyles({ withShadow, userBgColor })
 
   return (
-    <MaterialButton className={clsx(classes[color], classes.root)} {...otherProps}>
+    <MaterialButton className={clsx(classes[color], classes.root, className)} {...otherProps}>
       {loading ? <Loader dark={darkLoader} /> : <span className={classes.text}>{children}</span>}
     </MaterialButton>
   )

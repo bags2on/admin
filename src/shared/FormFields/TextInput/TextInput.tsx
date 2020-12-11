@@ -49,7 +49,7 @@ const TextInput: React.FC<TextInputProps> = ({ autoComplete = 'off', ...restProp
   const classes = useStyles()
 
   return (
-    <>
+    <div>
       <TextField
         {...field}
         {...restProps}
@@ -68,7 +68,7 @@ const TextInput: React.FC<TextInputProps> = ({ autoComplete = 'off', ...restProp
           {meta.touched && meta.error}
         </Typography>
       </Fade>
-    </>
+    </div>
   )
 }
 
