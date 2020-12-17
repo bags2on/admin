@@ -10,7 +10,7 @@ import { ReactComponent as ActiveOrdersIcon } from '../../../asset/svg/ready_ord
 import { makeStyles } from '@material-ui/core/styles'
 import routeNames from '../../../utils/routeNames'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: 10
   },
@@ -27,7 +27,19 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     color: '#343434',
     fontWeight: 400,
-    textDecoration: 'none'
+    textDecoration: 'none',
+    width: 'inherit'
+  },
+  active: {
+    position: 'relative',
+    '&:after': {
+      content: "''",
+      position: 'absolute',
+      width: 4,
+      height: '100%',
+      backgroundColor: theme.palette.primary.main,
+      right: 0
+    }
   }
 }))
 
@@ -57,7 +69,7 @@ const NavList: React.FC = () => {
       <List component="ul" aria-label="Навигация">
         {navItems.map((item) => (
           <ListItem key={item.text} component="li" className={classes.drawerItem}>
-            <NavLink to={item.path} className={classes.linkWrapper}>
+            <NavLink to={item.path} className={classes.linkWrapper} activeClassName={classes.active}>
               <Icon className={classes.icon}>
                 <item.icon />
               </Icon>

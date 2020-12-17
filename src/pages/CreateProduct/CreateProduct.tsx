@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '../../shared/Button/Button'
 import TextInput from '../../shared/FormFields/TextInput/TextInput'
+import PhotosUpload from '../CreateProduct/PhotosUpload/PhotosUpload'
 import { createProductSchema } from '../../utils/validation/validationSchemas'
 
 const useStyles = makeStyles(() => ({
@@ -71,17 +72,14 @@ const CreateProduct: React.FC = () => {
           <Form encType="multipart/form-data">
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                {/*  */}
                 <div
-                  style={{
-                    backgroundColor: '#b1c3D0',
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
+                  style={
+                    {
+                      // backgroundColor: '#f9f9f9'
+                    }
+                  }
                 >
-                  <p>Photos Area</p>
+                  <PhotosUpload />
                 </div>
               </Grid>
               <Grid item xs={6}>
