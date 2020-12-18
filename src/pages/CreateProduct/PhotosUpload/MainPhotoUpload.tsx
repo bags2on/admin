@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import clsx from 'clsx'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -8,6 +8,8 @@ import placeholderPhoto from '../../../asset/rastr/main_placeholder.png'
 
 interface MainPhotoUploadProps {
   acceptedTypes: string[]
+  mainPhoto: File | null
+  onMainPhotoUpload(f: File | null): void
 }
 
 type File = {
@@ -47,8 +49,9 @@ const useStyles = makeStyles(() => ({
     }
   },
   dragReject: {
+    color: '#ff182e',
     '& $imageWrapper': {
-      border: '5px solid #ff4033'
+      border: '5px solid #ff182e'
     }
   },
   buttonBox: {
@@ -61,35 +64,26 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes }) => {
-  const [mainPhoto, setMainPhoto] = useState<File>()
-
+const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPhoto, onMainPhotoUpload }) => {
   const classes = useStyles()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleFileDrop = (acceptedFiles: any[]) => {
-    console.log(acceptedFiles)
-
+  const handleFileDrop = (acceptedFiles: globalThis.File[]) => {
     if (acceptedFiles.length) {
-      const file = acceptedFiles[0]
+      const uploaded: unknown = acceptedFiles[0] // Type assertions
+      const file: File = uploaded as File
+
       file.preview = URL.createObjectURL(file)
 
-      setMainPhoto(file)
+      onMainPhotoUpload(file)
     }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleDropReject = (e: any) => {
-    console.log(e)
   }
 
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     accept: acceptedTypes,
-    maxSize: 700000, // 700kb
+    maxSize: 700000, // 700KB
     maxFiles: 1,
     multiple: false,
-    onDrop: handleFileDrop,
-    onDropRejected: handleDropReject
+    onDrop: handleFileDrop
   })
 
   const handleRemoveClick = (event: React.MouseEvent<HTMLElement>): void => {
@@ -97,9 +91,10 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes }) => {
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     URL.revokeObjectURL(mainPhoto!.preview)
-    setMainPhoto(undefined)
+    onMainPhotoUpload(null)
   }
 
+  // TODO: rename
   const s = <img src={mainPhoto?.preview} alt="Загруженное фото создаваемого товара" />
 
   useEffect(

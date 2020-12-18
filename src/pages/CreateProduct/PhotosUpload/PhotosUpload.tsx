@@ -1,15 +1,21 @@
 import React from 'react'
 import MainPhotoUpload from './MainPhotoUpload'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface PhotosUploadProps {}
+type File = {
+  name: string
+  preview: string
+}
+interface PhotosUploadProps {
+  mainPhoto: File | null
+  onMainPhotoUpload(f: File): void
+}
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/jpg,'] // 'image/png'
 
-const PhotosUpload: React.FC<PhotosUploadProps> = () => {
+const PhotosUpload: React.FC<PhotosUploadProps> = ({ mainPhoto, onMainPhotoUpload }) => {
   return (
     <section>
-      <MainPhotoUpload acceptedTypes={ACCEPTED_TYPES} />
+      <MainPhotoUpload mainPhoto={mainPhoto} onMainPhotoUpload={onMainPhotoUpload} acceptedTypes={ACCEPTED_TYPES} />
     </section>
   )
 }

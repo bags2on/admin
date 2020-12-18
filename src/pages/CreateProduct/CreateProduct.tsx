@@ -33,10 +33,16 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
+type File = {
+  name: string
+  preview: string
+}
+
 const CreateProduct: React.FC = () => {
   const classes = useStyles()
 
   const [hasDiscount, setDiscount] = useState<boolean>(false)
+  const [mainPhoto, setMainPhoto] = useState<File | null>(null)
 
   useEffect(() => {
     document.title = 'Создать товар'
@@ -49,6 +55,10 @@ const CreateProduct: React.FC = () => {
 
   const handleDiscountClick = () => {
     setDiscount(!hasDiscount)
+  }
+
+  const handleMainPhotoUpload = (f: File): void => {
+    setMainPhoto(f)
   }
 
   return (
@@ -79,7 +89,7 @@ const CreateProduct: React.FC = () => {
                     }
                   }
                 >
-                  <PhotosUpload />
+                  <PhotosUpload mainPhoto={mainPhoto} onMainPhotoUpload={handleMainPhotoUpload} />
                 </div>
               </Grid>
               <Grid item xs={6}>
@@ -99,7 +109,7 @@ const CreateProduct: React.FC = () => {
                         <TextInput label="Цена (грн.)" name="price" type="number" />
                       </Grid>
                       <Grid item xs={5}>
-                        {/* Clear discountPrice when hide! */}
+                        {/* TODO: Clear discountPrice when hide! */}
                         <Button
                           color="secondary"
                           withShadow={false}
