@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
+import { gql, useMutation } from '@apollo/client'
 import { Formik, Form } from 'formik'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -38,19 +39,61 @@ type File = {
   preview: string
 }
 
+const CREATE_PRODUCT_MUTATION = gql`
+  mutation CreateProduct(
+    $title: String!
+    $price: Int!
+    $discountPrice: Int
+    $preview: Upload!
+    $images: [String]
+    $tags: [String]
+    $description: String
+  ) {
+    createProduct(
+      input: {
+        title: $title
+        price: $price
+        discountPrice: $discountPrice
+        preview: $preview
+        images: $images
+        tags: $tags
+        description: $description
+      }
+    ) {
+      message
+    }
+  }
+`
+
 const CreateProduct: React.FC = () => {
   const classes = useStyles()
 
   const [hasDiscount, setDiscount] = useState<boolean>(false)
   const [mainPhoto, setMainPhoto] = useState<File | null>(null)
 
+  const [createProduct, mCreate] = useMutation(CREATE_PRODUCT_MUTATION)
+
+  console.log(mCreate)
+
   useEffect(() => {
     document.title = 'Создать товар'
   }, [])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = (values: any): void => {
+  const handleSubmit = (values: any) => {
     console.log(values)
+
+    const { title, price, discountPrice, description, tags, images } = values
+
+    const preview = mainPhoto
+
+    try {
+      const req = createProduct({ variables: { title, price, discountPrice, preview, description, tags, images } })
+
+      console.log(req)
+    } catch (error) {
+      console.log('error: ', error)
+    }
   }
 
   const handleDiscountClick = () => {
@@ -73,13 +116,13 @@ const CreateProduct: React.FC = () => {
           price: '',
           discountPrice: '',
           description: '',
-          tags: [],
-          preview: '',
-          images: []
+          tags: []
+          // preview: '',
+          // images: []
         }}
       >
         {({ values, isValid }) => (
-          <Form encType="multipart/form-data">
+          <Form>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <div
