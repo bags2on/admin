@@ -71,9 +71,7 @@ const CreateProduct: React.FC = () => {
   const [hasDiscount, setDiscount] = useState<boolean>(false)
   const [mainPhoto, setMainPhoto] = useState<File | null>(null)
 
-  const [createProduct, mCreate] = useMutation(CREATE_PRODUCT_MUTATION)
-
-  console.log(mCreate)
+  const [createProduct] = useMutation(CREATE_PRODUCT_MUTATION)
 
   useEffect(() => {
     document.title = 'Создать товар'
@@ -104,24 +102,23 @@ const CreateProduct: React.FC = () => {
     setMainPhoto(f)
   }
 
+  const isPhotoExist = Boolean(mainPhoto)
+
   return (
     <div className={classes.root}>
       <Formik
-        // validateOnChange={false}
-        // validateOnBlur={false}
         onSubmit={handleSubmit}
         validationSchema={createProductSchema}
         initialValues={{
           title: '',
+          storageAmount: '', // TODO storageAmount implementation
           price: '',
           discountPrice: '',
           description: '',
           tags: []
-          // preview: '',
-          // images: []
         }}
       >
-        {({ values, isValid }) => (
+        {({ values, isValid, setFieldValue }) => (
           <Form>
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -146,18 +143,24 @@ const CreateProduct: React.FC = () => {
                   <FormControl className={clsx(classes.formField)}>
                     <TextInput label="Заголовок" name="title" fullWidth />
                   </FormControl>
+                  <FormControl className={clsx(classes.formField)}>
+                    <TextInput disabled label="Количество шт." name="storageAmount" type="number" />
+                  </FormControl>
                   <FormControl className={clsx(classes.formField, classes.priceField)}>
                     <Grid container>
                       <Grid item xs={7}>
                         <TextInput label="Цена (грн.)" name="price" type="number" />
                       </Grid>
                       <Grid item xs={5}>
-                        {/* TODO: Clear discountPrice when hide! */}
+                        {console.log(values)}
                         <Button
                           color="secondary"
                           withShadow={false}
                           userBgColor="#4F3F74"
-                          onClick={handleDiscountClick}
+                          onClick={() => {
+                            setFieldValue('discountPrice', '')
+                            handleDiscountClick()
+                          }}
                           className={classes.addDiscountButton}
                         >
                           {hasDiscount ? 'Убрать акцию' : 'Добавить акцию'}
@@ -181,7 +184,7 @@ const CreateProduct: React.FC = () => {
                   <Button
                     type="submit"
                     color="secondary"
-                    disabled={!isValid}
+                    disabled={!isPhotoExist || !isPhotoExist || !isValid}
                     withShadow={false}
                     className={classes.submitButton}
                     userBgColor="#1CC283"

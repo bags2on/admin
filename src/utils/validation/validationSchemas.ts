@@ -20,9 +20,9 @@ function lessThanOtherField(
       }
 
       if (value.originalValue === value.parent.price) {
-        return true
+        return false
       }
-      return value.originalValue < value.parent.price
+      return value.originalValue <= value.parent.price
     }
   })
 }
@@ -44,7 +44,7 @@ export const createProductSchema = yup.object().shape({
     .number()
     .positive('* число не может быть отрицательным')
     .integer('* только целочисленное')
-    .lessThanOtherField(yup.ref('price'), '* не может быть больше изначальной цены'),
+    .lessThanOtherField(yup.ref('price'), '* не может быть больше или равняться изначальной цене'),
   // .lessThan(yup.ref('price')) // js solution
   description: yup.string().trim()
 })
