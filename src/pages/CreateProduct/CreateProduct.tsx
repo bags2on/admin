@@ -35,7 +35,7 @@ const useStyles = makeStyles(() => ({
 }))
 
 type File = {
-  name: string
+  name?: string
   preview: string
 }
 
@@ -70,6 +70,14 @@ const CreateProduct: React.FC = () => {
 
   const [hasDiscount, setDiscount] = useState<boolean>(false)
   const [mainPhoto, setMainPhoto] = useState<File | null>(null)
+  const [subPhotos, setSubPhotos] = useState<File[]>([
+    {
+      preview: ''
+    },
+    {
+      preview: ''
+    }
+  ])
 
   const [createProduct] = useMutation(CREATE_PRODUCT_MUTATION)
 
@@ -98,8 +106,12 @@ const CreateProduct: React.FC = () => {
     setDiscount(!hasDiscount)
   }
 
-  const handleMainPhotoUpload = (f: File): void => {
-    setMainPhoto(f)
+  const handleMainPhotoUpload = (newFile: File): void => {
+    setMainPhoto(newFile)
+  }
+
+  const handleSubPhotoUpload = (newFiles: File[]): void => {
+    setSubPhotos(newFiles)
   }
 
   const isPhotoExist = Boolean(mainPhoto)
@@ -129,7 +141,12 @@ const CreateProduct: React.FC = () => {
                     }
                   }
                 >
-                  <PhotosUpload mainPhoto={mainPhoto} onMainPhotoUpload={handleMainPhotoUpload} />
+                  <PhotosUpload
+                    mainPhoto={mainPhoto}
+                    onMainPhotoUpload={handleMainPhotoUpload}
+                    subPhotos={subPhotos}
+                    onSubPhotoUpload={handleSubPhotoUpload}
+                  />
                 </div>
               </Grid>
               <Grid item xs={6}>

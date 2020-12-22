@@ -1,31 +1,33 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import clsx from 'clsx'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { useDropzone } from 'react-dropzone'
 import { makeStyles } from '@material-ui/core'
-import mainPlaceholderPhoto from '../../../asset/rastr/main_placeholder.png'
-
-interface MainPhotoUploadProps {
-  acceptedTypes: string[]
-  mainPhoto: File | null
-  onMainPhotoUpload(f: File | null): void
-}
+import placeholderPhoto from '../../asset/rastr/placeholder.png'
 
 type File = {
-  name?: string
+  name: string
   preview: string
+}
+
+interface FileReaderProps {
+  preview: string
+  position: number
+  acceptedTypes: string[]
+  onAdd(file: File, position: number): void
 }
 
 const useStyles = makeStyles(() => ({
   root: {
     position: 'relative',
-    width: 440,
-    height: 'auto',
-    outline: 'none'
+    width: 140,
+    height: 140,
+    outline: 'none',
+    margin: '0 5px 5px 0'
   },
   imageWrapper: {
-    border: '5px solid #e9f5f8',
+    border: '3px solid #e9f5f8',
     width: 'inherit',
     height: 'inherit',
     transition: 'border .3s',
@@ -34,23 +36,23 @@ const useStyles = makeStyles(() => ({
       height: '100%'
     },
     '&:hover': {
-      border: '5px solid #afdbe6'
+      border: '3px solid #afdbe6'
     }
   },
   dragActive: {
     '& $imageWrapper': {
-      border: '5px solid #2196f3'
+      border: '3px solid #2196f3'
     }
   },
   dragAccept: {
     '& $imageWrapper': {
-      border: '5px solid #5b9066'
+      border: '3px solid #5b9066'
     }
   },
   dragReject: {
     color: '#ff182e',
     '& $imageWrapper': {
-      border: '5px solid #ff182e'
+      border: '3px solid #ff182e'
     }
   },
   buttonBox: {
@@ -63,17 +65,14 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPhoto, onMainPhotoUpload }) => {
+const FileReader: React.FC<FileReaderProps> = ({ preview, position, acceptedTypes, onAdd }) => {
   const classes = useStyles()
 
   const handleFileDrop = (acceptedFiles: globalThis.File[]) => {
     if (acceptedFiles.length) {
       const uploaded: unknown = acceptedFiles[0] // Type assertions
       const file: File = uploaded as File
-
-      file.preview = URL.createObjectURL(file)
-
-      onMainPhotoUpload(file)
+      onAdd(file, position)
     }
   }
 
@@ -96,25 +95,6 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPh
     onDropRejected: handleDropReject
   })
 
-  const handleRemoveClick = (event: React.MouseEvent<HTMLElement>): void => {
-    event.stopPropagation()
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    URL.revokeObjectURL(mainPhoto!.preview)
-    onMainPhotoUpload(null)
-  }
-
-  const uploaded = <img src={mainPhoto?.preview} alt="Загруженное фото создаваемого товара" />
-
-  useEffect(
-    () => () => {
-      if (mainPhoto) {
-        URL.revokeObjectURL(mainPhoto.preview)
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
   const dropZoneStyles = useMemo(
     () =>
       clsx({
@@ -127,6 +107,18 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPh
     [isDragActive, isDragReject, isDragAccept]
   )
 
+  const uploaded = <img src={preview} alt="Загруженное фото создаваемого товара" />
+
+  const handleRemoveClick = (event: React.MouseEvent<HTMLElement>): void => {
+    event.stopPropagation()
+
+    // TODO complete
+
+    // // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // URL.revokeObjectURL(mainPhoto!.preview)
+    // onMainPhotoUpload(null)
+  }
+
   return (
     <div>
       <div
@@ -136,10 +128,10 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPh
       >
         <input {...getInputProps()} />
         <div className={classes.imageWrapper}>
-          {mainPhoto ? uploaded : <img src={mainPlaceholderPhoto} alt="Главное фото создаваемого товара" />}
+          {preview ? uploaded : <img src={placeholderPhoto} alt="фото создаваемого товара" />}
         </div>
         {isDragReject && <span>Типом файла может быть только: .jpeg, .jpg</span>}
-        {mainPhoto && (
+        {preview && (
           <div className={classes.buttonBox}>
             <IconButton disableRipple onClick={handleRemoveClick} className={classes.removeButton}>
               <DeleteIcon color="inherit" />
@@ -151,4 +143,4 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPh
   )
 }
 
-export default MainPhotoUpload
+export default FileReader
