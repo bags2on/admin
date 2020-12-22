@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
     display: 'flex'
   },
   content: {
-    width: 'calc(100% - 275px)',
+    width: 'calc(100% - 295px)',
     padding: '40px 30px 20px 30px',
     backgroundColor: '#f5f5f4'
   }

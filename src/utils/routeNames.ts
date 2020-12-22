@@ -4,9 +4,12 @@ interface routeNamesMap {
 
 const routeNames: routeNamesMap = {
   root: '/',
-  ui: '/ui',
   createProduct: '/create-product',
-  activeOrders: '/active-orders'
+  activeOrders: '/active-orders',
+  communication: '/communication',
+  storage: '/storage',
+  banners: '/banners',
+  ui: '/ui'
 }
 
 export default routeNames

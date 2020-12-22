@@ -3,22 +3,26 @@ import List from '@material-ui/core/List'
 import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
 import Typography from '@material-ui/core/Typography'
-import BuildIcon from '@material-ui/icons/Build'
 import { NavLink } from 'react-router-dom'
 import { ReactComponent as CreateProductIcon } from '../../../asset/svg/new_product.svg'
-import { ReactComponent as ActiveOrdersIcon } from '../../../asset/svg/ready_orders.svg'
+import { ReactComponent as ActiveOrdersIcon } from '../../../asset/svg/active_orders.svg'
+import { ReactComponent as CommunicationIcon } from '../../../asset/svg/messages.svg'
+import { ReactComponent as StorageIcon } from '../../../asset/svg/storage.svg'
+import { ReactComponent as BannerIcon } from '../../../asset/svg/filter-picture.svg'
+import { ReactComponent as UIicon } from '../../../asset/svg/ui.svg'
+// import { ReactComponent as ActiveOrdersIcon } from '../../../asset/svg/shipment-upload.svg'
 import { makeStyles } from '@material-ui/core/styles'
 import routeNames from '../../../utils/routeNames'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingLeft: 10
+    paddingLeft: 15
   },
   drawerItem: {
-    padding: '5px 0'
+    padding: '6px 0'
   },
   icon: {
-    marginRight: 10,
+    marginRight: 15,
     height: 42,
     fontSize: 40
   },
@@ -28,10 +32,19 @@ const useStyles = makeStyles((theme) => ({
     color: '#343434',
     fontWeight: 400,
     textDecoration: 'none',
-    width: 'inherit'
+    width: 'inherit',
+    transition: 'all .2s',
+    '&:hover': {
+      color: theme.palette.primary.main,
+      fill: theme.palette.primary.main
+    }
   },
   active: {
     position: 'relative',
+    padding: 10,
+    color: theme.palette.primary.main,
+    fill: theme.palette.primary.main,
+    backgroundColor: '#f6f8f9',
     '&:after': {
       content: "''",
       position: 'absolute',
@@ -55,8 +68,23 @@ const navItems = [
     path: routeNames.activeOrders
   },
   {
+    text: 'Коммуникация',
+    icon: CommunicationIcon,
+    path: routeNames.communication
+  },
+  {
+    text: 'Склад',
+    icon: StorageIcon,
+    path: routeNames.storage
+  },
+  {
+    text: 'Баннеры',
+    icon: BannerIcon,
+    path: routeNames.banners
+  },
+  {
     text: 'Temp UI page',
-    icon: BuildIcon,
+    icon: UIicon,
     path: routeNames.ui
   }
 ]
