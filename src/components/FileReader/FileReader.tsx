@@ -21,10 +21,8 @@ interface FileReaderProps {
 const useStyles = makeStyles(() => ({
   root: {
     position: 'relative',
-    width: 140,
     height: 140,
-    outline: 'none',
-    margin: '0 5px 5px 0'
+    outline: 'none'
   },
   imageWrapper: {
     border: '3px solid #e9f5f8',
