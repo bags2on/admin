@@ -1,6 +1,10 @@
 import React from 'react'
 import cloneDeep from 'lodash.clonedeep'
+import IconButton from '@material-ui/core/IconButton'
+import Icon from '@material-ui/core/Icon'
+import { ReactComponent as AddIcon } from '../../../asset/svg/add.svg'
 import FileReader from '../../../components/FileReader/FileReader'
+import { makeStyles } from '@material-ui/core/styles'
 
 type File = {
   name?: string
@@ -15,7 +19,17 @@ interface SubPhotosListProps {
   onSubPhotoUpload(newFiles: File[]): void
 }
 
+const useStyles = makeStyles(() => ({
+  root: {},
+  addButton: {},
+  addIcon: {
+    fill: '#6c6ea9'
+  }
+}))
+
 const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, subPhotos, onSubPhotoUpload, acceptedTypes }) => {
+  const classes = useStyles()
+
   const addFileHandler = (file: File, position: number): void => {
     const prevPhotos = cloneDeep(subPhotos)
 
@@ -41,6 +55,13 @@ const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, subPhotos, onSubPhot
           acceptedTypes={acceptedTypes}
         />
       ))}
+      <div>
+        <IconButton className={classes.addButton}>
+          <Icon className={classes.addIcon}>
+            <AddIcon />
+          </Icon>
+        </IconButton>
+      </div>
     </div>
   )
 }
