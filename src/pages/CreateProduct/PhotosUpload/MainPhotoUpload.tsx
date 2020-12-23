@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo } from 'react'
 import clsx from 'clsx'
+import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
-import DeleteIcon from '@material-ui/icons/Delete'
 import { useDropzone } from 'react-dropzone'
 import { makeStyles } from '@material-ui/core'
+import { ReactComponent as CloseIcon } from '../../../asset/svg/close.svg'
 import mainPlaceholderPhoto from '../../../asset/rastr/main_placeholder.png'
 
 interface MainPhotoUploadProps {
@@ -55,11 +56,24 @@ const useStyles = makeStyles(() => ({
   },
   buttonBox: {
     position: 'absolute',
-    top: -22,
-    right: -16
+    top: -19,
+    right: -15
   },
   removeButton: {
-    backgroundColor: '#e9f5f8'
+    padding: 10,
+    backgroundColor: '#e9f5f8',
+    transition: 'background-color .3s',
+    '&:hover': {
+      backgroundColor: '#ff182e',
+      '& $closeIcon': {
+        fill: '#fff'
+      }
+    }
+  },
+  closeIcon: {
+    fill: '#ff182e',
+    fontSize: 17,
+    transition: 'fill .3s'
   }
 }))
 
@@ -142,7 +156,9 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPh
         {mainPhoto && (
           <div className={classes.buttonBox}>
             <IconButton disableRipple onClick={handleRemoveClick} className={classes.removeButton}>
-              <DeleteIcon color="inherit" />
+              <Icon className={classes.closeIcon}>
+                <CloseIcon />
+              </Icon>
             </IconButton>
           </div>
         )}

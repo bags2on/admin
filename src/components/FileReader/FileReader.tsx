@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react'
 import clsx from 'clsx'
+import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
-import DeleteIcon from '@material-ui/icons/Delete'
 import { useDropzone } from 'react-dropzone'
 import { makeStyles } from '@material-ui/core'
+import { ReactComponent as CloseIcon } from '../../asset/svg/close.svg'
 import placeholderPhoto from '../../asset/rastr/placeholder.png'
 
 type File = {
@@ -16,6 +17,7 @@ interface FileReaderProps {
   position: number
   acceptedTypes: string[]
   onAdd(file: File, position: number): void
+  onDelete(position: number): void
 }
 
 const useStyles = makeStyles(() => ({
@@ -55,15 +57,28 @@ const useStyles = makeStyles(() => ({
   },
   buttonBox: {
     position: 'absolute',
-    top: -22,
-    right: -16
+    top: -12,
+    right: -4
   },
   removeButton: {
-    backgroundColor: '#e9f5f8'
+    padding: 8,
+    backgroundColor: '#e9f5f8',
+    transition: 'background-color .3s',
+    '&:hover': {
+      backgroundColor: '#ff182e',
+      '& $closeIcon': {
+        fill: '#fff'
+      }
+    }
+  },
+  closeIcon: {
+    fontSize: 15,
+    fill: '#ff182e',
+    transition: 'fill .3s'
   }
 }))
 
-const FileReader: React.FC<FileReaderProps> = ({ preview, position, acceptedTypes, onAdd }) => {
+const FileReader: React.FC<FileReaderProps> = ({ preview, position, acceptedTypes, onAdd, onDelete }) => {
   const classes = useStyles()
 
   const handleFileDrop = (acceptedFiles: globalThis.File[]) => {
@@ -109,12 +124,7 @@ const FileReader: React.FC<FileReaderProps> = ({ preview, position, acceptedType
 
   const handleRemoveClick = (event: React.MouseEvent<HTMLElement>): void => {
     event.stopPropagation()
-
-    // TODO complete
-
-    // // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    // URL.revokeObjectURL(mainPhoto!.preview)
-    // onMainPhotoUpload(null)
+    onDelete(position)
   }
 
   return (
@@ -132,7 +142,9 @@ const FileReader: React.FC<FileReaderProps> = ({ preview, position, acceptedType
         {preview && (
           <div className={classes.buttonBox}>
             <IconButton disableRipple onClick={handleRemoveClick} className={classes.removeButton}>
-              <DeleteIcon color="inherit" />
+              <Icon className={classes.closeIcon}>
+                <CloseIcon />
+              </Icon>
             </IconButton>
           </div>
         )}

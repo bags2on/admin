@@ -1,8 +1,7 @@
 import React from 'react'
 import cloneDeep from 'lodash.clonedeep'
 import Grid from '@material-ui/core/Grid'
-// import Fade from '@material-ui/core/Fade'
-import Fade from '@material-ui/core/Zoom'
+import Zoom from '@material-ui/core/Zoom'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import { ReactComponent as AddIcon } from '../../../asset/svg/add.svg'
@@ -71,7 +70,23 @@ const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, max, subPhotos, onSu
     onSubPhotoUpload(updatedPhotos)
   }
 
-  const handleAddClick = (): void => {
+  const deleteFileHandler = (position: number): void => {
+    const updatedPhotos = cloneDeep(subPhotos)
+
+    URL.revokeObjectURL(updatedPhotos[position].preview)
+
+    if (subPhotos.length <= min) {
+      updatedPhotos[position] = { preview: '' }
+      onSubPhotoUpload(updatedPhotos)
+      return
+    }
+
+    updatedPhotos.splice(position, 1)
+
+    onSubPhotoUpload(updatedPhotos)
+  }
+
+  const handleAddReaderClick = (): void => {
     if (subPhotos.length === max) return
     const prevPhotos = cloneDeep(subPhotos)
     onSubPhotoUpload([...prevPhotos, { preview: '' }])
@@ -81,15 +96,21 @@ const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, max, subPhotos, onSu
     <div className={classes.root}>
       <Grid container component="ul" className={classes.readerList}>
         {subPhotos.map((photo, ind) => (
-          <Fade key={ind} in timeout={ind + 1 <= min ? 0 : 500}>
+          <Zoom key={ind} in timeout={ind + 1 <= min ? 0 : 500}>
             <Grid xs={4} item key={ind} component="li">
-              <FileReader onAdd={addFileHandler} position={ind} preview={photo.preview} acceptedTypes={acceptedTypes} />
+              <FileReader
+                position={ind}
+                onAdd={addFileHandler}
+                preview={photo.preview}
+                onDelete={deleteFileHandler}
+                acceptedTypes={acceptedTypes}
+              />
             </Grid>
-          </Fade>
+          </Zoom>
         ))}
         {subPhotos.length < max && (
           <Grid item xs={4} className={classes.buttonBox} component="li">
-            <IconButton disableRipple className={classes.addButton} onClick={handleAddClick}>
+            <IconButton disableRipple className={classes.addButton} onClick={handleAddReaderClick}>
               <Icon className={classes.addIcon}>
                 <AddIcon />
               </Icon>
