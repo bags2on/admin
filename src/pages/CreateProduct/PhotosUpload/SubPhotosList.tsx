@@ -70,7 +70,7 @@ const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, max, subPhotos, onSu
     onSubPhotoUpload(updatedPhotos)
   }
 
-  const deleteFileHandler = (position: number): void => {
+  const deleteFileHandler = (position: number, photoOnly: boolean): void => {
     const updatedPhotos = cloneDeep(subPhotos)
 
     URL.revokeObjectURL(updatedPhotos[position].preview)
@@ -81,7 +81,13 @@ const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, max, subPhotos, onSu
       return
     }
 
-    updatedPhotos.splice(position, 1)
+    if (!photoOnly) {
+      updatedPhotos.splice(position, 1)
+      onSubPhotoUpload(updatedPhotos)
+      return
+    }
+
+    updatedPhotos[position] = { preview: '' }
 
     onSubPhotoUpload(updatedPhotos)
   }
@@ -100,8 +106,10 @@ const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, max, subPhotos, onSu
             <Grid xs={4} item key={ind} component="li">
               <FileReader
                 position={ind}
+                deletePhotoOnly
                 onAdd={addFileHandler}
                 preview={photo.preview}
+                required={ind > min - 1}
                 onDelete={deleteFileHandler}
                 acceptedTypes={acceptedTypes}
               />

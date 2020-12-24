@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton'
 import { useDropzone } from 'react-dropzone'
 import { makeStyles } from '@material-ui/core'
 import { ReactComponent as CloseIcon } from '../../asset/svg/close.svg'
+import { ReactComponent as DeleteIcon } from '../../asset/svg/delete.svg'
 import placeholderPhoto from '../../asset/rastr/placeholder.png'
 
 type File = {
@@ -15,9 +16,11 @@ type File = {
 interface FileReaderProps {
   preview: string
   position: number
+  required: boolean
   acceptedTypes: string[]
+  deletePhotoOnly: boolean
   onAdd(file: File, position: number): void
-  onDelete(position: number): void
+  onDelete(position: number, photoOnly: boolean): void
 }
 
 const useStyles = makeStyles(() => ({
@@ -78,7 +81,15 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const FileReader: React.FC<FileReaderProps> = ({ preview, position, acceptedTypes, onAdd, onDelete }) => {
+const FileReader: React.FC<FileReaderProps> = ({
+  preview,
+  position,
+  acceptedTypes,
+  required,
+  deletePhotoOnly,
+  onAdd,
+  onDelete
+}) => {
   const classes = useStyles()
 
   const handleFileDrop = (acceptedFiles: globalThis.File[]) => {
@@ -124,7 +135,7 @@ const FileReader: React.FC<FileReaderProps> = ({ preview, position, acceptedType
 
   const handleRemoveClick = (event: React.MouseEvent<HTMLElement>): void => {
     event.stopPropagation()
-    onDelete(position)
+    onDelete(position, deletePhotoOnly && !!preview)
   }
 
   return (
@@ -139,12 +150,10 @@ const FileReader: React.FC<FileReaderProps> = ({ preview, position, acceptedType
           {preview ? uploaded : <img src={placeholderPhoto} alt="фото создаваемого товара" />}
         </div>
         {isDragReject && <span>Типом файла может быть только: .jpeg, .jpg</span>}
-        {preview && (
+        {required && (
           <div className={classes.buttonBox}>
             <IconButton disableRipple onClick={handleRemoveClick} className={classes.removeButton}>
-              <Icon className={classes.closeIcon}>
-                <CloseIcon />
-              </Icon>
+              <Icon className={classes.closeIcon}>{!preview ? <CloseIcon /> : <DeleteIcon />}</Icon>
             </IconButton>
           </div>
         )}
