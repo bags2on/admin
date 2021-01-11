@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import cloneDeep from 'lodash.clonedeep'
 import Grid from '@material-ui/core/Grid'
 import Zoom from '@material-ui/core/Zoom'
+import Fade from '@material-ui/core/Fade'
+import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import { ReactComponent as AddIcon } from '../../../asset/svg/add.svg'
 import FileReader from '../../../components/FileReader/FileReader'
+import { getFileReaderError } from '../../../utils/errorsByCode'
 import { makeStyles } from '@material-ui/core/styles'
 
 type File = {
@@ -42,6 +45,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  message: {
+    height: 24,
+    fontSize: 14,
+    color: '#ff182e',
+    opacity: 0,
+    transition: 'all 0.33s linear'
+  },
   addButton: {
     '&:hover': {
       backgroundColor: 'transparent',
@@ -57,8 +67,37 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+function useErrorStatus(code: string, callback: (t: string) => void): string {
+  const [message, setMessage] = useState<string>('')
+
+  let timerID: NodeJS.Timeout
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    setMessage(getFileReaderError(code))
+    return () => {
+      if (timerID) {
+        clearTimeout(timerID)
+      }
+    }
+  })
+
+  if (message) {
+    timerID = setTimeout(() => {
+      callback('')
+      setMessage('')
+    }, 3000)
+  }
+
+  return message
+}
+
 const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, max, subPhotos, onSubPhotoUpload, acceptedTypes }) => {
   const classes = useStyles()
+
+  const [errorCode, setErrorCode] = useState<string>('')
+
+  const validationError = useErrorStatus(errorCode, setErrorCode)
 
   const addFileHandler = (file: File, position: number): void => {
     const updatedPhotos = cloneDeep(subPhotos)
@@ -98,6 +137,10 @@ const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, max, subPhotos, onSu
     onSubPhotoUpload([...prevPhotos, { preview: '' }])
   }
 
+  const handleErrorUpload = (code: string): void => {
+    setErrorCode(code)
+  }
+
   return (
     <div className={classes.root}>
       <Grid container component="ul" className={classes.readerList}>
@@ -107,10 +150,12 @@ const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, max, subPhotos, onSu
               <FileReader
                 position={ind}
                 deletePhotoOnly
-                onAdd={addFileHandler}
+                withErrors={false}
                 preview={photo.preview}
                 required={ind > min - 1}
+                onAdd={addFileHandler}
                 onDelete={deleteFileHandler}
+                onError={handleErrorUpload}
                 acceptedTypes={acceptedTypes}
               />
             </Grid>
@@ -126,6 +171,14 @@ const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, max, subPhotos, onSu
           </Grid>
         )}
       </Grid>
+
+      {validationError && (
+        <Fade in={!!validationError}>
+          <Typography component="p" className={classes.message}>
+            {validationError}
+          </Typography>
+        </Fade>
+      )}
     </div>
   )
 }

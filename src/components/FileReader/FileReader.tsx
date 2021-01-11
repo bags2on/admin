@@ -17,10 +17,12 @@ interface FileReaderProps {
   preview: string
   position: number
   required: boolean
+  withErrors?: boolean
   acceptedTypes: string[]
   deletePhotoOnly: boolean
   onAdd(file: File, position: number): void
   onDelete(position: number, photoOnly: boolean): void
+  onError(code: string): void
 }
 
 const useStyles = makeStyles(() => ({
@@ -87,8 +89,10 @@ const FileReader: React.FC<FileReaderProps> = ({
   acceptedTypes,
   required,
   deletePhotoOnly,
+  withErrors = true,
   onAdd,
-  onDelete
+  onDelete,
+  onError
 }) => {
   const classes = useStyles()
 
@@ -102,12 +106,9 @@ const FileReader: React.FC<FileReaderProps> = ({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDropReject = (rejectedFiles: any) => {
-    console.log(rejectedFiles)
     const { errors } = rejectedFiles[0]
     const { code } = errors[0]
-    // code: "file-too-large"
-    console.log(code)
-    // TODO custom error on drop rejected
+    onError(code)
   }
 
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
@@ -149,7 +150,7 @@ const FileReader: React.FC<FileReaderProps> = ({
         <div className={classes.imageWrapper}>
           {preview ? uploaded : <img src={placeholderPhoto} alt="фото создаваемого товара" />}
         </div>
-        {isDragReject && <span>Типом файла может быть только: .jpeg, .jpg</span>}
+        {withErrors && isDragReject && <span>Типом файла может быть только: .jpeg, .jpg</span>}
         {required && (
           <div className={classes.buttonBox}>
             <IconButton disableRipple onClick={handleRemoveClick} className={classes.removeButton}>
