@@ -63,9 +63,9 @@ const navItems = [
     path: routeNames.createProduct
   },
   {
-    text: 'Активные заказы',
+    text: 'Ордера',
     icon: ActiveOrdersIcon,
-    path: routeNames.activeOrders
+    path: routeNames.orders
   },
   {
     text: 'Коммуникация',

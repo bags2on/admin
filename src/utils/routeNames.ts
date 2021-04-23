@@ -5,7 +5,7 @@ interface routeNamesMap {
 const routeNames: routeNamesMap = {
   root: '/',
   createProduct: '/create-product',
-  activeOrders: '/active-orders',
+  orders: '/orders',
   communication: '/communication',
   storage: '/storage',
   banners: '/banners',
