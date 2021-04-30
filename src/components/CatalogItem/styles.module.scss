@@ -1,0 +1,123 @@
+@import '../../utils/shared.scss';
+
+$red: #f44336;
+
+.root {
+  position: relative;
+  margin: 8px 3px;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0px 1px 9px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.image {
+  position: relative;
+  margin-bottom: 10px;
+  & > a {
+    outline: none;
+  }
+}
+
+.info {
+  padding: 0 5px;
+}
+
+.priceBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.price {
+  flex-basis: 75%;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 18px;
+  padding-top: 5px;
+}
+
+.price_discount {
+  color: $red;
+}
+
+.discount {
+  color: #999999;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: line-through;
+}
+
+.title {
+  display: block;
+  height: 40px;
+  line-height: 18px;
+  color: #929292;
+  font-size: 13px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: 500;
+  margin-bottom: 5px;
+  &:hover,
+  &:focus {
+    outline: none;
+  }
+}
+
+.likeButton {
+  flex-basis: 25%;
+}
+
+.tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 75px;
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  text-align: center;
+  padding: 7px 4px;
+  user-select: none;
+  & span {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+  }
+}
+
+.heartIcon {
+  font-size: 21px;
+  stroke: $red;
+  fill: none;
+}
+
+.heartIcon_liked {
+  fill: $red;
+}
+
+@media screen and (min-width: $sm) {
+  .title {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: $md) {
+  .root {
+    margin: 8px 4px;
+
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
+      & .title {
+        color: #000;
+      }
+    }
+  }
+
+  .info {
+    padding: 0 10px;
+  }
+}
