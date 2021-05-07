@@ -7,7 +7,7 @@ const routeNames: routeNamesMap = {
   createProduct: '/create-product',
   orders: '/orders',
   communication: '/communication',
-  storage: '/storage',
+  products: '/products',
   banners: '/banners',
   product: '/p/:id',
   ui: '/ui'

@@ -7,6 +7,7 @@ import Fallback from './components/Fallback/Fallback'
 const UI = lazy(() => import('./pages/UI'))
 const CreateProduct = lazy(() => import('./pages/CreateProduct'))
 const Orders = lazy(() => import('./pages/Orders'))
+const Products = lazy(() => import('./pages/Products'))
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
           <Route exact path={routes.ui} component={UI} />
           <Route path={routes.createProduct} component={CreateProduct} />
           <Route path={routes.orders} component={Orders} />
+          <Route path={routes.products} component={Products} />
           <Redirect exact from="/" to={routes.createProduct} />
         </Switch>
       </AppLayout>

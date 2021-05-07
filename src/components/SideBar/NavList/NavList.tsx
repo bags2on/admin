@@ -73,9 +73,9 @@ const navItems = [
     path: routeNames.communication
   },
   {
-    text: 'Склад',
+    text: 'Товары',
     icon: StorageIcon,
-    path: routeNames.storage
+    path: routeNames.products
   },
   {
     text: 'Баннеры',
