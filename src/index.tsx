@@ -9,18 +9,16 @@ import client from './apollo/apollo'
 import App from './App'
 // import reportWebVitals from './reportWebVitals'
 
-const Application = () => {
+const Application: React.FC = () => {
   return (
-    <React.StrictMode>
-      <Router history={history}>
-        <ThemeProvider theme={theme}>
-          <ApolloProvider client={client}>
-            <CssBaseline />
-            <App />
-          </ApolloProvider>
-        </ThemeProvider>
-      </Router>
-    </React.StrictMode>
+    <Router history={history}>
+      <ThemeProvider theme={theme}>
+        <ApolloProvider client={client}>
+          <CssBaseline />
+          <App />
+        </ApolloProvider>
+      </ThemeProvider>
+    </Router>
   )
 }
 
