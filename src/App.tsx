@@ -8,6 +8,7 @@ const UI = lazy(() => import('./pages/UI'))
 const CreateProduct = lazy(() => import('./pages/CreateProduct'))
 const Orders = lazy(() => import('./pages/Orders'))
 const Products = lazy(() => import('./pages/Products'))
+const Product = lazy(() => import('./pages/Product'))
 
 const App: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const App: React.FC = () => {
           <Route path={routes.createProduct} component={CreateProduct} />
           <Route path={routes.orders} component={Orders} />
           <Route path={routes.products} component={Products} />
+          <Route path={routes.product} component={Product} />
           <Redirect exact from="/" to={routes.createProduct} />
         </Switch>
       </AppLayout>

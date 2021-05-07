@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton'
 import ImagePlaceholder from '../../shared/ImagePlaceholder'
 import Icon from '@material-ui/core/Icon'
 import { Link } from 'react-router-dom'
-import { ReactComponent as HeartIcon } from '../../assets/svg/heart.svg'
+import { ReactComponent as EditIcon } from '../../asset/svg/edit.svg'
 import { formatPrice, generateLink } from '../../utils/helpers'
 import { getColorForMainTagName } from '../../utils/styling'
 import routes from '../../utils/routeNames'
@@ -54,13 +54,10 @@ const CatalogItem: React.FC<CatalogItemProps> = ({ id, url, title, price, inStoc
             <IconButton onClick={handleLikeClick}>
               <Icon
                 classes={{
-                  root: clsx({
-                    [classes.heartIcon]: true,
-                    [classes.heartIcon_liked]: isLiked
-                  })
+                  root: classes.editIcon
                 }}
               >
-                <HeartIcon />
+                <EditIcon />
               </Icon>
             </IconButton>
           </div>

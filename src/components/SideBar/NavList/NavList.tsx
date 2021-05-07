@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom'
 import { ReactComponent as CreateProductIcon } from '../../../asset/svg/new_product.svg'
 import { ReactComponent as ActiveOrdersIcon } from '../../../asset/svg/active_orders.svg'
 import { ReactComponent as CommunicationIcon } from '../../../asset/svg/messages.svg'
+import { ReactComponent as EditIcon } from '../../../asset/svg/route_edit.svg'
 import { ReactComponent as StorageIcon } from '../../../asset/svg/storage.svg'
 import { ReactComponent as BannerIcon } from '../../../asset/svg/filter-picture.svg'
 import { ReactComponent as UIicon } from '../../../asset/svg/ui.svg'
@@ -63,15 +64,16 @@ const navItems = [
     path: routeNames.createProduct
   },
   {
+    text: 'Редактировать товар',
+    icon: EditIcon,
+    path: routeNames.product
+  },
+  {
     text: 'Ордера',
     icon: ActiveOrdersIcon,
     path: routeNames.orders
   },
-  {
-    text: 'Коммуникация',
-    icon: CommunicationIcon,
-    path: routeNames.communication
-  },
+
   {
     text: 'Товары',
     icon: StorageIcon,
@@ -86,6 +88,11 @@ const navItems = [
     text: 'Temp UI page',
     icon: UIicon,
     path: routeNames.ui
+  },
+  {
+    text: 'Коммуникация',
+    icon: CommunicationIcon,
+    path: routeNames.communication
   }
 ]
 

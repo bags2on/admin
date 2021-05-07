@@ -48,3 +48,23 @@ export const createProductSchema = yup.object().shape({
   // .lessThan(yup.ref('price')) // js solution
   description: yup.string().trim()
 })
+
+export const editProductSchema = yup.object().shape({
+  title: yup
+    .string()
+    .min(10, '* минимум 10 символов')
+    .max(100, '* максимум 100 символов')
+    .required('* обязательное поле'),
+  price: yup
+    .number()
+    .positive('* число не может быть отрицательным')
+    .integer('* только целочисленное')
+    .required('* обязательное поле'),
+  discountPrice: yup
+    .number()
+    .positive('* число не может быть отрицательным')
+    .integer('* только целочисленное')
+    .lessThanOtherField(yup.ref('price'), '* не может быть больше или равняться изначальной цене')
+})
+
+export type EditPropductSchemaType = yup.InferType<typeof editProductSchema>

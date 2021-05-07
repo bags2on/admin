@@ -1,0 +1,11 @@
+query allProducts {
+  products {
+    id
+    title
+    instock
+    price
+    discount
+    mainTag
+    preview
+  }
+}

@@ -94,14 +94,8 @@ $red: #f44336;
   }
 }
 
-.heartIcon {
+.editIcon {
   font-size: 21px;
-  stroke: $red;
-  fill: none;
-}
-
-.heartIcon_liked {
-  fill: $red;
 }
 
 @media screen and (min-width: $sm) {

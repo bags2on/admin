@@ -1,5 +1,5 @@
 import React from 'react'
-import { ReactComponent as Placeholder } from '../../assets/svg/image_placeholder.svg'
+import { ReactComponent as Placeholder } from '../../asset/svg/image_placeholder.svg'
 import ProgressiveImage from 'react-progressive-graceful-image'
 import { makeStyles } from '@material-ui/core'
 

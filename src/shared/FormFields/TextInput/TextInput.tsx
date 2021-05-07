@@ -5,17 +5,15 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Fade from '@material-ui/core/Fade'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.palette.type === 'light' ? '#fff' : '#3c4144',
     boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;',
-    color: '#343434',
+    color: theme.palette.type === 'light' ? '#3c4144' : '#fff',
     '& .MuiOutlinedInput-input': {
-      fontWeight: 400
+      padding: '16px ​14px',
+      fontWeight: 500
     }
-  },
-  box: {
-    height: 24
   },
   message: {
     height: 24,
@@ -37,13 +35,14 @@ interface TextInputProps {
   label?: string
   disabled?: boolean
   multiline?: boolean
+  maxLength?: number
   fullWidth?: boolean
   placeholder?: string
   autoComplete?: string
   onChange?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
-const TextInput: React.FC<TextInputProps> = ({ autoComplete = 'off', ...restProps }) => {
+const TextInput: React.FC<TextInputProps> = ({ autoComplete = 'off', maxLength = 50, ...restProps }) => {
   const [field, meta] = useField(restProps)
 
   const classes = useStyles()
@@ -61,6 +60,9 @@ const TextInput: React.FC<TextInputProps> = ({ autoComplete = 'off', ...restProp
             root: classes.root,
             notchedOutline: classes.notchedOutline
           }
+        }}
+        inputProps={{
+          maxLength
         }}
       />
       <Fade in={meta.touched && !!meta.error}>
