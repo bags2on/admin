@@ -9,6 +9,7 @@ const routeNames: routeNamesMap = {
   communication: '/communication',
   storage: '/storage',
   banners: '/banners',
+  product: '/p/:id',
   ui: '/ui'
 }
 

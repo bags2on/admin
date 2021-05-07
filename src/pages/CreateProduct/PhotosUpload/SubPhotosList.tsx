@@ -72,7 +72,6 @@ function useErrorStatus(code: string, callback: (t: string) => void): string {
 
   let timerID: NodeJS.Timeout
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setMessage(getFileReaderError(code))
     return () => {

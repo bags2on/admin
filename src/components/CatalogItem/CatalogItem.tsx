@@ -5,10 +5,9 @@ import ImagePlaceholder from '../../shared/ImagePlaceholder'
 import Icon from '@material-ui/core/Icon'
 import { Link } from 'react-router-dom'
 import { ReactComponent as HeartIcon } from '../../assets/svg/heart.svg'
-import { generateLink } from '../../utils/links'
-import { formatPrice } from '../../utils/helpers'
+import { formatPrice, generateLink } from '../../utils/helpers'
 import { getColorForMainTagName } from '../../utils/styling'
-import routes from '../../utils/routes'
+import routes from '../../utils/routeNames'
 import classes from './styles.module.scss'
 
 interface CatalogItemProps {
@@ -16,11 +15,12 @@ interface CatalogItemProps {
   url: string
   title: string
   price: number
+  inStock: boolean
   discountPrice?: number
   mainTag: string
 }
 
-const CatalogItem: React.FC<CatalogItemProps> = ({ id, url, title, price, mainTag, discountPrice }) => {
+const CatalogItem: React.FC<CatalogItemProps> = ({ id, url, title, price, inStock, mainTag, discountPrice }) => {
   const [isLiked, setLiked] = useState<boolean>(false)
 
   const handleLikeClick = (): void => {
@@ -28,7 +28,12 @@ const CatalogItem: React.FC<CatalogItemProps> = ({ id, url, title, price, mainTa
   }
 
   return (
-    <div className={classes.root}>
+    <div
+      className={clsx({
+        [classes.root]: true,
+        [classes.outStock]: !inStock
+      })}
+    >
       <div className={classes.image}>
         <Link to={generateLink(routes.product, id)}>
           <ImagePlaceholder src={url} altText={title} />
@@ -42,8 +47,8 @@ const CatalogItem: React.FC<CatalogItemProps> = ({ id, url, title, price, mainTa
               [classes.price_discount]: Boolean(discountPrice)
             })}
           >
-            {!!discountPrice && <p className={classes.discount}>{formatPrice(discountPrice)}&nbsp;₴</p>}
-            <span>{formatPrice(price)}</span>
+            {!!discountPrice && <p className={classes.discount}>{formatPrice(price)}&nbsp;₴</p>}
+            <span>{formatPrice(discountPrice ? discountPrice : price)}&nbsp;₴</span>
           </div>
           <div className={classes.likeButton}>
             <IconButton onClick={handleLikeClick}>

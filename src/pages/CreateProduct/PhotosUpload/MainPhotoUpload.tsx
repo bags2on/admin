@@ -126,7 +126,6 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPh
         URL.revokeObjectURL(mainPhoto.preview)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
   const dropZoneStyles = useMemo(
@@ -137,7 +136,6 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPh
         [classes.dragAccept]: isDragAccept,
         [classes.dragReject]: isDragReject
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isDragActive, isDragReject, isDragAccept]
   )
 

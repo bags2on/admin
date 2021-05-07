@@ -10,7 +10,7 @@ function lessThanOtherField(
   return this.test({
     name: 'lessThanOtherField',
     exclusive: false,
-    message: (params: any): string => {
+    message: (_params: any): string => {
       return msg
     },
     // params: { reference: ref ? ref.path : undefined },

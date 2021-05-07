@@ -128,7 +128,6 @@ const FileReader: React.FC<FileReaderProps> = ({
         [classes.dragAccept]: isDragAccept,
         [classes.dragReject]: isDragReject
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isDragActive, isDragReject, isDragAccept]
   )
 

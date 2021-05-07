@@ -12,6 +12,10 @@ $red: #f44336;
   transition: all 0.3s;
 }
 
+.outStock {
+  opacity: 0.49;
+}
+
 .image {
   position: relative;
   margin-bottom: 10px;
@@ -37,6 +41,7 @@ $red: #f44336;
   font-size: 18px;
   line-height: 18px;
   padding-top: 5px;
+  color: #343434;
 }
 
 .price_discount {
