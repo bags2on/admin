@@ -10,6 +10,7 @@ export type AllProductsQuery = {
     id: string
     title: string
     instock: boolean
+    isHidden: boolean
     price: number
     discount: number
     mainTag: string
@@ -26,6 +27,7 @@ export const AllProductsDocument = gql`
       id
       title
       instock
+      isHidden
       price
       discount
       mainTag

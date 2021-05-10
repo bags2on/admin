@@ -4,5 +4,6 @@ query getProductByID($id: ID!) {
     title
     price
     discount
+    description
   }
 }

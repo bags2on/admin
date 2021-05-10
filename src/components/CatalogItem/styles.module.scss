@@ -94,8 +94,13 @@ $red: #f44336;
   }
 }
 
-.editIcon {
+.eyeIcon {
+  fill: #343434;
   font-size: 21px;
+}
+
+.eyeIconHidden {
+  fill: #969696;
 }
 
 @media screen and (min-width: $sm) {

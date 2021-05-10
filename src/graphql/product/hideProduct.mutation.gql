@@ -1,0 +1,5 @@
+mutation hideProduct($id: ID!, $isHidden: Boolean!) {
+  hideProduct(id: $id, isHidden: $isHidden) {
+    isHidden
+  }
+}

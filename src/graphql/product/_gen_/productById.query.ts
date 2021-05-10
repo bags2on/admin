@@ -7,7 +7,14 @@ export type GetProductByIdQueryVariables = Types.Exact<{
 
 export type GetProductByIdQuery = {
   __typename?: 'Query'
-  product?: Types.Maybe<{ __typename?: 'Product'; id: string; title: string; price: number; discount: number }>
+  product?: Types.Maybe<{
+    __typename?: 'Product'
+    id: string
+    title: string
+    price: number
+    discount: number
+    description: string
+  }>
 }
 
 export type GetProductByIdVariables = GetProductByIdQueryVariables
@@ -20,6 +27,7 @@ export const GetProductByIdDocument = gql`
       title
       price
       discount
+      description
     }
   }
 `

@@ -4,7 +4,11 @@ import Search from './Search/Search'
 import Loader from '../../shared/Loader/Loader'
 import CatalogItem from '../../components/CatalogItem/CatalogItem'
 import { useQuery } from '@apollo/client'
-import { AllProductsDocument, AllProductsQuery, AllProductsVariables } from '../../graphql/product/_gen_/products.query'
+import {
+  AllProductsDocument,
+  AllProductsQuery,
+  AllProductsVariables
+} from '../../graphql/product/_gen_/products.query'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
@@ -24,11 +28,15 @@ const useStyles = makeStyles(() => ({
 const Products: React.FC = () => {
   const classes = useStyles()
 
-  const { loading, data, error } = useQuery<AllProductsQuery, AllProductsVariables>(AllProductsDocument)
+  const { loading, data, error } = useQuery<AllProductsQuery, AllProductsVariables>(
+    AllProductsDocument
+  )
 
   if (loading) {
     return (
-      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div
+        style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
         <Loader fallback />
       </div>
     )
@@ -47,10 +55,11 @@ const Products: React.FC = () => {
         {data?.products.map((product) => (
           <Grid key={product.id} component="li" item xs={6} md={4} lg={3} xl={2}>
             <CatalogItem
+              id={product.id}
+              hidden={product.isHidden}
               url={product.preview}
               title={product.title}
               price={product.price}
-              id={product.id}
               discountPrice={product.discount}
               mainTag={product.mainTag}
               inStock={product.instock}

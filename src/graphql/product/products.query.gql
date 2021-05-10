@@ -3,6 +3,7 @@ query allProducts {
     id
     title
     instock
+    isHidden
     price
     discount
     mainTag

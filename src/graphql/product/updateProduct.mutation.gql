@@ -1,0 +1,21 @@
+mutation updateProduct(
+  $id: ID!
+  $title: String!
+  $price: Int!
+  $discount: Int!
+  $instock: Boolean!
+  $description: String
+) {
+  updateProduct(
+    input: {
+      id: $id
+      title: $title
+      price: $price
+      discount: $discount
+      instock: $instock
+      description: $description
+    }
+  ) {
+    message
+  }
+}

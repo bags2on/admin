@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
 import clsx from 'clsx'
 import IconButton from '@material-ui/core/IconButton'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import ImagePlaceholder from '../../shared/ImagePlaceholder'
 import Icon from '@material-ui/core/Icon'
+import { useMutation } from '@apollo/client'
 import { Link } from 'react-router-dom'
-import { ReactComponent as EditIcon } from '../../asset/svg/edit.svg'
+import { ReactComponent as EyeIcon } from '../../asset/svg/eye.svg'
+import { ReactComponent as EyeHidddenIcon } from '../../asset/svg/eye-hide.svg'
 import { formatPrice, generateLink } from '../../utils/helpers'
 import { getColorForMainTagName } from '../../utils/styling'
 import routes from '../../utils/routeNames'
 import classes from './styles.module.scss'
+import {
+  HideProductDocument,
+  HideProductMutation,
+  HideProductVariables
+} from '../../graphql/product/_gen_/hideProduct.mutation'
 
 interface CatalogItemProps {
   id: string
@@ -16,15 +24,50 @@ interface CatalogItemProps {
   title: string
   price: number
   inStock: boolean
+  hidden: boolean
   discountPrice?: number
   mainTag: string
 }
 
-const CatalogItem: React.FC<CatalogItemProps> = ({ id, url, title, price, inStock, mainTag, discountPrice }) => {
-  const [isLiked, setLiked] = useState<boolean>(false)
+const CatalogItem: React.FC<CatalogItemProps> = ({
+  id,
+  url,
+  title,
+  price,
+  inStock,
+  hidden,
+  mainTag,
+  discountPrice
+}) => {
+  const [isHidden, setHidden] = useState<boolean>(hidden)
 
-  const handleLikeClick = (): void => {
-    setLiked(!isLiked)
+  const [hideProduct, { loading }] = useMutation<HideProductMutation, HideProductVariables>(
+    HideProductDocument
+  )
+
+  const onHiddenChange = async () => {
+    const { data } = await hideProduct({
+      variables: {
+        id,
+        isHidden: !isHidden
+      }
+    })
+
+    if (!data) {
+      return
+    }
+
+    const newStatus = data.hideProduct?.isHidden
+
+    if (newStatus === undefined) {
+      return
+    }
+
+    setHidden(newStatus)
+  }
+
+  const handleHiddenClick = (): void => {
+    onHiddenChange()
   }
 
   return (
@@ -51,14 +94,21 @@ const CatalogItem: React.FC<CatalogItemProps> = ({ id, url, title, price, inStoc
             <span>{formatPrice(discountPrice ? discountPrice : price)}&nbsp;₴</span>
           </div>
           <div className={classes.likeButton}>
-            <IconButton onClick={handleLikeClick}>
-              <Icon
-                classes={{
-                  root: classes.editIcon
-                }}
-              >
-                <EditIcon />
-              </Icon>
+            <IconButton onClick={handleHiddenClick} disabled={loading}>
+              {loading ? (
+                <CircularProgress size={20} style={{ padding: 0 }} />
+              ) : (
+                <Icon
+                  classes={{
+                    root: clsx({
+                      [classes.eyeIcon]: true,
+                      [classes.eyeIconHidden]: isHidden
+                    })
+                  }}
+                >
+                  {isHidden ? <EyeHidddenIcon /> : <EyeIcon />}
+                </Icon>
+              )}
             </IconButton>
           </div>
         </div>

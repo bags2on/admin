@@ -17,18 +17,34 @@ export type CartItem = {
   amount: Scalars['Int']
 }
 
+export type HideProductResponse = {
+  __typename?: 'HideProductResponse'
+  isHidden: Scalars['Boolean']
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
   createProduct?: Maybe<NewProductResponse>
+  updateProduct?: Maybe<UpdateProductResponse>
   createOrder?: Maybe<OrderResponse>
+  hideProduct?: Maybe<HideProductResponse>
 }
 
 export type MutationCreateProductArgs = {
   input?: Maybe<NewProductInput>
 }
 
+export type MutationUpdateProductArgs = {
+  input?: Maybe<UpdateProductInput>
+}
+
 export type MutationCreateOrderArgs = {
   input?: Maybe<OrderInput>
+}
+
+export type MutationHideProductArgs = {
+  id: Scalars['ID']
+  isHidden: Scalars['Boolean']
 }
 
 export type NewProductInput = {
@@ -65,6 +81,7 @@ export type Product = {
   __typename?: 'Product'
   id: Scalars['ID']
   title: Scalars['String']
+  isHidden: Scalars['Boolean']
   price: Scalars['Int']
   discount: Scalars['Int']
   amount: Scalars['Int']
@@ -89,6 +106,20 @@ export type QueryProductArgs = {
 
 export type QueryProductsByIdArgs = {
   input?: Maybe<Array<CartItem>>
+}
+
+export type UpdateProductInput = {
+  id: Scalars['ID']
+  title: Scalars['String']
+  price: Scalars['Int']
+  discount: Scalars['Int']
+  instock: Scalars['Boolean']
+  description?: Maybe<Scalars['String']>
+}
+
+export type UpdateProductResponse = {
+  __typename?: 'UpdateProductResponse'
+  message: Scalars['String']
 }
 
 export interface PossibleTypesResultData {

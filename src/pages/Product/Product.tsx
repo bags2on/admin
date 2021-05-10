@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import { Formik, Form } from 'formik'
 import { useParams } from 'react-router-dom'
 import Loader from '../../shared/Loader/Loader'
-import { useQuery } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import FormControl from '@material-ui/core/FormControl'
 import TextInput from '../../shared/FormFields/TextInput/TextInput'
 import Button from '../../shared/Button/Button'
@@ -13,6 +13,11 @@ import {
   GetProductByIdQuery,
   GetProductByIdVariables
 } from '../../graphql/product/_gen_/productById.query'
+import {
+  UpdateProductDocument,
+  UpdateProductMutation,
+  UpdateProductVariables
+} from '../../graphql/product/_gen_/updateProduct.mutation'
 import { editProductSchema } from '../../utils/validation/validationSchemas'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -48,22 +53,36 @@ const Product: React.FC = () => {
   const { id } = useParams<ProductID>()
   const [hasDiscount, setDiscount] = useState<boolean>(false)
 
-  const { loading, data, error } = useQuery<GetProductByIdQuery, GetProductByIdVariables>(GetProductByIdDocument, {
-    variables: {
-      id
-    },
-    fetchPolicy: 'network-only',
-    onCompleted(data) {
-      if (data) {
-        const has = !!data.product?.discount
-        setDiscount(has)
+  const { loading, data, error } = useQuery<GetProductByIdQuery, GetProductByIdVariables>(
+    GetProductByIdDocument,
+    {
+      variables: {
+        id
+      },
+      fetchPolicy: 'network-only',
+      onCompleted(data) {
+        if (data) {
+          const has = !!data.product?.discount
+          setDiscount(has)
+        }
       }
     }
-  })
+  )
+
+  const [updateProduct, updateOptions] = useMutation<UpdateProductMutation, UpdateProductVariables>(
+    UpdateProductDocument
+  )
 
   if (loading) {
     return (
-      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
         <Loader fallback />
       </div>
     )
@@ -74,8 +93,17 @@ const Product: React.FC = () => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any): Promise<void> => {
     console.log(values)
+    values.instock = true
+    const resp = await updateProduct({
+      variables: {
+        id: data?.product?.id,
+        ...values
+      }
+    })
+
+    console.log(resp)
   }
 
   if (!data) {
@@ -102,11 +130,13 @@ const Product: React.FC = () => {
         initialValues={{
           title: product.title,
           price: product.price,
-          discountPrice: product.discount
+          discount: product.discount,
+          description: product.description
         }}
       >
         {({ values, isValid, setFieldValue }) => (
           <Form>
+            {/* {console.log(values, errors)} */}
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <div>
@@ -124,7 +154,7 @@ const Product: React.FC = () => {
                           withShadow={false}
                           userBgColor="#4F3F74"
                           onClick={() => {
-                            setFieldValue('discountPrice', '')
+                            setFieldValue('discount', '')
                             handleDiscountClick()
                           }}
                           className={classes.addDiscountButton}
@@ -139,13 +169,24 @@ const Product: React.FC = () => {
                       <TextInput
                         disabled={!!!values.price}
                         label="Акционная цена (грн.)"
-                        name="discountPrice"
+                        name="discount"
                         type="number"
                       />
                     </FormControl>
                   )}
+                  <FormControl className={clsx(classes.formField)}>
+                    <TextInput
+                      label="Описание"
+                      name="description"
+                      fullWidth
+                      multiline
+                      maxLength={500}
+                      rows={5}
+                    />
+                  </FormControl>
                   <Button
                     type="submit"
+                    loading={updateOptions.loading}
                     color="secondary"
                     disabled={!isValid}
                     withShadow={false}

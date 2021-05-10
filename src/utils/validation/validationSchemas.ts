@@ -60,11 +60,11 @@ export const editProductSchema = yup.object().shape({
     .positive('* число не может быть отрицательным')
     .integer('* только целочисленное')
     .required('* обязательное поле'),
-  discountPrice: yup
+  discount: yup
     .number()
-    .positive('* число не может быть отрицательным')
     .integer('* только целочисленное')
-    .lessThanOtherField(yup.ref('price'), '* не может быть больше или равняться изначальной цене')
+    .lessThanOtherField(yup.ref('price'), '* не может быть больше или равняться изначальной цене'),
+  description: yup.string().trim()
 })
 
 export type EditPropductSchemaType = yup.InferType<typeof editProductSchema>
