@@ -37,14 +37,20 @@ input CartItem {
   amount: Int!
 }
 
+enum Gender {
+  FEMALE
+  MALE
+  UNISEX
+}
+
 type HideProductResponse {
   isHidden: Boolean!
 }
 
 type Mutation {
+  createOrder(input: OrderInput): OrderResponse
   createProduct(input: NewProductInput): NewProductResponse
   updateProduct(input: UpdateProductInput): UpdateProductResponse
-  createOrder(input: OrderInput): OrderResponse
   hideProduct(id: ID!, isHidden: Boolean!): HideProductResponse
 }
 
@@ -84,6 +90,7 @@ type Product {
   discount: Int!
   amount: Int!
   instock: Boolean!
+  gender: String!
   preview: String!
   images: [String!]!
   tags: [String!]!
@@ -91,9 +98,14 @@ type Product {
   description: String!
 }
 
+input ProductFilter {
+  gender: Gender!
+  instock: Boolean!
+}
+
 type Query {
-  products: [Product!]!
   product(id: ID!): Product
+  products(filter: ProductFilter!): [Product!]!
   productsByID(input: [CartItem!]): [Product!]!
 }
 

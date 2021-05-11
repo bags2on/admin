@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> }
@@ -17,6 +18,12 @@ export type CartItem = {
   amount: Scalars['Int']
 }
 
+export enum Gender {
+  Female = 'FEMALE',
+  Male = 'MALE',
+  Unisex = 'UNISEX'
+}
+
 export type HideProductResponse = {
   __typename?: 'HideProductResponse'
   isHidden: Scalars['Boolean']
@@ -24,10 +31,14 @@ export type HideProductResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation'
+  createOrder?: Maybe<OrderResponse>
   createProduct?: Maybe<NewProductResponse>
   updateProduct?: Maybe<UpdateProductResponse>
-  createOrder?: Maybe<OrderResponse>
   hideProduct?: Maybe<HideProductResponse>
+}
+
+export type MutationCreateOrderArgs = {
+  input?: Maybe<OrderInput>
 }
 
 export type MutationCreateProductArgs = {
@@ -36,10 +47,6 @@ export type MutationCreateProductArgs = {
 
 export type MutationUpdateProductArgs = {
   input?: Maybe<UpdateProductInput>
-}
-
-export type MutationCreateOrderArgs = {
-  input?: Maybe<OrderInput>
 }
 
 export type MutationHideProductArgs = {
@@ -86,6 +93,7 @@ export type Product = {
   discount: Scalars['Int']
   amount: Scalars['Int']
   instock: Scalars['Boolean']
+  gender: Scalars['String']
   preview: Scalars['String']
   images: Array<Scalars['String']>
   tags: Array<Scalars['String']>
@@ -93,15 +101,24 @@ export type Product = {
   description: Scalars['String']
 }
 
+export type ProductFilter = {
+  gender: Gender
+  instock: Scalars['Boolean']
+}
+
 export type Query = {
   __typename?: 'Query'
-  products: Array<Product>
   product?: Maybe<Product>
+  products: Array<Product>
   productsByID: Array<Product>
 }
 
 export type QueryProductArgs = {
   id: Scalars['ID']
+}
+
+export type QueryProductsArgs = {
+  filter: ProductFilter
 }
 
 export type QueryProductsByIdArgs = {

@@ -10,6 +10,7 @@ import {
   AllProductsVariables
 } from '../../graphql/product/_gen_/products.query'
 import { makeStyles } from '@material-ui/core/styles'
+import { Gender } from '../../types'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -29,7 +30,10 @@ const Products: React.FC = () => {
   const classes = useStyles()
 
   const { loading, data, error } = useQuery<AllProductsQuery, AllProductsVariables>(
-    AllProductsDocument
+    AllProductsDocument,
+    {
+      variables: { instock: true, gender: Gender.Unisex }
+    }
   )
 
   if (loading) {
