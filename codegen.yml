@@ -17,13 +17,13 @@ generates:
       - typescript-compatibility
       - typescript-react-apollo
     config:
-        preResolveTypes: true
-        withComponent: false
-        withHOC: false 
-        withHooks: false
-        reactApolloVersion: 3
-        noNamespaces: true
-        withResultType: false
+      preResolveTypes: true
+      withComponent: false
+      withHOC: false
+      withHooks: false
+      reactApolloVersion: 3
+      noNamespaces: true
+      withResultType: false
 hooks:
   afterAllFileWrite:
     - prettier --write

@@ -16,10 +16,19 @@ interface PhotosUploadProps {
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/jpg,']
 
-const PhotosUpload: React.FC<PhotosUploadProps> = ({ mainPhoto, onMainPhotoUpload, subPhotos, onSubPhotoUpload }) => {
+const PhotosUpload: React.FC<PhotosUploadProps> = ({
+  mainPhoto,
+  subPhotos,
+  onSubPhotoUpload,
+  onMainPhotoUpload
+}) => {
   return (
     <section style={{ width: 'fit-content' }}>
-      <MainPhotoUpload mainPhoto={mainPhoto} onMainPhotoUpload={onMainPhotoUpload} acceptedTypes={ACCEPTED_TYPES} />
+      <MainPhotoUpload
+        mainPhoto={mainPhoto}
+        onMainPhotoUpload={onMainPhotoUpload}
+        acceptedTypes={ACCEPTED_TYPES}
+      />
       <SubPhotosList
         min={2}
         max={6}

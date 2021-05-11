@@ -104,7 +104,11 @@ const NavList: React.FC = () => {
       <List component="ul" aria-label="Навигация">
         {navItems.map((item) => (
           <ListItem key={item.text} component="li" className={classes.drawerItem}>
-            <NavLink to={item.path} className={classes.linkWrapper} activeClassName={classes.active}>
+            <NavLink
+              to={item.path}
+              className={classes.linkWrapper}
+              activeClassName={classes.active}
+            >
               <Icon className={classes.icon}>
                 <item.icon />
               </Icon>

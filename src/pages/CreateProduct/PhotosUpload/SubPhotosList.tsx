@@ -91,7 +91,13 @@ function useErrorStatus(code: string, callback: (t: string) => void): string {
   return message
 }
 
-const SubPhotosList: React.FC<SubPhotosListProps> = ({ min, max, subPhotos, onSubPhotoUpload, acceptedTypes }) => {
+const SubPhotosList: React.FC<SubPhotosListProps> = ({
+  min,
+  max,
+  subPhotos,
+  onSubPhotoUpload,
+  acceptedTypes
+}) => {
   const classes = useStyles()
 
   const [errorCode, setErrorCode] = useState<string>('')

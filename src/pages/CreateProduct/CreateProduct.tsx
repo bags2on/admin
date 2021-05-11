@@ -94,7 +94,9 @@ const CreateProduct: React.FC = () => {
     const preview = mainPhoto
 
     try {
-      const req = createProduct({ variables: { title, price, discountPrice, preview, description, tags, images } })
+      const req = createProduct({
+        variables: { title, price, discountPrice, preview, description, tags, images }
+      })
 
       console.log(req)
     } catch (error) {

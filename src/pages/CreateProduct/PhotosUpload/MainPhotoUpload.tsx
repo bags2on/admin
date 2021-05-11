@@ -77,7 +77,11 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPhoto, onMainPhotoUpload }) => {
+const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({
+  acceptedTypes,
+  mainPhoto,
+  onMainPhotoUpload
+}) => {
   const classes = useStyles()
 
   const handleFileDrop = (acceptedFiles: globalThis.File[]) => {
@@ -148,7 +152,11 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({ acceptedTypes, mainPh
       >
         <input {...getInputProps()} />
         <div className={classes.imageWrapper}>
-          {mainPhoto ? uploaded : <img src={mainPlaceholderPhoto} alt="Главное фото создаваемого товара" />}
+          {mainPhoto ? (
+            uploaded
+          ) : (
+            <img src={mainPlaceholderPhoto} alt="Главное фото создаваемого товара" />
+          )}
         </div>
         {isDragReject && <span>Типом файла может быть только: .jpeg, .jpg</span>}
         {mainPhoto && (

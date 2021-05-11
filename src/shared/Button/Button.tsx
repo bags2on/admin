@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     color: '#fff',
     borderRadius: '6px',
-    boxShadow: (props: BottonStyleTypes) => (props.withShadow ? '0px 8px 17px rgba(0, 0, 0, .3)' : 'none')
+    boxShadow: (props: BottonStyleTypes) =>
+      props.withShadow ? '0px 8px 17px rgba(0, 0, 0, .3)' : 'none'
   },
   text: {
     lineHeight: '24px'
@@ -46,11 +47,13 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   secondary: {
-    background: (props: BottonStyleTypes) => (props.userBgColor ? props.userBgColor : theme.palette.secondary.main),
+    background: (props: BottonStyleTypes) =>
+      props.userBgColor ? props.userBgColor : theme.palette.secondary.main,
     color: theme.palette.primary.light,
     '&:hover': {
       opacity: '0.9',
-      background: (props: BottonStyleTypes) => (props.userBgColor ? props.userBgColor : theme.palette.secondary.main)
+      background: (props: BottonStyleTypes) =>
+        props.userBgColor ? props.userBgColor : theme.palette.secondary.main
     },
     '&:disabled': {
       pointerEvents: 'initial',

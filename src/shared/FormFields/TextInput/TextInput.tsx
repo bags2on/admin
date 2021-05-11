@@ -42,7 +42,11 @@ interface TextInputProps {
   onChange?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
-const TextInput: React.FC<TextInputProps> = ({ autoComplete = 'off', maxLength = 50, ...restProps }) => {
+const TextInput: React.FC<TextInputProps> = ({
+  autoComplete = 'off',
+  maxLength = 50,
+  ...restProps
+}) => {
   const [field, meta] = useField(restProps)
 
   const classes = useStyles()

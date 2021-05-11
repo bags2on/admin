@@ -58,8 +58,13 @@ export default createMuiTheme({
     }
   },
   typography: {
-    fontFamily: ['Roboto', 'Arial', 'sans-serif', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"'].join(
-      ','
-    )
+    fontFamily: [
+      'Roboto',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 })
