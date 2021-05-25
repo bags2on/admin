@@ -62,8 +62,9 @@ const Product: React.FC = () => {
       fetchPolicy: 'network-only',
       onCompleted(data) {
         if (data) {
-          const has = !!data.product?.discount
-          setDiscount(has)
+          const x = data.product?.basePrice
+          const y = data.product?.currentPrice
+          setDiscount(x !== y)
         }
       }
     }
@@ -129,8 +130,8 @@ const Product: React.FC = () => {
         validationSchema={editProductSchema}
         initialValues={{
           title: product.title,
-          price: product.price,
-          discount: product.discount,
+          price: product.currentPrice,
+          discount: product.basePrice,
           description: product.description
         }}
       >

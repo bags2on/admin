@@ -11,9 +11,12 @@ export type GetProductByIdQuery = {
     __typename?: 'Product'
     id: string
     title: string
-    price: number
-    discount: number
+    currentPrice: number
+    basePrice: number
+    tags: Array<string>
+    images: Array<string>
     description: string
+    instock: boolean
   }>
 }
 
@@ -25,9 +28,12 @@ export const GetProductByIdDocument = gql`
     product(id: $id) {
       id
       title
-      price
-      discount
+      currentPrice
+      basePrice
+      tags
+      images
       description
+      instock
     }
   }
 `

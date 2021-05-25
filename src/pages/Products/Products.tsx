@@ -10,7 +10,7 @@ import {
   AllProductsVariables
 } from '../../graphql/product/_gen_/products.query'
 import { makeStyles } from '@material-ui/core/styles'
-import { Gender } from '../../types'
+// import { Gender } from '../../types'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -32,7 +32,7 @@ const Products: React.FC = () => {
   const { loading, data, error } = useQuery<AllProductsQuery, AllProductsVariables>(
     AllProductsDocument,
     {
-      variables: { instock: true, gender: Gender.Unisex }
+      variables: { instock: true, gender: [] }
     }
   )
 
@@ -56,15 +56,15 @@ const Products: React.FC = () => {
     <div className={classes.root}>
       <Search />
       <Grid container component="ul" className={classes.list}>
-        {data?.products.map((product) => (
+        {data?.allProducts.products.map((product) => (
           <Grid key={product.id} component="li" item xs={6} md={4} lg={3} xl={2}>
             <CatalogItem
               id={product.id}
               hidden={product.isHidden}
               url={product.preview}
               title={product.title}
-              price={product.price}
-              discountPrice={product.discount}
+              basePrice={product.basePrice}
+              currentPrice={product.currentPrice}
               mainTag={product.mainTag}
               inStock={product.instock}
             />

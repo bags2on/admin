@@ -37,6 +37,14 @@ input CartItem {
   amount: Int!
 }
 
+enum CategoryType {
+  BAG
+  OTHER
+  WALLET
+  BACKPACK
+  SUITCASE
+}
+
 enum Gender {
   FEMALE
   MALE
@@ -45,6 +53,12 @@ enum Gender {
 
 type HideProductResponse {
   isHidden: Boolean!
+}
+
+enum MainTag {
+  STOCK
+  NEW
+  TOP
 }
 
 type Mutation {
@@ -82,12 +96,22 @@ type OrderResponse {
   message: String!
 }
 
+input PriceRange {
+  lt: Int!
+  gt: Int!
+}
+
+type PriceRangeType {
+  lt: Int!
+  gt: Int!
+}
+
 type Product {
   id: ID!
   title: String!
   isHidden: Boolean!
-  price: Int!
-  discount: Int!
+  currentPrice: Int!
+  basePrice: Int!
   amount: Int!
   instock: Boolean!
   gender: String!
@@ -99,13 +123,21 @@ type Product {
 }
 
 input ProductFilter {
-  gender: Gender!
-  instock: Boolean!
+  gender: [Gender]
+  instock: Boolean
+  mainTag: MainTag
+  price: PriceRange
+  category: [CategoryType]
+}
+
+type ProductsResponse {
+  products: [Product!]!
+  priceRange: PriceRangeType!
 }
 
 type Query {
   product(id: ID!): Product
-  products(filter: ProductFilter!): [Product!]!
+  allProducts(filter: ProductFilter!): ProductsResponse!
   productsByID(input: [CartItem!]): [Product!]!
 }
 

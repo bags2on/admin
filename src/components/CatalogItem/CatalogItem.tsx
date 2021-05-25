@@ -22,10 +22,10 @@ interface CatalogItemProps {
   id: string
   url: string
   title: string
-  price: number
+  basePrice: number
   inStock: boolean
   hidden: boolean
-  discountPrice?: number
+  currentPrice: number
   mainTag: string
 }
 
@@ -33,11 +33,11 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
   id,
   url,
   title,
-  price,
+  basePrice,
   inStock,
   hidden,
   mainTag,
-  discountPrice
+  currentPrice
 }) => {
   const [isHidden, setHidden] = useState<boolean>(hidden)
 
@@ -86,12 +86,14 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
         <div className={classes.priceBox}>
           <div
             className={clsx({
-              [classes.price]: true,
-              [classes.price_discount]: Boolean(discountPrice)
+              [classes.basePrice]: true,
+              [classes.price_discount]: currentPrice !== basePrice
             })}
           >
-            {!!discountPrice && <p className={classes.discount}>{formatPrice(price)}&nbsp;₴</p>}
-            <span>{formatPrice(discountPrice ? discountPrice : price)}&nbsp;₴</span>
+            {currentPrice !== basePrice && (
+              <p className={classes.discount}>{formatPrice(basePrice)}&nbsp;₴</p>
+            )}
+            <span>{formatPrice(currentPrice)}&nbsp;₴</span>
           </div>
           <div className={classes.likeButton}>
             <IconButton onClick={handleHiddenClick} disabled={loading}>

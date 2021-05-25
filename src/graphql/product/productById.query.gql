@@ -2,8 +2,11 @@ query getProductByID($id: ID!) {
   product(id: $id) {
     id
     title
-    price
-    discount
+    currentPrice
+    basePrice
+    tags
+    images
     description
+    instock
   }
 }

@@ -17,6 +17,14 @@ export type CartItem = {
   amount: Scalars['Int']
 }
 
+export enum CategoryType {
+  Bag = 'BAG',
+  Other = 'OTHER',
+  Wallet = 'WALLET',
+  Backpack = 'BACKPACK',
+  Suitcase = 'SUITCASE'
+}
+
 export enum Gender {
   Female = 'FEMALE',
   Male = 'MALE',
@@ -26,6 +34,12 @@ export enum Gender {
 export type HideProductResponse = {
   __typename?: 'HideProductResponse'
   isHidden: Scalars['Boolean']
+}
+
+export enum MainTag {
+  Stock = 'STOCK',
+  New = 'NEW',
+  Top = 'TOP'
 }
 
 export type Mutation = {
@@ -83,13 +97,24 @@ export type OrderResponse = {
   message: Scalars['String']
 }
 
+export type PriceRange = {
+  lt: Scalars['Int']
+  gt: Scalars['Int']
+}
+
+export type PriceRangeType = {
+  __typename?: 'PriceRangeType'
+  lt: Scalars['Int']
+  gt: Scalars['Int']
+}
+
 export type Product = {
   __typename?: 'Product'
   id: Scalars['ID']
   title: Scalars['String']
   isHidden: Scalars['Boolean']
-  price: Scalars['Int']
-  discount: Scalars['Int']
+  currentPrice: Scalars['Int']
+  basePrice: Scalars['Int']
   amount: Scalars['Int']
   instock: Scalars['Boolean']
   gender: Scalars['String']
@@ -101,14 +126,23 @@ export type Product = {
 }
 
 export type ProductFilter = {
-  gender: Gender
-  instock: Scalars['Boolean']
+  gender?: Maybe<Array<Maybe<Gender>>>
+  instock?: Maybe<Scalars['Boolean']>
+  mainTag?: Maybe<MainTag>
+  price?: Maybe<PriceRange>
+  category?: Maybe<Array<Maybe<CategoryType>>>
+}
+
+export type ProductsResponse = {
+  __typename?: 'ProductsResponse'
+  products: Array<Product>
+  priceRange: PriceRangeType
 }
 
 export type Query = {
   __typename?: 'Query'
   product?: Maybe<Product>
-  products: Array<Product>
+  allProducts: ProductsResponse
   productsByID: Array<Product>
 }
 
@@ -116,7 +150,7 @@ export type QueryProductArgs = {
   id: Scalars['ID']
 }
 
-export type QueryProductsArgs = {
+export type QueryAllProductsArgs = {
   filter: ProductFilter
 }
 
