@@ -1,5 +1,6 @@
 query AllProducts(
   $gender: [Gender]
+  $isHidden: Boolean
   $instock: Boolean
   $mainTag: MainTag
   $price: PriceRange
@@ -8,6 +9,7 @@ query AllProducts(
   allProducts(
     filter: {
       gender: $gender
+      isHidden: $isHidden
       instock: $instock
       mainTag: $mainTag
       price: $price

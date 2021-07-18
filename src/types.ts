@@ -82,6 +82,11 @@ export type NewProductResponse = {
   message: Scalars['String']
 }
 
+export type NotFound = {
+  __typename?: 'NotFound'
+  message: Scalars['String']
+}
+
 export type OrderInput = {
   name: Scalars['String']
   surname: Scalars['String']
@@ -127,11 +132,14 @@ export type Product = {
 
 export type ProductFilter = {
   gender?: Maybe<Array<Maybe<Gender>>>
+  isHidden?: Maybe<Scalars['Boolean']>
   instock?: Maybe<Scalars['Boolean']>
   mainTag?: Maybe<MainTag>
   price?: Maybe<PriceRange>
   category?: Maybe<Array<Maybe<CategoryType>>>
 }
+
+export type ProductResult = Product | NotFound
 
 export type ProductsResponse = {
   __typename?: 'ProductsResponse'
@@ -141,8 +149,9 @@ export type ProductsResponse = {
 
 export type Query = {
   __typename?: 'Query'
-  product?: Maybe<Product>
+  product?: Maybe<ProductResult>
   allProducts: ProductsResponse
+  cartProducts: Array<Product>
   productsByID: Array<Product>
 }
 
@@ -154,8 +163,17 @@ export type QueryAllProductsArgs = {
   filter: ProductFilter
 }
 
-export type QueryProductsByIdArgs = {
+export type QueryCartProductsArgs = {
   input?: Maybe<Array<CartItem>>
+}
+
+export type QueryProductsByIdArgs = {
+  input?: Maybe<Array<Scalars['String']>>
+}
+
+export enum Role {
+  Admin = 'ADMIN',
+  User = 'USER'
 }
 
 export type UpdateProductInput = {
@@ -178,6 +196,8 @@ export interface PossibleTypesResultData {
   }
 }
 const result: PossibleTypesResultData = {
-  possibleTypes: {}
+  possibleTypes: {
+    ProductResult: ['Product', 'NotFound']
+  }
 }
 export default result

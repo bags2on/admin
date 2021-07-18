@@ -1,12 +1,18 @@
 query getProductByID($id: ID!) {
   product(id: $id) {
-    id
-    title
-    currentPrice
-    basePrice
-    tags
-    images
-    description
-    instock
+    __typename
+    ... on Product {
+      id
+      title
+      currentPrice
+      basePrice
+      tags
+      images
+      description
+      instock
+    }
+    ... on NotFound {
+      message
+    }
   }
 }

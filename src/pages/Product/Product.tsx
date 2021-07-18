@@ -59,14 +59,15 @@ const Product: React.FC = () => {
       variables: {
         id
       },
-      fetchPolicy: 'network-only',
-      onCompleted(data) {
-        if (data) {
-          const x = data.product?.basePrice
-          const y = data.product?.currentPrice
-          setDiscount(x !== y)
-        }
-      }
+      fetchPolicy: 'network-only'
+      // onCompleted(data) {
+      //   console.log(data)
+      //   if (data) {
+      //     const x = data.product?.basePrice
+      //     const y = data.product?.currentPrice
+      //     setDiscount(x !== y)
+      //   }
+      // }
     }
   )
 
@@ -99,7 +100,8 @@ const Product: React.FC = () => {
     values.instock = true
     const resp = await updateProduct({
       variables: {
-        id: data?.product?.id,
+        // id: data?.product?.id,
+        id: 'TODO',
         ...values
       }
     })
@@ -129,10 +131,14 @@ const Product: React.FC = () => {
         enableReinitialize
         validationSchema={editProductSchema}
         initialValues={{
-          title: product.title,
-          price: product.currentPrice,
-          discount: product.basePrice,
-          description: product.description
+          // title: product.title,
+          // price: product.currentPrice,
+          // discount: product.basePrice,
+          // description: product.description
+          title: '',
+          price: '',
+          discount: '',
+          description: ''
         }}
       >
         {({ values, isValid, setFieldValue }) => (

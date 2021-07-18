@@ -36,7 +36,7 @@
     "eject": "react-scripts eject",
     "lint": "prettier --write . && eslint src*/**/*.{ts,tsx}",
     "generate": "graphql-codegen --config codegen.yml",
-    "schema:get": "apollo client:download-schema --endpoint=http://localhost:8080/ ./src/graphql/schema.graphql",
+    "schema:get": "apollo client:download-schema --endpoint=http://localhost:8080/graphql ./src/graphql/schema.graphql",
     "schema:remove": "rm ./src/graphql/schema.graphql",
     "generate:clear": "find . -name _gen_ -type d -exec rm -r {} +",
     "gen": "npm run schema:remove && npm run generate:clear && npm run schema:get && npm run generate"
