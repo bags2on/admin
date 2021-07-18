@@ -46,12 +46,12 @@ export default createMuiTheme({
   palette: {
     type: 'light',
     primary: {
-      main: '#ff9900',
+      main: '#F2E30C',
       light: '#fff',
       dark: '#303030'
     },
     secondary: {
-      main: '#ff9900'
+      main: '#F2E30C'
     },
     background: {
       default: '#fff'
