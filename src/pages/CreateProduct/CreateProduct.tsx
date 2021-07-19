@@ -170,9 +170,8 @@ const CreateProduct: React.FC = () => {
                       <Grid item xs={5}>
                         {console.log(values)}
                         <Button
+                          disableShadow
                           color="secondary"
-                          withShadow={false}
-                          userBgColor="#4F3F74"
                           onClick={() => {
                             setFieldValue('discountPrice', '')
                             handleDiscountClick()
@@ -199,11 +198,10 @@ const CreateProduct: React.FC = () => {
                   </FormControl>
                   <Button
                     type="submit"
+                    disableShadow
                     color="secondary"
                     disabled={!isPhotoExist || !isPhotoExist || !isValid}
-                    withShadow={false}
                     className={classes.submitButton}
-                    userBgColor="#1CC283"
                   >
                     создать
                   </Button>

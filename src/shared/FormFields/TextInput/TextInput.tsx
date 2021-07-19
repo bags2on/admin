@@ -1,9 +1,9 @@
 import React from 'react'
-import { useField } from 'formik'
-import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Fade from '@material-ui/core/Fade'
+import { useField } from 'formik'
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,9 +22,6 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 10,
     opacity: 0,
     transition: 'all 0.33s linear'
-  },
-  notchedOutline: {
-    borderWidth: '1px'
   }
 }))
 
@@ -56,13 +53,12 @@ const TextInput: React.FC<TextInputProps> = ({
       <TextField
         {...field}
         {...restProps}
-        variant="outlined"
+        variant="filled"
         autoComplete={autoComplete}
         error={meta.touched && !!meta.error}
         InputProps={{
           classes: {
-            root: classes.root,
-            notchedOutline: classes.notchedOutline
+            root: classes.root
           }
         }}
         inputProps={{

@@ -44,15 +44,15 @@ const UI: React.FC = () => {
               <p>button with loading</p>
               <Button loading>send message</Button>
               <p>light button</p>
-              <Button color="secondary" withShadow={false}>
+              <Button color="secondary" disableShadow>
                 send message
               </Button>
               <p>light button loading</p>
-              <Button color="secondary" loading darkLoader withShadow={false}>
+              <Button color="secondary" loading darkLoader disableShadow>
                 send message
               </Button>
               <p>disabled button</p>
-              <Button color="secondary" disabled darkLoader withShadow={false}>
+              <Button color="secondary" disabled darkLoader disableShadow>
                 send message
               </Button>
             </Form>

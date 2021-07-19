@@ -157,9 +157,8 @@ const Product: React.FC = () => {
                       </Grid>
                       <Grid item xs={5}>
                         <Button
+                          disableShadow
                           color="secondary"
-                          withShadow={false}
-                          userBgColor="#4F3F74"
                           onClick={() => {
                             setFieldValue('discount', '')
                             handleDiscountClick()
@@ -193,12 +192,11 @@ const Product: React.FC = () => {
                   </FormControl>
                   <Button
                     type="submit"
+                    disableShadow
                     loading={updateOptions.loading}
                     color="secondary"
                     disabled={!isValid}
-                    withShadow={false}
                     className={classes.submitButton}
-                    userBgColor="#1CC283"
                   >
                     Сохранить изменения
                   </Button>

@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { Button as MaterialButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
-import Loader from '../Loader/Loader'
+import ScaleLoader from '../Loader/Loader'
 
 interface BottonProps {
   to?: string
@@ -14,28 +14,26 @@ interface BottonProps {
   loading?: boolean
   disabled?: boolean
   fullWidth?: boolean
-  withShadow?: boolean
+  disableShadow?: boolean
   darkLoader?: boolean
   className?: string
-  userBgColor?: string
   onClick?(event: React.MouseEvent<HTMLButtonElement>): void
 }
 
 interface BottonStyleTypes {
-  userBgColor?: string
-  withShadow: boolean
+  disableShadow: boolean
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
     lineHeight: 'normal',
-    fontSize: 16,
-    padding: '10px',
-    fontWeight: 500,
+    fontSize: '16px',
+    padding: '10px 0',
+    fontWeight: 600,
     color: '#fff',
     borderRadius: '6px',
-    boxShadow: (props: BottonStyleTypes) =>
-      props.withShadow ? '0px 8px 17px rgba(0, 0, 0, .3)' : 'none'
+    boxShadow: (props: BottonStyleTypes): string =>
+      props.disableShadow ? 'none' : '0px 8px 17px rgba(0, 0, 0, .3)'
   },
   text: {
     lineHeight: '24px'
@@ -47,20 +45,18 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   secondary: {
-    background: (props: BottonStyleTypes) =>
-      props.userBgColor ? props.userBgColor : theme.palette.secondary.main,
-    color: theme.palette.primary.light,
-    '&:hover': {
-      opacity: '0.9',
-      background: (props: BottonStyleTypes) =>
-        props.userBgColor ? props.userBgColor : theme.palette.secondary.main
+    background: theme.palette.secondary.main,
+    color: '#343434',
+    '&:hover:not(:disabled)': {
+      background: '#343434',
+      color: theme.palette.secondary.main
     },
     '&:disabled': {
       pointerEvents: 'initial',
       cursor: 'not-allowed',
-      background: '#e8e8e8',
+      background: '#a3a3a3',
       '&:hover': {
-        background: '#e8e8e8'
+        background: '#a3a3a3'
       }
     }
   }
@@ -71,16 +67,19 @@ const Button: React.FC<BottonProps> = ({
   children,
   darkLoader,
   color = 'main',
-  withShadow = true,
+  disableShadow = false,
   className,
-  userBgColor,
   ...otherProps
 }: BottonProps) => {
-  const classes = useStyles({ withShadow, userBgColor })
+  const classes = useStyles({ disableShadow })
 
   return (
     <MaterialButton className={clsx(classes[color], classes.root, className)} {...otherProps}>
-      {loading ? <Loader dark={darkLoader} /> : <span className={classes.text}>{children}</span>}
+      {loading ? (
+        <ScaleLoader dark={darkLoader} />
+      ) : (
+        <span className={classes.text}>{children}</span>
+      )}
     </MaterialButton>
   )
 }
