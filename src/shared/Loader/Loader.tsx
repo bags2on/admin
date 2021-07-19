@@ -1,67 +1,92 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core'
 
+interface StyleProps {
+  fallback?: boolean
+  dark?: boolean
+}
+
+const useStyles = makeStyles((theme) => ({
+  loader: {
+    width: (props: StyleProps) => (props.fallback ? 34 : 24),
+    height: (props: StyleProps) => (props.fallback ? 40 : 24),
+    '& > rect': {
+      fill: (props: StyleProps) => (props.dark ? '#343434' : theme.palette.secondary.main)
+    }
+  }
+}))
+
 interface LoaderProps {
   fallback?: boolean
   dark?: boolean
 }
 
-interface styleProps {
-  fallback?: boolean
-  dark?: boolean
-}
-
-const useStyles = makeStyles(() => ({
-  root: {
-    '& div:nth-child(1)': {
-      animation: '$scale-loader 1s -.4s infinite cubic-bezier(.2, .68, .18, 1.08)'
-    },
-    '& div:nth-child(2)': {
-      animation: '$scale-loader 1s -.3s infinite cubic-bezier(.2, .68, .18, 1.08)'
-    },
-    '& div:nth-child(3)': {
-      animation: '$scale-loader 1s -.3s infinite cubic-bezier(.2, .68, .18, 1.08)'
-    },
-    '& div:nth-child(4)': {
-      animation: '$scale-loader 1s -.2s infinite cubic-bezier(.2, .68, .18, 1.08)'
-    },
-    '& div:nth-child(5)': {
-      animation: '$scale-loader 1s 0s infinite cubic-bezier(.2, .68, .18, 1.08)'
-    }
-  },
-  dot: {
-    display: 'inline-block',
-    animationFillMode: 'both',
-    backgroundColor: (props: styleProps) => (props.dark ? '#343434' : '#ff9900'),
-    width: (props: styleProps) => (props.fallback ? 5 : 3),
-    height: (props: styleProps) => (props.fallback ? 70 : 20),
-    margin: (props: styleProps) => (props.fallback ? '0 3px' : '0 2px'),
-    borderRadius: 4
-  },
-  '@keyframes scale-loader': {
-    '0%': {
-      transform: 'scaley(1)'
-    },
-    '50%': {
-      transform: 'scaley(.4)'
-    },
-    '100%': {
-      transform: 'scaley(1)'
-    }
-  }
-}))
-
-const Loader: React.FC<LoaderProps> = ({ fallback, dark }) => {
+const ScaleLoader: React.FC<LoaderProps> = ({ fallback = false, dark }) => {
   const classes = useStyles({ fallback, dark })
   return (
-    <div className={classes.root}>
-      <div className={classes.dot} />
-      <div className={classes.dot} />
-      <div className={classes.dot} />
-      <div className={classes.dot} />
-      <div className={classes.dot} />
-    </div>
+    <svg
+      className={classes.loader}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24px"
+      height="24px"
+      viewBox="0 0 24 30"
+    >
+      <rect x="0" y="13" width="4" height="5" fill="#333">
+        <animate
+          attributeName="height"
+          attributeType="XML"
+          values="5;21;5"
+          begin="0s"
+          dur="0.6s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="y"
+          attributeType="XML"
+          values="13; 5; 13"
+          begin="0s"
+          dur="0.6s"
+          repeatCount="indefinite"
+        />
+      </rect>
+      <rect x="10" y="13" width="4" height="5" fill="#333">
+        <animate
+          attributeName="height"
+          attributeType="XML"
+          values="5;21;5"
+          begin="0.15s"
+          dur="0.6s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="y"
+          attributeType="XML"
+          values="13; 5; 13"
+          begin="0.15s"
+          dur="0.6s"
+          repeatCount="indefinite"
+        />
+      </rect>
+      <rect x="20" y="13" width="4" height="5" fill="#333">
+        <animate
+          attributeName="height"
+          attributeType="XML"
+          values="5;21;5"
+          begin="0.3s"
+          dur="0.6s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="y"
+          attributeType="XML"
+          values="13; 5; 13"
+          begin="0.3s"
+          dur="0.6s"
+          repeatCount="indefinite"
+        />
+      </rect>
+    </svg>
   )
 }
 
-export default Loader
+export default ScaleLoader

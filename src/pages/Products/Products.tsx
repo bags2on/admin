@@ -26,7 +26,7 @@ const Products: React.FC = () => {
   const { loading, data, error } = useQuery<AllProductsQuery, AllProductsVariables>(
     AllProductsDocument,
     {
-      variables: { instock: true, gender: [] }
+      variables: { instock: undefined, gender: [] }
     }
   )
 
