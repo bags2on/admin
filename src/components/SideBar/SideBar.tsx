@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
   root: {
-    height: '100vh',
-    backgroundColor: '#282828'
+    height: '100%',
+    backgroundColor: '#313131'
   }
 }))
 

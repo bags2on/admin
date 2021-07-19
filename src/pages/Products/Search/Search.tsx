@@ -1,9 +1,11 @@
 import React from 'react'
+import { Typography } from '@material-ui/core'
+Typography
 
 const Search: React.FC = () => {
   return (
     <div>
-      <div>Search</div>
+      <Typography>Search</Typography>
     </div>
   )
 }

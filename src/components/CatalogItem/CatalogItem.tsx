@@ -86,7 +86,7 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
         <div className={classes.priceBox}>
           <div
             className={clsx({
-              [classes.basePrice]: true,
+              [classes.price]: true,
               [classes.price_discount]: currentPrice !== basePrice
             })}
           >

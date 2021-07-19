@@ -44,11 +44,9 @@ export default createMuiTheme({
     }
   },
   palette: {
-    type: 'light',
+    type: 'dark',
     primary: {
-      main: '#F2E30C',
-      light: '#fff',
-      dark: '#303030'
+      main: '#F2E30C'
     },
     secondary: {
       main: '#F2E30C'
@@ -66,5 +64,16 @@ export default createMuiTheme({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"'
     ].join(',')
+  },
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        body: {
+          position: 'relative',
+          height: '100%',
+          overflowY: 'hidden'
+        }
+      }
+    }
   }
 })

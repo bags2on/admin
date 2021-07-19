@@ -13,12 +13,6 @@ import { makeStyles } from '@material-ui/core/styles'
 // import { Gender } from '../../types'
 
 const useStyles = makeStyles(() => ({
-  root: {
-    padding: '10px 30px 0 30px',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    height: '100%'
-  },
   list: {
     margin: 0,
     padding: 0,
@@ -53,7 +47,7 @@ const Products: React.FC = () => {
   console.log(data)
 
   return (
-    <div className={classes.root}>
+    <div>
       <Search />
       <Grid container component="ul" className={classes.list}>
         {data?.allProducts.products.map((product) => (

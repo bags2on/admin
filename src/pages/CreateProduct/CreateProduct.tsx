@@ -12,10 +12,7 @@ import { createProductSchema } from '../../utils/validation/validationSchemas'
 
 const useStyles = makeStyles(() => ({
   root: {
-    padding: '30px 30px 0 30px',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    height: '100%'
+    padding: '30px 10px 0 10px'
   },
   formField: {
     maxWidth: 500,

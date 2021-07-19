@@ -2,12 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
-  root: {
-    padding: '10px 30px 0 30px',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    height: '100%'
-  }
+  root: {}
 }))
 
 const Orders: React.FC = () => {
