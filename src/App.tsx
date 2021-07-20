@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from 'react'
 import AppLayout from './components/AppLayout/AppLayout'
-import routes from './utils/routeNames'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Fallback from './components/Fallback/Fallback'
 
@@ -15,12 +14,12 @@ const App: React.FC = () => {
     <Suspense fallback={<Fallback />}>
       <AppLayout>
         <Switch>
-          <Route exact path={routes.ui} component={UI} />
-          <Route path={routes.createProduct} component={CreateProduct} />
-          <Route path={routes.orders} component={Orders} />
-          <Route path={routes.products} component={Products} />
-          <Route path={routes.product} component={Product} />
-          <Redirect exact from="/" to={routes.createProduct} />
+          <Route path="/orders" component={Orders} />
+          <Route path="/create-product" component={CreateProduct} />
+          <Route path="/products" component={Products} />
+          <Route path="/p/:id" component={Product} />
+          <Route exact path="/ui" component={UI} />
+          <Redirect exact from="/" to="/create-product" />
         </Switch>
       </AppLayout>
     </Suspense>
