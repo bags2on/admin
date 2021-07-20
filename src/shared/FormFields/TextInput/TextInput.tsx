@@ -10,11 +10,23 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.type === 'light' ? '#fff' : '#3c4144',
     boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;',
     color: theme.palette.type === 'light' ? '#3c4144' : '#fff',
-    '& .MuiOutlinedInput-input': {
-      padding: '16px ​14px',
-      fontWeight: 500
+    '& .MuiFilledInput-input': {
+      // padding: '16px ​14px',
+      fontWeight: 500,
+      '&[type=number]': {
+        '-moz-appearance': 'textfield'
+      },
+      '&::-webkit-outer-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0
+      },
+      '&::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0
+      }
     }
   },
+
   message: {
     height: 24,
     fontSize: 14,
@@ -36,6 +48,7 @@ interface TextInputProps {
   fullWidth?: boolean
   placeholder?: string
   autoComplete?: string
+  hiddenLabel?: boolean
   onChange?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
