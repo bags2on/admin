@@ -87,7 +87,7 @@ const CREATE_PRODUCT_MUTATION = gql`
         description: $description
       }
     ) {
-      message
+      id
     }
   }
 `
@@ -121,16 +121,13 @@ const CreateProduct: React.FC = () => {
   const handleSubmit = (values: any) => {
     console.log(values)
 
-    const {
-      title,
-      basePrice,
-      currentPrice,
-      instock,
-      gender,
-      mainTag,
-      category,
-      description
-    } = values
+    const { title, basePrice, instock, gender, mainTag, category, description } = values
+
+    let currentPrice = values.currentPrice
+
+    if (!currentPrice) {
+      currentPrice = basePrice
+    }
 
     const preview = mainPhoto
 

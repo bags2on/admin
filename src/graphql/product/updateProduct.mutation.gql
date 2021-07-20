@@ -1,8 +1,8 @@
 mutation updateProduct(
   $id: ID!
   $title: String!
-  $price: Int!
-  $discount: Int!
+  $basePrice: Int!
+  $currentPrice: Int
   $instock: Boolean!
   $description: String
 ) {
@@ -10,8 +10,8 @@ mutation updateProduct(
     input: {
       id: $id
       title: $title
-      price: $price
-      discount: $discount
+      basePrice: $basePrice
+      currentPrice: $currentPrice
       instock: $instock
       description: $description
     }

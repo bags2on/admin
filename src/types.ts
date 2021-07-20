@@ -55,7 +55,7 @@ export type MutationCreateOrderArgs = {
 }
 
 export type MutationCreateProductArgs = {
-  input?: Maybe<NewProductInput>
+  input: NewProductInput
 }
 
 export type MutationUpdateProductArgs = {
@@ -69,17 +69,18 @@ export type MutationHideProductArgs = {
 
 export type NewProductInput = {
   title: Scalars['String']
-  price: Scalars['Int']
-  discountPrice?: Maybe<Scalars['Int']>
-  preview: Scalars['Upload']
-  images?: Maybe<Array<Maybe<Scalars['String']>>>
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>
+  basePrice: Scalars['Int']
+  currentPrice?: Maybe<Scalars['Int']>
+  gender: Gender
+  instock: Scalars['Boolean']
+  mainTag: Scalars['String']
+  category: CategoryType
   description?: Maybe<Scalars['String']>
 }
 
 export type NewProductResponse = {
   __typename?: 'NewProductResponse'
-  message: Scalars['String']
+  id: Scalars['ID']
 }
 
 export type NotFound = {
@@ -179,8 +180,8 @@ export enum Role {
 export type UpdateProductInput = {
   id: Scalars['ID']
   title: Scalars['String']
-  price: Scalars['Int']
-  discount: Scalars['Int']
+  basePrice: Scalars['Int']
+  currentPrice?: Maybe<Scalars['Int']>
   instock: Scalars['Boolean']
   description?: Maybe<Scalars['String']>
 }

@@ -5,8 +5,8 @@ import * as Apollo from '@apollo/client'
 export type UpdateProductMutationVariables = Types.Exact<{
   id: Types.Scalars['ID']
   title: Types.Scalars['String']
-  price: Types.Scalars['Int']
-  discount: Types.Scalars['Int']
+  basePrice: Types.Scalars['Int']
+  currentPrice?: Types.Maybe<Types.Scalars['Int']>
   instock: Types.Scalars['Boolean']
   description?: Types.Maybe<Types.Scalars['String']>
 }>
@@ -23,8 +23,8 @@ export const UpdateProductDocument = gql`
   mutation updateProduct(
     $id: ID!
     $title: String!
-    $price: Int!
-    $discount: Int!
+    $basePrice: Int!
+    $currentPrice: Int
     $instock: Boolean!
     $description: String
   ) {
@@ -32,8 +32,8 @@ export const UpdateProductDocument = gql`
       input: {
         id: $id
         title: $title
-        price: $price
-        discount: $discount
+        basePrice: $basePrice
+        currentPrice: $currentPrice
         instock: $instock
         description: $description
       }

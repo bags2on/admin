@@ -65,23 +65,24 @@ enum MainTag {
 
 type Mutation {
   createOrder(input: OrderInput): OrderResponse
-  createProduct(input: NewProductInput): NewProductResponse
+  createProduct(input: NewProductInput!): NewProductResponse
   updateProduct(input: UpdateProductInput): UpdateProductResponse
   hideProduct(id: ID!, isHidden: Boolean!): HideProductResponse
 }
 
 input NewProductInput {
   title: String!
-  price: Int!
-  discountPrice: Int
-  preview: Upload!
-  images: [String]
-  tags: [String]
+  basePrice: Int!
+  currentPrice: Int
+  gender: Gender!
+  instock: Boolean!
+  mainTag: String!
+  category: CategoryType!
   description: String
 }
 
 type NewProductResponse {
-  message: String!
+  id: ID!
 }
 
 type NotFound {
@@ -159,8 +160,8 @@ enum Role {
 input UpdateProductInput {
   id: ID!
   title: String!
-  price: Int!
-  discount: Int!
+  basePrice: Int!
+  currentPrice: Int
   instock: Boolean!
   description: String
 }
