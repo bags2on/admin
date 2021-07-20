@@ -12,6 +12,7 @@ import PhotosUpload from '../CreateProduct/PhotosUpload/PhotosUpload'
 import { createProductSchema } from '../../utils/validation/validationSchemas'
 import { Checkbox, FormControlLabel } from '@material-ui/core'
 import CheckBox from '../../shared/FormFields/Checkbox/Checkbox'
+import { CategoryType } from '../../types'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -31,7 +32,12 @@ const useStyles = makeStyles(() => ({
       padding: '0 0 24px 0'
     }
   },
-  nameField: {},
+  genderField: {
+    maxWidth: 300
+  },
+  categoryField: {
+    maxWidth: 300
+  },
   discountWrapper: {
     display: 'flex',
     alignItems: 'center'
@@ -86,6 +92,11 @@ const CREATE_PRODUCT_MUTATION = gql`
   }
 `
 
+type optionType = {
+  label: string
+  value: string
+}
+
 const CreateProduct: React.FC = () => {
   const classes = useStyles()
 
@@ -110,15 +121,33 @@ const CreateProduct: React.FC = () => {
   const handleSubmit = (values: any) => {
     console.log(values)
 
-    const { title, basePrice, currentPrice, description, tags, images } = values
+    const {
+      title,
+      basePrice,
+      currentPrice,
+      instock,
+      gender,
+      mainTag,
+      category,
+      description
+    } = values
 
     const preview = mainPhoto
 
     try {
-      // const req = createProduct({
-      //   variables: { title, basePrice, currentPrice, preview, description, tags, images }
-      // })
-      // console.log(req)
+      const req = createProduct({
+        variables: {
+          title,
+          basePrice,
+          currentPrice,
+          instock,
+          gender,
+          mainTag,
+          category,
+          description
+        }
+      })
+      console.log(req)
     } catch (error) {
       console.log('error: ', error)
     }
@@ -138,6 +167,21 @@ const CreateProduct: React.FC = () => {
 
   const isPhotoExist = Boolean(mainPhoto)
 
+  const getGenderOptions = (): optionType[] => {
+    const labels: { [name: string]: string } = {
+      Bag: 'Сумка',
+      Wallet: 'Кошелек',
+      Backpack: 'Рюкзак',
+      Suitcase: 'Чемодан',
+      Other: 'Другое'
+    }
+
+    return Object.keys(CategoryType).map((value) => ({
+      label: labels[value],
+      value: value.toUpperCase()
+    }))
+  }
+
   return (
     <div className={classes.root}>
       <Formik
@@ -145,12 +189,13 @@ const CreateProduct: React.FC = () => {
         validationSchema={createProductSchema}
         initialValues={{
           title: '',
-          // amount: '', // TODO: add amount implementation
           basePrice: '',
           currentPrice: '',
           instock: true,
+          gender: '',
+          mainTag: '',
+          category: '',
           description: ''
-          // tags: []
         }}
       >
         {({ values, isValid, setFieldValue }) => (
@@ -223,6 +268,47 @@ const CreateProduct: React.FC = () => {
                       </FormControl>
                     )}
                   </div>
+                  <FormControl className={clsx(classes.formField)}>
+                    <div className={classes.genderField}>
+                      <TextInput
+                        select
+                        label="Гендер"
+                        name="gender"
+                        fullWidth
+                        options={[
+                          {
+                            label: 'Женский',
+                            value: 'FEMALE'
+                          },
+                          {
+                            label: 'Мужской',
+                            value: 'MALE'
+                          },
+                          {
+                            label: 'Уни-секс',
+                            value: 'UNISEX'
+                          }
+                        ]}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormControl className={clsx(classes.formField)}>
+                    <div className={classes.flatFormField}>
+                      <p>Главный тэг:</p>
+                      <TextInput hiddenLabel name="mainTag" />
+                    </div>
+                  </FormControl>
+                  <FormControl className={clsx(classes.formField)}>
+                    <div className={classes.genderField}>
+                      <TextInput
+                        select
+                        label="Категория"
+                        name="category"
+                        fullWidth
+                        options={getGenderOptions()}
+                      />
+                    </div>
+                  </FormControl>
                   <FormControl className={clsx(classes.formField)}>
                     <TextInput label="Описание" name="description" fullWidth multiline rows={5} />
                   </FormControl>

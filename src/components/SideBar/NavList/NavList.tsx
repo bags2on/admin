@@ -22,14 +22,8 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 10,
     overflowX: 'hidden',
     transition: 'all .2s',
-    '& $title': {
-      display: 'none'
-    },
     '&:hover': {
-      width: 300,
-      '& $title': {
-        display: 'inline'
-      }
+      width: 300
     }
   },
   drawerItem: {

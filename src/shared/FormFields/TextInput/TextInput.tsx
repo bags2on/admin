@@ -1,9 +1,30 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import MenuItem from '@material-ui/core/MenuItem'
 import Fade from '@material-ui/core/Fade'
 import { useField } from 'formik'
 import { makeStyles } from '@material-ui/core/styles'
+
+interface TextInputProps {
+  name: string
+  type?: string
+  select?: boolean
+  rows?: number
+  label?: string
+  disabled?: boolean
+  multiline?: boolean
+  maxLength?: number
+  fullWidth?: boolean
+  placeholder?: string
+  autoComplete?: string
+  hiddenLabel?: boolean
+  options?: Array<{
+    label: string
+    value: string
+  }>
+  onChange?(event: React.ChangeEvent<HTMLInputElement>): void
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,24 +58,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-interface TextInputProps {
-  name: string
-  type?: string
-  rows?: number
-  label?: string
-  disabled?: boolean
-  multiline?: boolean
-  maxLength?: number
-  fullWidth?: boolean
-  placeholder?: string
-  autoComplete?: string
-  hiddenLabel?: boolean
-  onChange?(event: React.ChangeEvent<HTMLInputElement>): void
-}
-
 const TextInput: React.FC<TextInputProps> = ({
   autoComplete = 'off',
   maxLength = 50,
+  options,
   ...restProps
 }) => {
   const [field, meta] = useField(restProps)
@@ -77,7 +84,14 @@ const TextInput: React.FC<TextInputProps> = ({
         inputProps={{
           maxLength
         }}
-      />
+      >
+        {options &&
+          options.map(({ label, value }) => (
+            <MenuItem key={value} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+      </TextField>
       <Fade in={meta.touched && !!meta.error}>
         <Typography component="p" className={classes.message}>
           {meta.touched && meta.error}

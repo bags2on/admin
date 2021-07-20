@@ -48,6 +48,9 @@ export const createProductSchema = yup.object().shape({
       yup.ref('basePrice'),
       '* не может быть больше или равняться изначальной цене'
     ),
+  gender: yup.string().required('* обязательное поле'),
+  mainTag: yup.string().min(3, '* минимум 3 символа').max(100, '* максимум 100 символов'),
+  category: yup.string().required('* обязательное поле'),
   // .lessThan(yup.ref('price')) // js solution
   description: yup.string().trim()
 })
