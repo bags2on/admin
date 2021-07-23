@@ -5,11 +5,11 @@ interface routeNamesMap {
 const routeNames: routeNamesMap = {
   root: '/',
   createProduct: '/create-product',
+  editProduct: '/edit-product/:id',
   orders: '/orders',
   communication: '/communication',
-  products: '/products', //
+  products: '/products',
   banners: '/banners',
-  product: '/p/:id', //
   ui: '/ui'
 }
 

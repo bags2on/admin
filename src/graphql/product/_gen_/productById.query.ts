@@ -12,12 +12,12 @@ export type GetProductByIdQuery = {
         __typename: 'Product'
         id: string
         title: string
-        currentPrice: number
         basePrice: number
-        tags: Array<string>
-        images: Array<string>
-        description: string
+        currentPrice: number
+        gender: string
         instock: boolean
+        mainTag: string
+        description: string
       }
     | { __typename: 'NotFound'; message: string }
   >
@@ -43,12 +43,12 @@ export const GetProductByIdDocument = gql`
       ... on Product {
         id
         title
-        currentPrice
         basePrice
-        tags
-        images
-        description
+        currentPrice
+        gender
         instock
+        mainTag
+        description
       }
       ... on NotFound {
         message

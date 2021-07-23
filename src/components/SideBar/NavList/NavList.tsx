@@ -13,6 +13,7 @@ import { ReactComponent as BannerIcon } from '../../../asset/svg/filter-picture.
 import { ReactComponent as UIicon } from '../../../asset/svg/ui.svg'
 import { makeStyles } from '@material-ui/core/styles'
 import routeNames from '../../../utils/routeNames'
+import { generateLink } from '../../../utils/helpers'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,7 +73,7 @@ const navItems = [
   {
     text: 'Редактировать',
     icon: EditIcon,
-    path: routeNames.product
+    path: generateLink(routeNames.editProduct, 'plug')
   },
   {
     text: 'Ордера',

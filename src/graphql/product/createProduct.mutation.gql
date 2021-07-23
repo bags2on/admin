@@ -1,0 +1,33 @@
+mutation CreateProduct(
+  $title: String!
+  # $amount: Int!
+  $basePrice: Int!
+  $currentPrice: Int
+  # $preview: Upload!
+  # $images: [String]
+  # $tags: [String]
+  $instock: Boolean!
+  $gender: Gender!
+  $mainTag: String!
+  $category: CategoryType!
+  $description: String
+) {
+  createProduct(
+    input: {
+      title: $title
+      # amount: $amount
+      basePrice: $basePrice
+      currentPrice: $currentPrice
+      # preview: $preview
+      # images: $images
+      # tags: $tags
+      gender: $gender
+      instock: $instock
+      mainTag: $mainTag
+      category: $category
+      description: $description
+    }
+  ) {
+    id
+  }
+}

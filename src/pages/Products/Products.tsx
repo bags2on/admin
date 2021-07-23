@@ -26,6 +26,7 @@ const Products: React.FC = () => {
   const { loading, data, error } = useQuery<AllProductsQuery, AllProductsVariables>(
     AllProductsDocument,
     {
+      fetchPolicy: 'network-only',
       variables: { instock: undefined, gender: [] }
     }
   )

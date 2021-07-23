@@ -1,204 +1,348 @@
-import React, { useState } from 'react'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
-import Grid from '@material-ui/core/Grid'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { Formik, Form } from 'formik'
-import { useParams } from 'react-router-dom'
-import Loader from '../../shared/Loader/Loader'
-import { useQuery, useMutation } from '@apollo/client'
-import FormControl from '@material-ui/core/FormControl'
-import TextInput from '../../shared/FormFields/TextInput/TextInput'
-import Button from '../../shared/Button/Button'
-import {
-  GetProductByIdDocument,
-  GetProductByIdQuery,
-  GetProductByIdVariables
-} from '../../graphql/product/_gen_/productById.query'
-import {
-  UpdateProductDocument,
-  UpdateProductMutation,
-  UpdateProductVariables
-} from '../../graphql/product/_gen_/updateProduct.mutation'
-import { editProductSchema } from '../../utils/validation/validationSchemas'
 import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import FormControl from '@material-ui/core/FormControl'
+import Button from '../../shared/Button/Button'
+import TextInput from '../../shared/FormFields/TextInput/TextInput'
+import PhotosUpload from './PhotosUpload/PhotosUpload'
+import { createProductSchema } from '../../utils/validation/validationSchemas'
+import { Checkbox, FormControlLabel } from '@material-ui/core'
+import {
+  CreateProductMutation,
+  CreateProductVariables,
+  CreateProductDocument
+} from '../../graphql/product/_gen_/createProduct.mutation'
+import {
+  GetProductByIdQuery,
+  GetProductByIdVariables,
+  GetProductByIdDocument
+} from '../../graphql/product/_gen_/productById.query'
+import CheckBox from '../../shared/FormFields/Checkbox/Checkbox'
+import { CategoryType } from '../../types'
+import { useLocation, useParams } from 'react-router-dom'
+import routeNames from '../../utils/routeNames'
 
 const useStyles = makeStyles(() => ({
   root: {
-    padding: '10px 30px 0 30px',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    height: '100%'
+    padding: '30px 10px 0 10px'
   },
   formField: {
     maxWidth: 500,
     display: 'block'
   },
-  priceField: {},
-  addDiscountButton: {
-    marginTop: 8,
-    fontSize: 14,
-    padding: 7
+  flatFormField: {
+    display: 'flex',
+    alignItems: 'center',
+
+    '& > p': {
+      flexBasis: '35%',
+      fontSize: 18,
+      padding: '0 0 24px 0'
+    }
+  },
+  genderField: {
+    maxWidth: 300
+  },
+  categoryField: {
+    maxWidth: 300
+  },
+  discountWrapper: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  discountCheckbox: {
+    paddingBottom: 24
   },
   submitButton: {
-    width: 250,
+    width: 200,
     padding: '15px 0'
   }
 }))
 
-interface ProductID {
+type File = {
+  name?: string
+  preview: string
+}
+
+type optionType = {
+  label: string
+  value: string
+}
+
+interface routeParams {
   id: string
 }
 
-const Product: React.FC = () => {
+const CreateProduct: React.FC = () => {
   const classes = useStyles()
-  const { id } = useParams<ProductID>()
-  const [hasDiscount, setDiscount] = useState<boolean>(false)
 
-  const { loading, data, error } = useQuery<GetProductByIdQuery, GetProductByIdVariables>(
-    GetProductByIdDocument,
+  const { pathname } = useLocation()
+  const { id } = useParams<routeParams>()
+
+  console.log('Params id:', id)
+
+  const isCreateMode = pathname === routeNames.createProduct
+
+  const [initialValues, setInitialValues] = useState<Record<string, unknown>>({
+    title: '',
+    basePrice: '',
+    currentPrice: '',
+    instock: true,
+    gender: '',
+    mainTag: '',
+    category: '',
+    description: ''
+  })
+
+  const [hasDiscount, setDiscount] = useState<boolean>(false)
+  const [mainPhoto, setMainPhoto] = useState<File | null>(null)
+  const [subPhotos, setSubPhotos] = useState<File[]>([
     {
-      variables: {
-        id
-      },
-      fetchPolicy: 'network-only'
-      // onCompleted(data) {
-      //   console.log(data)
-      //   if (data) {
-      //     const x = data.product?.basePrice
-      //     const y = data.product?.currentPrice
-      //     setDiscount(x !== y)
-      //   }
-      // }
+      preview: ''
+    },
+    {
+      preview: ''
+    }
+  ])
+
+  const [createProduct] = useMutation<CreateProductMutation, CreateProductVariables>(
+    CreateProductDocument,
+    {
+      onCompleted: (data) => {
+        console.log(data.createProduct?.id)
+      }
     }
   )
 
-  const [updateProduct, updateOptions] = useMutation<UpdateProductMutation, UpdateProductVariables>(
-    UpdateProductDocument
+  const [getProductById] = useLazyQuery<GetProductByIdQuery, GetProductByIdVariables>(
+    GetProductByIdDocument,
+    {
+      onCompleted: (data) => {
+        const { product } = data
+        if (product?.__typename === 'Product') {
+          setInitialValues((prev) => {
+            return {
+              ...prev,
+              title: product.title
+            }
+          })
+        } else {
+          console.log(data.product)
+        }
+      }
+    }
   )
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Loader fallback />
-      </div>
-    )
-  }
-
-  if (error) {
-    return <h1>Access denied</h1>
-  }
+  useEffect(() => {
+    document.title = 'Создать товар'
+    if (!isCreateMode) {
+      if (id !== 'plug') {
+        getProductById({
+          variables: {
+            id
+          }
+        })
+      }
+    }
+  }, [])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (values: any): Promise<void> => {
+  const handleSubmit = (values: any) => {
     console.log(values)
-    values.instock = true
-    const resp = await updateProduct({
-      variables: {
-        // id: data?.product?.id,
-        id: 'TODO',
-        ...values
-      }
-    })
 
-    console.log(resp)
+    const { title, basePrice, instock, gender, mainTag, category, description } = values
+
+    let currentPrice = values.currentPrice
+
+    if (!currentPrice) {
+      currentPrice = basePrice
+    }
+
+    const preview = mainPhoto
+
+    try {
+      const req = createProduct({
+        variables: {
+          title,
+          basePrice,
+          currentPrice,
+          instock,
+          gender,
+          mainTag,
+          category,
+          description
+        }
+      })
+      console.log(req)
+    } catch (error) {
+      console.log('error: ', error)
+    }
   }
 
-  if (!data) {
-    return <p>Null data</p>
+  const handleDiscountCheck = (value: boolean) => {
+    setDiscount(value)
   }
 
-  const { product } = data
-
-  if (!product) {
-    return <p>Null data product</p>
+  const handleMainPhotoUpload = (newFile: File): void => {
+    setMainPhoto(newFile)
   }
 
-  const handleDiscountClick = () => {
-    setDiscount(!hasDiscount)
+  const handleSubPhotoUpload = (newFiles: File[]): void => {
+    setSubPhotos(newFiles)
+  }
+
+  const isPhotoExist = Boolean(mainPhoto)
+
+  const getGenderOptions = (): optionType[] => {
+    const labels: { [name: string]: string } = {
+      Bag: 'Сумка',
+      Wallet: 'Кошелек',
+      Backpack: 'Рюкзак',
+      Suitcase: 'Чемодан',
+      Other: 'Другое'
+    }
+
+    return Object.keys(CategoryType).map((value) => ({
+      label: labels[value],
+      value: value.toUpperCase()
+    }))
   }
 
   return (
     <div className={classes.root}>
-      <h1>Product</h1>
       <Formik
-        onSubmit={handleSubmit}
         enableReinitialize
-        validationSchema={editProductSchema}
-        initialValues={{
-          // title: product.title,
-          // price: product.currentPrice,
-          // discount: product.basePrice,
-          // description: product.description
-          title: '',
-          price: '',
-          discount: '',
-          description: ''
-        }}
+        onSubmit={handleSubmit}
+        validationSchema={createProductSchema}
+        initialValues={initialValues}
       >
         {({ values, isValid, setFieldValue }) => (
           <Form>
-            {/* {console.log(values, errors)} */}
+            {/* {console.log(values)}z */}
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <div>
+                <div
+                  style={
+                    {
+                      // backgroundColor: '#f9f9f9'
+                    }
+                  }
+                >
+                  <PhotosUpload
+                    mainPhoto={mainPhoto}
+                    onMainPhotoUpload={handleMainPhotoUpload}
+                    subPhotos={subPhotos}
+                    onSubPhotoUpload={handleSubPhotoUpload}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div
+                  style={
+                    {
+                      // backgroundColor: '#b1c3D0'
+                    }
+                  }
+                >
                   <FormControl className={clsx(classes.formField)}>
-                    <TextInput label="Заголовок" name="title" fullWidth />
+                    <CheckBox name="instock" label="В наличии" disableMessage />
                   </FormControl>
-                  <FormControl className={clsx(classes.formField, classes.priceField)}>
-                    <Grid container>
-                      <Grid item xs={7}>
-                        <TextInput label="Цена (грн.)" name="price" type="number" />
-                      </Grid>
-                      <Grid item xs={5}>
-                        <Button
-                          disableShadow
-                          color="secondary"
-                          onClick={() => {
-                            setFieldValue('discount', '')
-                            handleDiscountClick()
+                  <FormControl className={clsx(classes.formField)}>
+                    <TextInput fullWidth label="Заголовок" name="title" />
+                  </FormControl>
+                  <FormControl className={clsx(classes.formField)}>
+                    <div className={classes.flatFormField}>
+                      <p>Количество шт:</p>
+                      <TextInput disabled hiddenLabel name="amount" type="number" />
+                    </div>
+                  </FormControl>
+                  <FormControl className={classes.formField}>
+                    <div className={classes.flatFormField}>
+                      <p>Цена (грн.)</p>
+                      <TextInput hiddenLabel name="basePrice" type="number" />
+                    </div>
+                  </FormControl>
+                  <div className={classes.discountWrapper}>
+                    <FormControlLabel
+                      className={classes.discountCheckbox}
+                      label={hasDiscount ? 'Убрать акцию' : 'Добавить акцию'}
+                      control={
+                        <Checkbox
+                          onChange={(e) => {
+                            setFieldValue('currentPrice', '')
+                            handleDiscountCheck(e.target.checked)
                           }}
-                          className={classes.addDiscountButton}
-                        >
-                          {hasDiscount ? 'Убрать акцию' : 'Добавить акцию'}
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </FormControl>
-                  {hasDiscount && (
-                    <FormControl className={clsx(classes.formField)}>
-                      <TextInput
-                        disabled={!!!values.price}
-                        label="Акционная цена (грн.)"
-                        name="discount"
-                        type="number"
-                      />
-                    </FormControl>
-                  )}
-                  <FormControl className={clsx(classes.formField)}>
-                    <TextInput
-                      label="Описание"
-                      name="description"
-                      fullWidth
-                      multiline
-                      maxLength={500}
-                      rows={5}
+                        />
+                      }
                     />
+                    {hasDiscount && (
+                      <FormControl className={clsx(classes.formField)}>
+                        <TextInput
+                          disabled={!!!values.basePrice}
+                          label="Акционная цена (грн.)"
+                          name="currentPrice"
+                          type="number"
+                        />
+                      </FormControl>
+                    )}
+                  </div>
+                  <FormControl className={clsx(classes.formField)}>
+                    <div className={classes.genderField}>
+                      <TextInput
+                        select
+                        label="Гендер"
+                        name="gender"
+                        fullWidth
+                        options={[
+                          {
+                            label: 'Женский',
+                            value: 'FEMALE'
+                          },
+                          {
+                            label: 'Мужской',
+                            value: 'MALE'
+                          },
+                          {
+                            label: 'Уни-секс',
+                            value: 'UNISEX'
+                          }
+                        ]}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormControl className={clsx(classes.formField)}>
+                    <div className={classes.flatFormField}>
+                      <p>Главный тэг:</p>
+                      <TextInput hiddenLabel name="mainTag" />
+                    </div>
+                  </FormControl>
+                  <FormControl className={clsx(classes.formField)}>
+                    <div className={classes.genderField}>
+                      <TextInput
+                        select
+                        label="Категория"
+                        name="category"
+                        fullWidth
+                        options={getGenderOptions()}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormControl className={clsx(classes.formField)}>
+                    <TextInput label="Описание" name="description" fullWidth multiline rows={5} />
                   </FormControl>
                   <Button
                     type="submit"
                     disableShadow
-                    loading={updateOptions.loading}
                     color="secondary"
+                    // disabled={!isPhotoExist || !isPhotoExist || !isValid}
                     disabled={!isValid}
                     className={classes.submitButton}
                   >
-                    Сохранить изменения
+                    создать
                   </Button>
                 </div>
               </Grid>
@@ -210,4 +354,4 @@ const Product: React.FC = () => {
   )
 }
 
-export default Product
+export default CreateProduct

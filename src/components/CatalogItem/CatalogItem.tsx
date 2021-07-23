@@ -78,7 +78,7 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
       })}
     >
       <div className={classes.image}>
-        <Link to={generateLink(routes.product, id)}>
+        <Link to={generateLink(routes.editProduct, id)}>
           <ImagePlaceholder src={url} altText={title} />
         </Link>
       </div>
@@ -114,7 +114,7 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
             </IconButton>
           </div>
         </div>
-        <Link className={classes.title} title={title} to={generateLink(routes.product, id)}>
+        <Link className={classes.title} title={title} to={generateLink(routes.editProduct, id)}>
           {title}
         </Link>
       </div>

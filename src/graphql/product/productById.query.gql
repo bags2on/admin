@@ -4,12 +4,17 @@ query getProductByID($id: ID!) {
     ... on Product {
       id
       title
-      currentPrice
+      # amount: $amount
       basePrice
-      tags
-      images
-      description
+      currentPrice
+      # preview: $preview
+      # images: $images
+      # tags: $tags
+      gender
       instock
+      mainTag
+      # category # TODO: add on backend
+      description
     }
     ... on NotFound {
       message
