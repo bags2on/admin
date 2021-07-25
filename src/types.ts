@@ -123,7 +123,8 @@ export type Product = {
   basePrice: Scalars['Int']
   amount: Scalars['Int']
   instock: Scalars['Boolean']
-  gender: Scalars['String']
+  gender: Gender
+  category: CategoryType
   preview: Scalars['String']
   images: Array<Scalars['String']>
   tags: Array<Scalars['String']>

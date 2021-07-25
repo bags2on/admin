@@ -22,7 +22,7 @@ import {
   GetProductByIdDocument
 } from '../../graphql/product/_gen_/productById.query'
 import CheckBox from '../../shared/FormFields/Checkbox/Checkbox'
-import { CategoryType } from '../../types'
+import { CategoryType, Gender } from '../../types'
 import { useLocation, useParams } from 'react-router-dom'
 import routeNames from '../../utils/routeNames'
 
@@ -87,11 +87,12 @@ const CreateProduct: React.FC = () => {
 
   const isCreateMode = pathname === routeNames.createProduct
 
-  const [initialValues, setInitialValues] = useState<Record<string, unknown>>({
+  const [initialValues, setInitialValues] = useState({
+    instock: true,
     title: '',
+    amount: '',
     basePrice: '',
     currentPrice: '',
-    instock: true,
     gender: '',
     mainTag: '',
     category: '',
@@ -125,11 +126,22 @@ const CreateProduct: React.FC = () => {
         const { product } = data
         if (product?.__typename === 'Product') {
           setInitialValues((prev) => {
+            console.log(product.category)
             return {
               ...prev,
-              title: product.title
+              instock: product.instock,
+              title: product.title,
+              amount: product.amount + '',
+              basePrice: product.basePrice + '',
+              currentPrice: product.currentPrice + '',
+              gender: product.gender.toUpperCase(),
+              category: product.category.toUpperCase(),
+              mainTag: product.mainTag,
+              description: product.description
             }
           })
+
+          setDiscount(product.basePrice !== product.currentPrice)
         } else {
           console.log(data.product)
         }
@@ -138,7 +150,7 @@ const CreateProduct: React.FC = () => {
   )
 
   useEffect(() => {
-    document.title = 'Создать товар'
+    document.title = isCreateMode ? 'Создать товар' : 'Редактировать товар'
     if (!isCreateMode) {
       if (id !== 'plug') {
         getProductById({
@@ -197,7 +209,7 @@ const CreateProduct: React.FC = () => {
 
   const isPhotoExist = Boolean(mainPhoto)
 
-  const getGenderOptions = (): optionType[] => {
+  const getCategoryOptions = (): optionType[] => {
     const labels: { [name: string]: string } = {
       Bag: 'Сумка',
       Wallet: 'Кошелек',
@@ -209,6 +221,19 @@ const CreateProduct: React.FC = () => {
     return Object.keys(CategoryType).map((value) => ({
       label: labels[value],
       value: value.toUpperCase()
+    }))
+  }
+
+  const getGenderOptions = (): optionType[] => {
+    const labels: { [name: string]: string } = {
+      Female: 'Женский',
+      Male: 'Мужской',
+      Unisex: 'Уни-секс'
+    }
+
+    return Object.keys(Gender).map((gender) => ({
+      label: labels[gender],
+      value: gender.toUpperCase()
     }))
   }
 
@@ -257,7 +282,7 @@ const CreateProduct: React.FC = () => {
                   <FormControl className={clsx(classes.formField)}>
                     <div className={classes.flatFormField}>
                       <p>Количество шт:</p>
-                      <TextInput disabled hiddenLabel name="amount" type="number" />
+                      <TextInput hiddenLabel name="amount" type="number" />
                     </div>
                   </FormControl>
                   <FormControl className={classes.formField}>
@@ -272,6 +297,7 @@ const CreateProduct: React.FC = () => {
                       label={hasDiscount ? 'Убрать акцию' : 'Добавить акцию'}
                       control={
                         <Checkbox
+                          checked={hasDiscount}
                           onChange={(e) => {
                             setFieldValue('currentPrice', '')
                             handleDiscountCheck(e.target.checked)
@@ -297,20 +323,7 @@ const CreateProduct: React.FC = () => {
                         label="Гендер"
                         name="gender"
                         fullWidth
-                        options={[
-                          {
-                            label: 'Женский',
-                            value: 'FEMALE'
-                          },
-                          {
-                            label: 'Мужской',
-                            value: 'MALE'
-                          },
-                          {
-                            label: 'Уни-секс',
-                            value: 'UNISEX'
-                          }
-                        ]}
+                        options={getGenderOptions()}
                       />
                     </div>
                   </FormControl>
@@ -327,7 +340,7 @@ const CreateProduct: React.FC = () => {
                         label="Категория"
                         name="category"
                         fullWidth
-                        options={getGenderOptions()}
+                        options={getCategoryOptions()}
                       />
                     </div>
                   </FormControl>

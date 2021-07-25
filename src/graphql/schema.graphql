@@ -121,7 +121,8 @@ type Product {
   basePrice: Int!
   amount: Int!
   instock: Boolean!
-  gender: String!
+  gender: Gender!
+  category: CategoryType!
   preview: String!
   images: [String!]!
   tags: [String!]!
