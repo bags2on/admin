@@ -14,8 +14,8 @@ const App: React.FC = () => {
       <AppLayout>
         <Switch>
           <Route path="/orders" component={Orders} />
-          <Route path="/create-product" component={Product} />
-          <Route exact path="/edit-product/:id" component={Product} />
+          <Route key="crete_product" path="/create-product" component={Product} />
+          <Route key="edit_product" exact path="/edit-product/:id" component={Product} />
           <Route path="/products" component={Products} />
           <Route exact path="/ui" component={UI} />
           <Redirect exact from="/" to="/create-product" />
