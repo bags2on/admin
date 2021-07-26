@@ -162,9 +162,13 @@ enum Role {
 input UpdateProductInput {
   id: ID!
   title: String!
+  amount: Int!
   basePrice: Int!
   currentPrice: Int
+  gender: Gender!
   instock: Boolean!
+  mainTag: String!
+  category: CategoryType!
   description: String
 }
 

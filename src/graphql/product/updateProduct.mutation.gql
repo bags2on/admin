@@ -1,19 +1,33 @@
 mutation updateProduct(
   $id: ID!
   $title: String!
+  $amount: Int!
   $basePrice: Int!
   $currentPrice: Int
   $instock: Boolean!
+  $gender: Gender!
+  $mainTag: String!
+  $category: CategoryType!
+  # $preview: Upload!
+  # $images: [String]
+  # $tags: [String]
   $description: String
 ) {
   updateProduct(
     input: {
       id: $id
       title: $title
+      amount: $amount
       basePrice: $basePrice
       currentPrice: $currentPrice
+      gender: $gender
       instock: $instock
+      mainTag: $mainTag
+      category: $category
       description: $description
+      # preview: $preview
+      # images: $images
+      # tags: $tags
     }
   ) {
     message

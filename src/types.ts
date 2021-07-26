@@ -182,9 +182,13 @@ export enum Role {
 export type UpdateProductInput = {
   id: Scalars['ID']
   title: Scalars['String']
+  amount: Scalars['Int']
   basePrice: Scalars['Int']
   currentPrice?: Maybe<Scalars['Int']>
+  gender: Gender
   instock: Scalars['Boolean']
+  mainTag: Scalars['String']
+  category: CategoryType
   description?: Maybe<Scalars['String']>
 }
 
