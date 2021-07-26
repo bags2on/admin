@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '../../shared/Button/Button'
+import IconButton from '@material-ui/core/IconButton'
+import Icon from '@material-ui/core/SvgIcon'
 import TextInput from '../../shared/FormFields/TextInput/TextInput'
 import PhotosUpload from './PhotosUpload/PhotosUpload'
 import { createProductSchema } from '../../utils/validation/validationSchemas'
@@ -24,11 +26,16 @@ import {
 import CheckBox from '../../shared/FormFields/Checkbox/Checkbox'
 import { CategoryType, Gender } from '../../types'
 import { useLocation, useParams } from 'react-router-dom'
+import { ReactComponent as DeleteIcon } from '../../asset/svg/delete.svg'
 import routeNames from '../../utils/routeNames'
 
 const useStyles = makeStyles(() => ({
   root: {
     padding: '30px 10px 0 10px'
+  },
+  wrapper: {
+    display: 'flex',
+    alignItems: 'center'
   },
   formField: {
     maxWidth: 500,
@@ -56,6 +63,11 @@ const useStyles = makeStyles(() => ({
   },
   discountCheckbox: {
     paddingBottom: 24
+  },
+  deleteButton: {
+    // padding: 0\
+    color: 'red',
+    marginLeft: 'auto'
   },
   submitButton: {
     width: 200,
@@ -208,6 +220,10 @@ const CreateProduct: React.FC = () => {
     setSubPhotos(newFiles)
   }
 
+  const handleDeleteButtonClick = () => {
+    console.log('delete')
+  }
+
   const isPhotoExist = Boolean(mainPhoto)
 
   const getCategoryOptions = (): optionType[] => {
@@ -274,9 +290,22 @@ const CreateProduct: React.FC = () => {
                     }
                   }
                 >
-                  <FormControl className={clsx(classes.formField)}>
-                    <CheckBox name="instock" label="В наличии" disableMessage />
-                  </FormControl>
+                  <div className={classes.wrapper}>
+                    <FormControl className={clsx(classes.formField)}>
+                      <CheckBox name="instock" label="В наличии" disableMessage />
+                    </FormControl>
+                    {!isCreateMode && (
+                      <IconButton
+                        disableRipple
+                        className={classes.deleteButton}
+                        onClick={handleDeleteButtonClick}
+                      >
+                        <Icon component="span">
+                          <DeleteIcon />
+                        </Icon>
+                      </IconButton>
+                    )}
+                  </div>
                   <FormControl className={clsx(classes.formField)}>
                     <TextInput fullWidth label="Заголовок" name="title" />
                   </FormControl>
