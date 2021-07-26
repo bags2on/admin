@@ -1,6 +1,6 @@
 mutation CreateProduct(
   $title: String!
-  # $amount: Int!
+  $amount: Int!
   $basePrice: Int!
   $currentPrice: Int
   # $preview: Upload!
@@ -15,7 +15,7 @@ mutation CreateProduct(
   createProduct(
     input: {
       title: $title
-      # amount: $amount
+      amount: $amount
       basePrice: $basePrice
       currentPrice: $currentPrice
       # preview: $preview

@@ -166,7 +166,7 @@ const CreateProduct: React.FC = () => {
   const handleSubmit = (values: any) => {
     console.log(values)
 
-    const { title, basePrice, instock, gender, mainTag, category, description } = values
+    const { title, basePrice, amount, instock, gender, mainTag, category, description } = values
 
     let currentPrice = values.currentPrice
 
@@ -180,6 +180,7 @@ const CreateProduct: React.FC = () => {
       const req = createProduct({
         variables: {
           title,
+          amount,
           basePrice,
           currentPrice,
           instock,

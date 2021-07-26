@@ -69,6 +69,7 @@ export type MutationHideProductArgs = {
 
 export type NewProductInput = {
   title: Scalars['String']
+  amount: Scalars['Int']
   basePrice: Scalars['Int']
   currentPrice?: Maybe<Scalars['Int']>
   gender: Gender

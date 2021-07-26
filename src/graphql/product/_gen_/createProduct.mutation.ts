@@ -4,6 +4,7 @@ import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
 export type CreateProductMutationVariables = Types.Exact<{
   title: Types.Scalars['String']
+  amount: Types.Scalars['Int']
   basePrice: Types.Scalars['Int']
   currentPrice?: Types.Maybe<Types.Scalars['Int']>
   instock: Types.Scalars['Boolean']
@@ -24,6 +25,7 @@ export type CreateProductCreateProduct = NonNullable<CreateProductMutation['crea
 export const CreateProductDocument = gql`
   mutation CreateProduct(
     $title: String!
+    $amount: Int!
     $basePrice: Int!
     $currentPrice: Int
     $instock: Boolean!
@@ -35,6 +37,7 @@ export const CreateProductDocument = gql`
     createProduct(
       input: {
         title: $title
+        amount: $amount
         basePrice: $basePrice
         currentPrice: $currentPrice
         gender: $gender
