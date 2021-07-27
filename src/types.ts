@@ -25,6 +25,11 @@ export enum CategoryType {
   Suitcase = 'SUITCASE'
 }
 
+export type DeleteProductResponse = {
+  __typename?: 'DeleteProductResponse'
+  message: Scalars['String']
+}
+
 export enum Gender {
   Female = 'FEMALE',
   Male = 'MALE',
@@ -47,6 +52,7 @@ export type Mutation = {
   createOrder?: Maybe<OrderResponse>
   createProduct?: Maybe<NewProductResponse>
   updateProduct?: Maybe<UpdateProductResponse>
+  deleteProduct?: Maybe<DeleteProductResponse>
   hideProduct?: Maybe<HideProductResponse>
 }
 
@@ -60,6 +66,10 @@ export type MutationCreateProductArgs = {
 
 export type MutationUpdateProductArgs = {
   input?: Maybe<UpdateProductInput>
+}
+
+export type MutationDeleteProductArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationHideProductArgs = {

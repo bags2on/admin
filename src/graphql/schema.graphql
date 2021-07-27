@@ -1,4 +1,4 @@
-directive @hasRole(role: Role!) on FIELD_DEFINITION
+directive @hasRole(role: Role!) on FIELD_DEFINITION | MUTATION
 
 """
 Direct the client to resolve this field locally, either from the cache or local resolvers.
@@ -47,6 +47,10 @@ enum CategoryType {
   SUITCASE
 }
 
+type DeleteProductResponse {
+  message: String!
+}
+
 enum Gender {
   FEMALE
   MALE
@@ -67,6 +71,7 @@ type Mutation {
   createOrder(input: OrderInput): OrderResponse
   createProduct(input: NewProductInput!): NewProductResponse
   updateProduct(input: UpdateProductInput): UpdateProductResponse
+  deleteProduct(id: ID!): DeleteProductResponse
   hideProduct(id: ID!, isHidden: Boolean!): HideProductResponse
 }
 
