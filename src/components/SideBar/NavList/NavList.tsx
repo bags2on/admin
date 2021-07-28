@@ -4,16 +4,14 @@ import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
 import Typography from '@material-ui/core/Typography'
 import { NavLink } from 'react-router-dom'
-import { ReactComponent as CreateProductIcon } from '../../../asset/svg/new_product.svg'
 import { ReactComponent as ActiveOrdersIcon } from '../../../asset/svg/supplies.svg'
 import { ReactComponent as CommunicationIcon } from '../../../asset/svg/messages.svg'
-import { ReactComponent as EditIcon } from '../../../asset/svg/route_edit.svg'
+import { ReactComponent as CreateProductIcon } from '../../../asset/svg/create_product.svg'
 import { ReactComponent as StorageIcon } from '../../../asset/svg/storage.svg'
 import { ReactComponent as BannerIcon } from '../../../asset/svg/filter-picture.svg'
 import { ReactComponent as UIicon } from '../../../asset/svg/ui.svg'
 import { makeStyles } from '@material-ui/core/styles'
 import routeNames from '../../../utils/routeNames'
-import { generateLink } from '../../../utils/helpers'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,11 +67,6 @@ const navItems = [
     text: 'Создать',
     icon: CreateProductIcon,
     path: routeNames.createProduct
-  },
-  {
-    text: 'Редактировать',
-    icon: EditIcon,
-    path: generateLink(routeNames.editProduct, 'plug')
   },
   {
     text: 'Ордера',
