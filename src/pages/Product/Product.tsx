@@ -22,7 +22,7 @@ import {
   GetProductByIdDocument
 } from '../../graphql/product/_gen_/productById.query'
 import CheckBox from '../../shared/FormFields/Checkbox/Checkbox'
-import { CategoryType, Gender } from '../../types'
+import { CategoryType, Gender, MainTag } from '../../types'
 import { useLocation, useParams } from 'react-router-dom'
 import routeNames from '../../utils/routeNames'
 import DeleteProduct from './DeleteProduct/DeleteProduct'
@@ -88,8 +88,6 @@ const CreateProduct: React.FC = () => {
   const { pathname } = useLocation()
   const { id } = useParams<routeParams>()
 
-  console.log('Params id:', id)
-
   const isCreateMode = pathname === routeNames.createProduct
 
   const [initialValues, setInitialValues] = useState({
@@ -99,7 +97,7 @@ const CreateProduct: React.FC = () => {
     basePrice: '',
     currentPrice: '',
     gender: '',
-    mainTag: '',
+    mainTag: 'REGULAR',
     category: '',
     description: ''
   })
@@ -131,7 +129,6 @@ const CreateProduct: React.FC = () => {
         const { product } = data
         if (product?.__typename === 'Product') {
           setInitialValues((prev) => {
-            console.log(product.category)
             return {
               ...prev,
               instock: product.instock,
@@ -139,8 +136,8 @@ const CreateProduct: React.FC = () => {
               amount: product.amount + '',
               basePrice: product.basePrice + '',
               currentPrice: product.currentPrice + '',
-              gender: product.gender.toUpperCase(),
-              category: product.category.toUpperCase(),
+              gender: product.gender,
+              category: product.category,
               mainTag: product.mainTag,
               description: product.description
             }
@@ -224,9 +221,9 @@ const CreateProduct: React.FC = () => {
       Other: 'Другое'
     }
 
-    return Object.keys(CategoryType).map((value) => ({
-      label: labels[value],
-      value: value.toUpperCase()
+    return Object.keys(CategoryType).map((category) => ({
+      label: labels[category],
+      value: category.toUpperCase()
     }))
   }
 
@@ -240,6 +237,20 @@ const CreateProduct: React.FC = () => {
     return Object.keys(Gender).map((gender) => ({
       label: labels[gender],
       value: gender.toUpperCase()
+    }))
+  }
+
+  const getMainTagOprtions = (): optionType[] => {
+    const labels: { [name: string]: string } = {
+      Stock: 'Акция',
+      New: 'Новинка',
+      Top: 'Топ',
+      Regular: 'Обычный'
+    }
+
+    return Object.keys(MainTag).map((tag) => ({
+      label: labels[tag],
+      value: tag.toUpperCase()
     }))
   }
 
@@ -339,7 +350,13 @@ const CreateProduct: React.FC = () => {
                   <FormControl className={clsx(classes.formField)}>
                     <div className={classes.flatFormField}>
                       <p>Главный тэг:</p>
-                      <TextInput hiddenLabel name="mainTag" />
+                      <TextInput
+                        fullWidth
+                        select
+                        hiddenLabel
+                        name="mainTag"
+                        options={getMainTagOprtions()}
+                      />
                     </div>
                   </FormControl>
                   <FormControl className={clsx(classes.formField)}>
@@ -364,7 +381,7 @@ const CreateProduct: React.FC = () => {
                     disabled={!isValid}
                     className={classes.submitButton}
                   >
-                    создать
+                    {isCreateMode ? 'создать' : 'сохранить'}
                   </Button>
                 </div>
               </Grid>

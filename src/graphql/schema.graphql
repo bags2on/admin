@@ -65,6 +65,7 @@ enum MainTag {
   STOCK
   NEW
   TOP
+  REGULAR
 }
 
 type Mutation {
@@ -82,7 +83,7 @@ input NewProductInput {
   currentPrice: Int
   gender: Gender!
   instock: Boolean!
-  mainTag: String!
+  mainTag: MainTag!
   category: CategoryType!
   description: String
 }
@@ -132,7 +133,7 @@ type Product {
   preview: String!
   images: [String!]!
   tags: [String!]!
-  mainTag: String!
+  mainTag: MainTag!
   description: String!
 }
 
@@ -172,7 +173,7 @@ input UpdateProductInput {
   currentPrice: Int
   gender: Gender!
   instock: Boolean!
-  mainTag: String!
+  mainTag: MainTag!
   category: CategoryType!
   description: String
 }

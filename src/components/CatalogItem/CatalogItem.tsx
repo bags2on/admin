@@ -118,7 +118,7 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
           {title}
         </Link>
       </div>
-      {!!mainTag && (
+      {mainTag !== 'REGULAR' && (
         <div
           className={classes.tag}
           style={{

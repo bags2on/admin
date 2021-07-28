@@ -1,10 +1,10 @@
 export const getColorForMainTagName = (name: string): string => {
   switch (name) {
-    case 'new':
+    case 'NEW':
       return '#6EBE90'
-    case 'top':
+    case 'TOP':
       return '#FFC63D'
-    case 'stock':
+    case 'STOCK':
       return '#d81e1e'
     default:
       return ''

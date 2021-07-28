@@ -23,7 +23,7 @@ export type AllProductsQuery = {
       isHidden: boolean
       currentPrice: number
       basePrice: number
-      mainTag: string
+      mainTag: Types.MainTag
       preview: string
     }>
   }

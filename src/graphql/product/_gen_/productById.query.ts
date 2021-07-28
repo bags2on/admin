@@ -17,7 +17,7 @@ export type GetProductByIdQuery = {
         currentPrice: number
         gender: Types.Gender
         instock: boolean
-        mainTag: string
+        mainTag: Types.MainTag
         category: Types.CategoryType
         description: string
       }

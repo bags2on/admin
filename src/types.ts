@@ -44,7 +44,8 @@ export type HideProductResponse = {
 export enum MainTag {
   Stock = 'STOCK',
   New = 'NEW',
-  Top = 'TOP'
+  Top = 'TOP',
+  Regular = 'REGULAR'
 }
 
 export type Mutation = {
@@ -84,7 +85,7 @@ export type NewProductInput = {
   currentPrice?: Maybe<Scalars['Int']>
   gender: Gender
   instock: Scalars['Boolean']
-  mainTag: Scalars['String']
+  mainTag: MainTag
   category: CategoryType
   description?: Maybe<Scalars['String']>
 }
@@ -139,7 +140,7 @@ export type Product = {
   preview: Scalars['String']
   images: Array<Scalars['String']>
   tags: Array<Scalars['String']>
-  mainTag: Scalars['String']
+  mainTag: MainTag
   description: Scalars['String']
 }
 
@@ -197,7 +198,7 @@ export type UpdateProductInput = {
   currentPrice?: Maybe<Scalars['Int']>
   gender: Gender
   instock: Scalars['Boolean']
-  mainTag: Scalars['String']
+  mainTag: MainTag
   category: CategoryType
   description?: Maybe<Scalars['String']>
 }

@@ -8,7 +8,7 @@ mutation CreateProduct(
   # $tags: [String]
   $instock: Boolean!
   $gender: Gender!
-  $mainTag: String!
+  $mainTag: MainTag!
   $category: CategoryType!
   $description: String
 ) {
