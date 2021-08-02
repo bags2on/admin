@@ -5,15 +5,15 @@ import {
   DeleteProductMutation,
   DeleteProductVariables,
   DeleteProductDocument
-} from '../../../graphql/product/_gen_/deleteProduct.mutation'
-import Modal from '../../../shared/Modal'
-import Button from '../../../shared/Button/Button'
+} from '../../../../graphql/product/_gen_/deleteProduct.mutation'
+import Modal from '../../../../shared/Modal'
+import Button from '../../../../shared/Button/Button'
 
 import { useMutation } from '@apollo/client'
-import { ReactComponent as DeleteIcon } from '../../../asset/svg/delete.svg'
+import { ReactComponent as DeleteIcon } from '../../../../asset/svg/delete.svg'
 import { makeStyles } from '@material-ui/core/styles'
-import history from '../../../utils/history'
-import routeNames from '../../../utils/routeNames'
+import history from '../../../../utils/history'
+import routeNames from '../../../../utils/routeNames'
 
 interface DeleteProductProps {
   id: string
@@ -21,8 +21,7 @@ interface DeleteProductProps {
 
 const useStyles = makeStyles(() => ({
   root: {
-    color: 'red',
-    marginLeft: 'auto'
+    color: 'red'
   },
   modalContainer: {
     width: 500,

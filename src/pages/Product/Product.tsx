@@ -21,11 +21,16 @@ import {
   GetProductByIdVariables,
   GetProductByIdDocument
 } from '../../graphql/product/_gen_/productById.query'
+import {
+  UpdateProductMutation,
+  UpdateProductVariables,
+  UpdateProductDocument
+} from '../../graphql/product/_gen_/updateProduct.mutation'
 import CheckBox from '../../shared/FormFields/Checkbox/Checkbox'
 import { CategoryType, Gender, MainTag } from '../../types'
 import { useLocation, useParams } from 'react-router-dom'
 import routeNames from '../../utils/routeNames'
-import DeleteProduct from './DeleteProduct/DeleteProduct'
+import EditControls from './EditControls/EditControls'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -103,6 +108,8 @@ const CreateProduct: React.FC = () => {
   })
 
   const [hasDiscount, setDiscount] = useState<boolean>(false)
+  const [isHidden, setHidden] = useState<boolean>(true)
+
   const [mainPhoto, setMainPhoto] = useState<File | null>(null)
   const [subPhotos, setSubPhotos] = useState<File[]>([
     {
@@ -122,9 +129,14 @@ const CreateProduct: React.FC = () => {
     }
   )
 
+  const [updateProduct] = useMutation<UpdateProductMutation, UpdateProductVariables>(
+    UpdateProductDocument
+  )
+
   const [getProductById] = useLazyQuery<GetProductByIdQuery, GetProductByIdVariables>(
     GetProductByIdDocument,
     {
+      fetchPolicy: 'network-only',
       onCompleted: (data) => {
         const { product } = data
         if (product?.__typename === 'Product') {
@@ -139,10 +151,12 @@ const CreateProduct: React.FC = () => {
               gender: product.gender,
               category: product.category,
               mainTag: product.mainTag,
-              description: product.description
+              description: product.description,
+              isHidden: product.isHidden
             }
           })
 
+          setHidden(product.isHidden)
           setDiscount(product.basePrice !== product.currentPrice)
         } else {
           console.log(data.product)
@@ -179,20 +193,32 @@ const CreateProduct: React.FC = () => {
     const preview = mainPhoto
 
     try {
-      const req = createProduct({
-        variables: {
-          title,
-          amount,
-          basePrice,
-          currentPrice,
-          instock,
-          gender,
-          mainTag,
-          category,
-          description
-        }
-      })
-      console.log(req)
+      const data = {
+        title,
+        amount,
+        basePrice,
+        currentPrice,
+        instock,
+        gender,
+        mainTag,
+        category,
+        description
+      }
+
+      if (isCreateMode) {
+        createProduct({
+          variables: {
+            ...data
+          }
+        })
+      } else {
+        updateProduct({
+          variables: {
+            id,
+            ...data
+          }
+        })
+      }
     } catch (error) {
       console.log('error: ', error)
     }
@@ -294,7 +320,7 @@ const CreateProduct: React.FC = () => {
                     <FormControl className={clsx(classes.formField)}>
                       <CheckBox name="instock" label="В наличии" disableMessage />
                     </FormControl>
-                    {!isCreateMode && <DeleteProduct id={id} />}
+                    {!isCreateMode && <EditControls id={id} isProductHidden={isHidden} />}
                   </div>
                   <FormControl className={clsx(classes.formField)}>
                     <TextInput fullWidth label="Заголовок" name="title" />

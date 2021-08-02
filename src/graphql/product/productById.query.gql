@@ -9,6 +9,7 @@ query getProductByID($id: ID!) {
       currentPrice
       gender
       instock
+      isHidden
       mainTag
       category
       description

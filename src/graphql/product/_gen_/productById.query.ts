@@ -17,6 +17,7 @@ export type GetProductByIdQuery = {
         currentPrice: number
         gender: Types.Gender
         instock: boolean
+        isHidden: boolean
         mainTag: Types.MainTag
         category: Types.CategoryType
         description: string
@@ -50,6 +51,7 @@ export const GetProductByIdDocument = gql`
         currentPrice
         gender
         instock
+        isHidden
         mainTag
         category
         description
