@@ -65,7 +65,7 @@ const HideProduct: React.FC<HideProductProps> = ({ id, productHiddenStatus }) =>
   }, [productHiddenStatus])
 
   return (
-    <div className={classes.root}>
+    <div>
       <IconButton onClick={handleHiddenClick} disabled={loading}>
         {loading ? (
           <CircularProgress size={20} style={{ padding: 0 }} />

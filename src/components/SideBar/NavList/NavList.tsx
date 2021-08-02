@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import List from '@material-ui/core/List'
 import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
@@ -13,17 +14,19 @@ import { ReactComponent as UIicon } from '../../../asset/svg/ui.svg'
 import { makeStyles } from '@material-ui/core/styles'
 import routeNames from '../../../utils/routeNames'
 
+interface NavListProsp {
+  isExpanded: boolean
+}
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 85,
-    height: '100%',
-    borderRight: `10px solid ${theme.palette.primary.main}`,
+    width: 80,
     paddingLeft: 10,
     overflowX: 'hidden',
-    transition: 'all .2s',
-    '&:hover': {
-      width: 300
-    }
+    transition: 'all .2s'
+  },
+  rootExpanded: {
+    width: 300
   },
   drawerItem: {
     padding: '6px 0'
@@ -96,11 +99,16 @@ const navItems = [
   }
 ]
 
-const NavList: React.FC = () => {
+const NavList: React.FC<NavListProsp> = ({ isExpanded }) => {
   const classes = useStyles()
 
   return (
-    <nav className={classes.root}>
+    <nav
+      className={clsx({
+        [classes.root]: true,
+        [classes.rootExpanded]: isExpanded
+      })}
+    >
       <List component="ul" aria-label="Навигация">
         {navItems.map((item) => (
           <ListItem key={item.text} component="li" className={classes.drawerItem}>
