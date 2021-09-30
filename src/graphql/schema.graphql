@@ -135,6 +135,14 @@ type Product {
   tags: [String!]!
   mainTag: MainTag!
   description: String!
+  features: ProductFeatures!
+}
+
+type ProductFeatures {
+  material: String!
+  color: String!
+  gender: String!
+  category: String!
 }
 
 input ProductFilter {
@@ -158,6 +166,7 @@ type Query {
   allProducts(filter: ProductFilter!): ProductsResponse!
   cartProducts(input: [CartItem!]): [Product!]!
   productsByID(input: [String!]): [Product!]!
+  searchProductByName(input: String!): [Product!]!
 }
 
 enum Role {

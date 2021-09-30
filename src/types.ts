@@ -142,6 +142,15 @@ export type Product = {
   tags: Array<Scalars['String']>
   mainTag: MainTag
   description: Scalars['String']
+  features: ProductFeatures
+}
+
+export type ProductFeatures = {
+  __typename?: 'ProductFeatures'
+  material: Scalars['String']
+  color: Scalars['String']
+  gender: Scalars['String']
+  category: Scalars['String']
 }
 
 export type ProductFilter = {
@@ -167,6 +176,7 @@ export type Query = {
   allProducts: ProductsResponse
   cartProducts: Array<Product>
   productsByID: Array<Product>
+  searchProductByName: Array<Product>
 }
 
 export type QueryProductArgs = {
@@ -183,6 +193,10 @@ export type QueryCartProductsArgs = {
 
 export type QueryProductsByIdArgs = {
   input?: Maybe<Array<Scalars['String']>>
+}
+
+export type QuerySearchProductByNameArgs = {
+  input: Scalars['String']
 }
 
 export enum Role {
