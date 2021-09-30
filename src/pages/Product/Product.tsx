@@ -28,7 +28,7 @@ import MainInputs from './MainInputs'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '21px 30px 0 30px'
+    padding: '21px 30px 10px 30px'
   },
   editPlug: {
     margin: 0,
@@ -47,11 +47,6 @@ const useStyles = makeStyles((theme) => ({
 type File = {
   name?: string
   preview: string
-}
-
-type optionType = {
-  label: string
-  value: string
 }
 
 interface routeParams {
@@ -73,6 +68,8 @@ const CreateProduct: React.FC = () => {
     basePrice: '',
     currentPrice: '',
     gender: '',
+    color: '', // TOTO: add to gql
+    material: '', // TOTO: add to gql
     mainTag: 'REGULAR',
     category: '',
     description: ''
@@ -222,8 +219,8 @@ const CreateProduct: React.FC = () => {
           {({ values }) => (
             <Form>
               {/* {console.log(values)} */}
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
+              <Grid container>
+                <Grid item xs={5}>
                   <PhotosUpload
                     mainPhoto={mainPhoto}
                     onMainPhotoUpload={handleMainPhotoUpload}
@@ -231,7 +228,7 @@ const CreateProduct: React.FC = () => {
                     onSubPhotoUpload={handleSubPhotoUpload}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={7}>
                   <MainInputs
                     productId={id}
                     isEditMode={isCreateMode}

@@ -1,13 +1,14 @@
 import React from 'react'
 import clsx from 'clsx'
+import Properties from './Properties'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '../../shared/Button/Button'
 import TextInput from '../../shared/FormFields/TextInput/TextInput'
 import EditControls from './EditControls/EditControls'
 import CheckBox from '../../shared/FormFields/Checkbox/Checkbox'
 import { Checkbox, FormControlLabel } from '@material-ui/core'
-import { CategoryType, Gender, MainTag } from '../../types'
 import { useFormikContext } from 'formik'
+import { mainTagOptions } from './fieldsOptions'
 import { makeStyles } from '@material-ui/core/styles'
 
 interface MainInputsProps {
@@ -35,6 +36,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     flexWrap: 'wrap'
   },
+  titleGroup: {
+    display: 'flex'
+  },
+  priceGroup: {
+    display: 'flex'
+  },
   formField: {
     maxWidth: 500,
     display: 'block'
@@ -42,12 +49,18 @@ const useStyles = makeStyles((theme) => ({
   flatFormField: {
     display: 'flex',
     alignItems: 'center',
-
     '& > p': {
       flexBasis: '35%',
       fontSize: 18,
       padding: '0 0 24px 0'
     }
+  },
+  titleField: {
+    flexBasis: '70%',
+    marginRight: 20
+  },
+  priceField: {
+    marginRight: 20
   },
   genderField: {
     maxWidth: 300
@@ -72,11 +85,6 @@ interface FormFields {
   basePrice: string
 }
 
-type optionType = {
-  label: string
-  value: string
-}
-
 const MainInputs: React.FC<MainInputsProps> = ({
   productId,
   isEditMode,
@@ -88,48 +96,6 @@ const MainInputs: React.FC<MainInputsProps> = ({
 
   const { values, isValid, setFieldValue } = useFormikContext<FormFields>()
 
-  const getCategoryOptions = (): optionType[] => {
-    const labels: { [name: string]: string } = {
-      Bag: 'Сумка',
-      Wallet: 'Кошелек',
-      Backpack: 'Рюкзак',
-      Suitcase: 'Чемодан',
-      Other: 'Другое'
-    }
-
-    return Object.keys(CategoryType).map((category) => ({
-      label: labels[category],
-      value: category.toUpperCase()
-    }))
-  }
-
-  const getGenderOptions = (): optionType[] => {
-    const labels: { [name: string]: string } = {
-      Female: 'Женский',
-      Male: 'Мужской',
-      Unisex: 'Уни-секс'
-    }
-
-    return Object.keys(Gender).map((gender) => ({
-      label: labels[gender],
-      value: gender.toUpperCase()
-    }))
-  }
-
-  const getMainTagOprtions = (): optionType[] => {
-    const labels: { [name: string]: string } = {
-      Stock: 'Акция',
-      New: 'Новинка',
-      Top: 'Топ',
-      Regular: 'Обычный'
-    }
-
-    return Object.keys(MainTag).map((tag) => ({
-      label: labels[tag],
-      value: tag.toUpperCase()
-    }))
-  }
-
   return (
     <div>
       <div className={classes.container}>
@@ -138,66 +104,51 @@ const MainInputs: React.FC<MainInputsProps> = ({
         </FormControl>
         {!isEditMode && <EditControls id={productId} isProductHidden={isHidden} />}
       </div>
-      <FormControl className={clsx(classes.formField)}>
-        <TextInput fullWidth label="Заголовок" name="title" />
-      </FormControl>
-      <FormControl className={clsx(classes.formField)}>
-        <div className={classes.flatFormField}>
-          <p>Количество шт:</p>
-          <TextInput hiddenLabel name="amount" type="number" />
-        </div>
-      </FormControl>
-      <FormControl className={classes.formField}>
-        <div className={classes.flatFormField}>
-          <p>Цена (грн.)</p>
-          <TextInput hiddenLabel name="basePrice" type="number" />
-        </div>
-      </FormControl>
-      <div className={classes.discountWrapper}>
-        <FormControlLabel
-          className={classes.discountCheckbox}
-          label={withDiscount ? 'Убрать акцию' : 'Добавить акцию'}
-          control={
-            <Checkbox
-              checked={withDiscount}
-              onChange={(e) => {
-                setFieldValue('currentPrice', '')
-                onDiscountCheck(e.target.checked)
-              }}
-            />
-          }
-        />
-        {withDiscount && (
-          <FormControl className={clsx(classes.formField)}>
-            <TextInput
-              disabled={!!!values.basePrice}
-              label="Акционная цена (грн.)"
-              name="currentPrice"
-              type="number"
-            />
-          </FormControl>
-        )}
+      <div className={classes.titleGroup}>
+        <FormControl className={clsx(classes.formField, classes.titleField)}>
+          <TextInput fullWidth label="Наименование" name="title" />
+        </FormControl>
+        <FormControl className={clsx(classes.formField)}>
+          <TextInput label="Количество" name="amount" type="number" />
+        </FormControl>
       </div>
-      <FormControl className={clsx(classes.formField)}>
-        <div className={classes.genderField}>
-          <TextInput select label="Гендер" name="gender" fullWidth options={getGenderOptions()} />
+      <div className={classes.priceGroup}>
+        <FormControl className={clsx(classes.formField, classes.priceField)}>
+          <TextInput label="Цена" name="basePrice" type="number" />
+        </FormControl>
+        <div className={classes.discountWrapper}>
+          <FormControlLabel
+            className={classes.discountCheckbox}
+            label={withDiscount ? 'Убрать акцию' : 'Добавить акцию'}
+            control={
+              <Checkbox
+                checked={withDiscount}
+                onChange={(e) => {
+                  setFieldValue('currentPrice', '')
+                  onDiscountCheck(e.target.checked)
+                }}
+              />
+            }
+          />
+          {withDiscount && (
+            <FormControl className={clsx(classes.formField)}>
+              <TextInput
+                disabled={!!!values.basePrice}
+                label="Акционная цена"
+                name="currentPrice"
+                type="number"
+              />
+            </FormControl>
+          )}
         </div>
-      </FormControl>
+      </div>
+      {/*  */}
+      <Properties validationError={false} />
+      {/*  */}
       <FormControl className={clsx(classes.formField)}>
         <div className={classes.flatFormField}>
           <p>Главный тэг:</p>
-          <TextInput fullWidth select hiddenLabel name="mainTag" options={getMainTagOprtions()} />
-        </div>
-      </FormControl>
-      <FormControl className={clsx(classes.formField)}>
-        <div className={classes.genderField}>
-          <TextInput
-            select
-            label="Категория"
-            name="category"
-            fullWidth
-            options={getCategoryOptions()}
-          />
+          <TextInput fullWidth select hiddenLabel name="mainTag" options={mainTagOptions} />
         </div>
       </FormControl>
       <FormControl className={clsx(classes.formField)}>

@@ -19,6 +19,7 @@ interface TextInputProps {
   placeholder?: string
   autoComplete?: string
   hiddenLabel?: boolean
+  hideErrorMessage?: boolean
   options?: Array<{
     label: string
     value: string
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 const TextInput: React.FC<TextInputProps> = ({
   autoComplete = 'off',
   maxLength = 50,
+  hideErrorMessage = false,
   options,
   ...restProps
 }) => {
@@ -92,11 +94,13 @@ const TextInput: React.FC<TextInputProps> = ({
             </MenuItem>
           ))}
       </TextField>
-      <Fade in={meta.touched && !!meta.error}>
-        <Typography component="p" className={classes.message}>
-          {meta.touched && meta.error}
-        </Typography>
-      </Fade>
+      {!hideErrorMessage && (
+        <Fade in={meta.touched && !!meta.error}>
+          <Typography component="p" className={classes.message}>
+            {meta.touched && meta.error}
+          </Typography>
+        </Fade>
+      )}
     </div>
   )
 }

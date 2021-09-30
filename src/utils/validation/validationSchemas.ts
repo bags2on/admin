@@ -2,6 +2,8 @@
 import * as yup from 'yup'
 import { NumberSchema } from 'yup'
 
+const ENGLISH_ONLY_REGEX = /^[A-Za-z]+$/
+
 function lessThanOtherField(
   this: NumberSchema<number | undefined, Record<string, any>, number | undefined>,
   ref: any,
@@ -35,6 +37,11 @@ export const createProductSchema = yup.object().shape({
     .min(10, '* минимум 10 символов')
     .max(100, '* максимум 100 символов')
     .required('* обязательное поле'),
+  amount: yup
+    .number()
+    .integer('* только целочисленное')
+    .positive('* число не может быть отрицательным')
+    .required('* обязательное поле'),
   basePrice: yup
     .number()
     .positive('* число не может быть отрицательным')
@@ -48,9 +55,11 @@ export const createProductSchema = yup.object().shape({
       yup.ref('basePrice'),
       '* не может быть больше или равняться изначальной цене'
     ),
-  gender: yup.string().required('* обязательное поле'),
-  mainTag: yup.string().min(3, '* минимум 3 символа').max(100, '* максимум 100 символов'),
   category: yup.string().required('* обязательное поле'),
+  material: yup.string().required('* обязательное поле'),
+  color: yup.string().matches(ENGLISH_ONLY_REGEX, 'only english').required('* обязательное поле'),
+  gender: yup.string().required('* обязательное поле'),
+  mainTag: yup.string(),
   // .lessThan(yup.ref('price')) // js solution
   description: yup.string().trim()
 })
