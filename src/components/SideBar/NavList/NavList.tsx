@@ -48,19 +48,12 @@ const useStyles = makeStyles((theme) => ({
     width: 'inherit',
     transition: 'all .2s',
     '&:hover:not($active)': {
-      color: theme.palette.primary.main,
-      '& $icon': {
-        fill: theme.palette.primary.main
-      }
+      transform: 'scale(1.2)'
     }
   },
   active: {
-    backgroundColor: theme.palette.primary.main,
-    borderTopLeftRadius: 7,
-    borderBottomLeftRadius: 7,
-    color: '#282828',
     '& $icon': {
-      fill: '#282828'
+      fill: theme.palette.primary.main
     }
   }
 }))

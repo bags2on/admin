@@ -26,7 +26,7 @@ interface SubPhotosListProps {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: 20,
+    paddingTop: 15,
     width: 440 // TODO not the best solution
   },
   readerList: {

@@ -10,8 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
     height: '100%',
-    backgroundColor: '#313131',
-    borderRight: `10px solid ${theme.palette.primary.main}`,
+    backgroundColor: '#232323',
     overflowX: 'hidden'
   },
   expandButton: {

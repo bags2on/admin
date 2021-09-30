@@ -26,32 +26,35 @@ const useStyles = makeStyles(() => ({
     outline: 'none'
   },
   imageWrapper: {
-    border: '5px solid #e9f5f8',
+    border: '5px solid',
+    borderColor: '#afdbe6',
+    borderRadius: 4,
     width: 'inherit',
     height: 'inherit',
     transition: 'border .3s',
     '& > img': {
-      width: '100%',
-      height: '100%'
+      display: 'block',
+      maxWidth: '100%',
+      maxHeight: '100%'
     },
     '&:hover': {
-      border: '5px solid #afdbe6'
+      borderColor: '#84b9c7'
     }
   },
   dragActive: {
     '& $imageWrapper': {
-      border: '5px solid #2196f3'
+      borderColor: '#2196f3'
     }
   },
   dragAccept: {
     '& $imageWrapper': {
-      border: '5px solid #5b9066'
+      borderColor: '#5b9066'
     }
   },
   dragReject: {
     color: '#ff182e',
     '& $imageWrapper': {
-      border: '5px solid #ff182e'
+      borderColor: '#ff182e'
     }
   },
   buttonBox: {

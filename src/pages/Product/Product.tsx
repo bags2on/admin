@@ -1,16 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react'
-import clsx from 'clsx'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { Formik, Form } from 'formik'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import FormControl from '@material-ui/core/FormControl'
-import Button from '../../shared/Button/Button'
-import TextInput from '../../shared/FormFields/TextInput/TextInput'
 import PhotosUpload from './PhotosUpload/PhotosUpload'
 import { createProductSchema } from '../../utils/validation/validationSchemas'
-import { Checkbox, FormControlLabel } from '@material-ui/core'
 import {
   CreateProductMutation,
   CreateProductVariables,
@@ -26,50 +21,26 @@ import {
   UpdateProductVariables,
   UpdateProductDocument
 } from '../../graphql/product/_gen_/updateProduct.mutation'
-import CheckBox from '../../shared/FormFields/Checkbox/Checkbox'
-import { CategoryType, Gender, MainTag } from '../../types'
 import { useLocation, useParams } from 'react-router-dom'
 import routeNames from '../../utils/routeNames'
-import EditControls from './EditControls/EditControls'
 
-const useStyles = makeStyles(() => ({
+import MainInputs from './MainInputs'
+
+const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '30px 10px 0 10px'
+    padding: '21px 30px 0 30px'
   },
-  wrapper: {
-    display: 'flex',
-    alignItems: 'center'
+  editPlug: {
+    margin: 0,
+    backgroundColor: theme.palette.primary.main,
+    color: '#343434',
+    textAlign: 'center',
+    textTransform: 'uppercase'
   },
-  formField: {
-    maxWidth: 500,
-    display: 'block'
-  },
-  flatFormField: {
+  container: {
     display: 'flex',
     alignItems: 'center',
-
-    '& > p': {
-      flexBasis: '35%',
-      fontSize: 18,
-      padding: '0 0 24px 0'
-    }
-  },
-  genderField: {
-    maxWidth: 300
-  },
-  categoryField: {
-    maxWidth: 300
-  },
-  discountWrapper: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  discountCheckbox: {
-    paddingBottom: 24
-  },
-  submitButton: {
-    width: 200,
-    padding: '15px 0'
+    flexWrap: 'wrap'
   }
 }))
 
@@ -236,185 +207,44 @@ const CreateProduct: React.FC = () => {
     setSubPhotos(newFiles)
   }
 
-  const isPhotoExist = Boolean(mainPhoto)
-
-  const getCategoryOptions = (): optionType[] => {
-    const labels: { [name: string]: string } = {
-      Bag: 'Сумка',
-      Wallet: 'Кошелек',
-      Backpack: 'Рюкзак',
-      Suitcase: 'Чемодан',
-      Other: 'Другое'
-    }
-
-    return Object.keys(CategoryType).map((category) => ({
-      label: labels[category],
-      value: category.toUpperCase()
-    }))
-  }
-
-  const getGenderOptions = (): optionType[] => {
-    const labels: { [name: string]: string } = {
-      Female: 'Женский',
-      Male: 'Мужской',
-      Unisex: 'Уни-секс'
-    }
-
-    return Object.keys(Gender).map((gender) => ({
-      label: labels[gender],
-      value: gender.toUpperCase()
-    }))
-  }
-
-  const getMainTagOprtions = (): optionType[] => {
-    const labels: { [name: string]: string } = {
-      Stock: 'Акция',
-      New: 'Новинка',
-      Top: 'Топ',
-      Regular: 'Обычный'
-    }
-
-    return Object.keys(MainTag).map((tag) => ({
-      label: labels[tag],
-      value: tag.toUpperCase()
-    }))
-  }
+  // const isPhotoExist = Boolean(mainPhoto) // TODO
 
   return (
-    <div className={classes.root}>
-      <Formik
-        enableReinitialize
-        onSubmit={handleSubmit}
-        validationSchema={createProductSchema}
-        initialValues={initialValues}
-      >
-        {({ values, isValid, setFieldValue }) => (
-          <Form>
-            {/* {console.log(values)}z */}
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <div
-                  style={
-                    {
-                      // backgroundColor: '#f9f9f9'
-                    }
-                  }
-                >
+    <div>
+      {!isCreateMode && <p className={classes.editPlug}>режим редактирования</p>}
+      <div className={classes.root}>
+        <Formik
+          enableReinitialize
+          onSubmit={handleSubmit}
+          validationSchema={createProductSchema}
+          initialValues={initialValues}
+        >
+          {({ values }) => (
+            <Form>
+              {/* {console.log(values)} */}
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
                   <PhotosUpload
                     mainPhoto={mainPhoto}
                     onMainPhotoUpload={handleMainPhotoUpload}
                     subPhotos={subPhotos}
                     onSubPhotoUpload={handleSubPhotoUpload}
                   />
-                </div>
+                </Grid>
+                <Grid item xs={6}>
+                  <MainInputs
+                    productId={id}
+                    isEditMode={isCreateMode}
+                    isHidden={isHidden}
+                    withDiscount={hasDiscount}
+                    onDiscountCheck={handleDiscountCheck}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <div
-                  style={
-                    {
-                      // backgroundColor: '#b1c3D0'
-                    }
-                  }
-                >
-                  <div className={classes.wrapper}>
-                    <FormControl className={clsx(classes.formField)}>
-                      <CheckBox name="instock" label="В наличии" disableMessage />
-                    </FormControl>
-                    {!isCreateMode && <EditControls id={id} isProductHidden={isHidden} />}
-                  </div>
-                  <FormControl className={clsx(classes.formField)}>
-                    <TextInput fullWidth label="Заголовок" name="title" />
-                  </FormControl>
-                  <FormControl className={clsx(classes.formField)}>
-                    <div className={classes.flatFormField}>
-                      <p>Количество шт:</p>
-                      <TextInput hiddenLabel name="amount" type="number" />
-                    </div>
-                  </FormControl>
-                  <FormControl className={classes.formField}>
-                    <div className={classes.flatFormField}>
-                      <p>Цена (грн.)</p>
-                      <TextInput hiddenLabel name="basePrice" type="number" />
-                    </div>
-                  </FormControl>
-                  <div className={classes.discountWrapper}>
-                    <FormControlLabel
-                      className={classes.discountCheckbox}
-                      label={hasDiscount ? 'Убрать акцию' : 'Добавить акцию'}
-                      control={
-                        <Checkbox
-                          checked={hasDiscount}
-                          onChange={(e) => {
-                            setFieldValue('currentPrice', '')
-                            handleDiscountCheck(e.target.checked)
-                          }}
-                        />
-                      }
-                    />
-                    {hasDiscount && (
-                      <FormControl className={clsx(classes.formField)}>
-                        <TextInput
-                          disabled={!!!values.basePrice}
-                          label="Акционная цена (грн.)"
-                          name="currentPrice"
-                          type="number"
-                        />
-                      </FormControl>
-                    )}
-                  </div>
-                  <FormControl className={clsx(classes.formField)}>
-                    <div className={classes.genderField}>
-                      <TextInput
-                        select
-                        label="Гендер"
-                        name="gender"
-                        fullWidth
-                        options={getGenderOptions()}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormControl className={clsx(classes.formField)}>
-                    <div className={classes.flatFormField}>
-                      <p>Главный тэг:</p>
-                      <TextInput
-                        fullWidth
-                        select
-                        hiddenLabel
-                        name="mainTag"
-                        options={getMainTagOprtions()}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormControl className={clsx(classes.formField)}>
-                    <div className={classes.genderField}>
-                      <TextInput
-                        select
-                        label="Категория"
-                        name="category"
-                        fullWidth
-                        options={getCategoryOptions()}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormControl className={clsx(classes.formField)}>
-                    <TextInput label="Описание" name="description" fullWidth multiline rows={5} />
-                  </FormControl>
-                  <Button
-                    type="submit"
-                    disableShadow
-                    color="secondary"
-                    // disabled={!isPhotoExist || !isPhotoExist || !isValid}
-                    disabled={!isValid}
-                    className={classes.submitButton}
-                  >
-                    {isCreateMode ? 'создать' : 'сохранить'}
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
-          </Form>
-        )}
-      </Formik>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   )
 }

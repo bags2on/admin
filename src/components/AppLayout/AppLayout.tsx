@@ -13,15 +13,8 @@ const useStyles = makeStyles(() => ({
   },
   content: {
     width: '100%',
-    padding: '20px 20px 10px 20px',
-    backgroundColor: '#232323'
-  },
-  pageWrapper: {
-    padding: '10px 30px 0 30px',
-    backgroundColor: '#313131',
-    borderRadius: 10,
-    height: '100%',
-    overflowY: 'auto'
+    overflowY: 'auto',
+    backgroundColor: '#313131'
   }
 }))
 
@@ -32,9 +25,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     <div className={classes.root}>
       {/* {isAuthenticated && <Sidebar menuLinks={getSidebarLinks(userRole)} />} */}
       <SideBar />
-      <main className={classes.content}>
-        <div className={classes.pageWrapper}>{children}</div>
-      </main>
+      <main className={classes.content}>{children}</main>
       {/* <MessageSnackBar message={message} onClear={onClearMessage} /> */}
     </div>
   )
