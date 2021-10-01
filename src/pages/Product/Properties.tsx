@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
   list: {
     display: 'flex',
     flexWrap: 'wrap',
-    padding: '10px 10px 15px 15px',
+    padding: '10px 10px 15px 10px',
     margin: '10px 0px 5px 0px',
     listStyle: 'none',
     borderRadius: 10,
@@ -29,14 +29,14 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    flexBasis: '25%',
+    flexBasis: '50%',
     fontSize: 15,
     padding: '0 10px',
     marginBottom: 10
   },
   itemIcon: {
     width: 45,
-    marginRight: 10,
+    marginRight: 15,
     paddingTop: 22,
     '& svg': {
       fill: '#c0c0c0'
