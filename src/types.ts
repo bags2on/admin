@@ -87,6 +87,7 @@ export type NewProductInput = {
   instock: Scalars['Boolean']
   mainTag: MainTag
   category: CategoryType
+  features: ProductFeaturesInput
   description?: Maybe<Scalars['String']>
 }
 
@@ -149,8 +150,15 @@ export type ProductFeatures = {
   __typename?: 'ProductFeatures'
   material: Scalars['String']
   color: Scalars['String']
-  gender: Scalars['String']
-  category: Scalars['String']
+  gender: Gender
+  category: CategoryType
+}
+
+export type ProductFeaturesInput = {
+  material: Scalars['String']
+  color: Scalars['String']
+  gender: Gender
+  category: CategoryType
 }
 
 export type ProductFilter = {

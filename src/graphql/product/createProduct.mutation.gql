@@ -10,6 +10,7 @@ mutation CreateProduct(
   $gender: Gender!
   $mainTag: MainTag!
   $category: CategoryType!
+  $features: ProductFeaturesInput!
   $description: String
 ) {
   createProduct(
@@ -25,6 +26,7 @@ mutation CreateProduct(
       instock: $instock
       mainTag: $mainTag
       category: $category
+      features: $features
       description: $description
     }
   ) {

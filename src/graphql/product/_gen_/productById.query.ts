@@ -21,6 +21,13 @@ export type GetProductByIdQuery = {
         mainTag: Types.MainTag
         category: Types.CategoryType
         description: string
+        features: {
+          __typename?: 'ProductFeatures'
+          material: string
+          color: string
+          gender: Types.Gender
+          category: Types.CategoryType
+        }
       }
     | { __typename: 'NotFound'; message: string }
   >
@@ -33,6 +40,12 @@ export type GetProductByIdProduct = NonNullable<GetProductByIdQuery['product']>
 export type GetProductByIdProductInlineFragment = DiscriminateUnion<
   NonNullable<GetProductByIdQuery['product']>,
   { __typename?: 'Product' }
+>
+export type GetProductByIdFeatures = NonNullable<
+  DiscriminateUnion<
+    NonNullable<GetProductByIdQuery['product']>,
+    { __typename?: 'Product' }
+  >['features']
 >
 export type GetProductByIdNotFoundInlineFragment = DiscriminateUnion<
   NonNullable<GetProductByIdQuery['product']>,
@@ -55,6 +68,12 @@ export const GetProductByIdDocument = gql`
         mainTag
         category
         description
+        features {
+          material
+          color
+          gender
+          category
+        }
       }
       ... on NotFound {
         message

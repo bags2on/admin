@@ -16,6 +16,12 @@ query getProductByID($id: ID!) {
       # preview: $preview
       # images: $images
       # tags: $tags
+      features {
+        material
+        color
+        gender
+        category
+      }
     }
     ... on NotFound {
       message

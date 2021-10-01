@@ -118,6 +118,8 @@ const CreateProduct: React.FC = () => {
               currentPrice: product.currentPrice + '',
               gender: product.gender,
               category: product.category,
+              material: product.features.material,
+              color: product.features.color,
               mainTag: product.mainTag,
               description: product.description,
               isHidden: product.isHidden
@@ -150,7 +152,18 @@ const CreateProduct: React.FC = () => {
   const handleSubmit = (values: any) => {
     console.log(values)
 
-    const { title, basePrice, amount, instock, gender, mainTag, category, description } = values
+    const {
+      title,
+      basePrice,
+      amount,
+      instock,
+      gender,
+      mainTag,
+      color,
+      material,
+      category,
+      description
+    } = values
 
     let currentPrice = values.currentPrice
 
@@ -170,7 +183,13 @@ const CreateProduct: React.FC = () => {
         gender,
         mainTag,
         category,
-        description
+        description,
+        features: {
+          category,
+          material,
+          color,
+          gender
+        }
       }
 
       if (isCreateMode) {

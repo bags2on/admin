@@ -85,6 +85,7 @@ input NewProductInput {
   instock: Boolean!
   mainTag: MainTag!
   category: CategoryType!
+  features: ProductFeaturesInput!
   description: String
 }
 
@@ -141,8 +142,15 @@ type Product {
 type ProductFeatures {
   material: String!
   color: String!
-  gender: String!
-  category: String!
+  gender: Gender!
+  category: CategoryType!
+}
+
+input ProductFeaturesInput {
+  material: String!
+  color: String!
+  gender: Gender!
+  category: CategoryType!
 }
 
 input ProductFilter {
