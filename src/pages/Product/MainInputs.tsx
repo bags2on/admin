@@ -83,6 +83,10 @@ const useStyles = makeStyles((theme) => ({
 
 interface FormFields {
   basePrice: string
+  category: string
+  material: string
+  color: string
+  gender: string
 }
 
 const MainInputs: React.FC<MainInputsProps> = ({
@@ -94,7 +98,7 @@ const MainInputs: React.FC<MainInputsProps> = ({
 }) => {
   const classes = useStyles()
 
-  const { values, isValid, setFieldValue } = useFormikContext<FormFields>()
+  const { values, setFieldValue } = useFormikContext<FormFields>()
 
   return (
     <div>
@@ -143,7 +147,7 @@ const MainInputs: React.FC<MainInputsProps> = ({
         </div>
       </div>
       {/*  */}
-      <Properties validationError={false} />
+      <Properties />
       {/*  */}
       <FormControl className={clsx(classes.formField)}>
         <div className={classes.flatFormField}>
@@ -159,7 +163,6 @@ const MainInputs: React.FC<MainInputsProps> = ({
         disableShadow
         color="secondary"
         // disabled={!isPhotoExist || !isPhotoExist || !isValid}
-        disabled={!isValid}
         className={classes.submitButton}
       >
         {isEditMode ? 'создать' : 'сохранить'}

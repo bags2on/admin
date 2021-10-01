@@ -55,10 +55,13 @@ export const createProductSchema = yup.object().shape({
       yup.ref('basePrice'),
       '* не может быть больше или равняться изначальной цене'
     ),
-  category: yup.string().required('* обязательное поле'),
-  material: yup.string().required('* обязательное поле'),
-  color: yup.string().matches(ENGLISH_ONLY_REGEX, 'only english').required('* обязательное поле'),
-  gender: yup.string().required('* обязательное поле'),
+  category: yup.string().required('* категория обязательное поле'),
+  material: yup.string().required('* материал обязательное поле'),
+  color: yup
+    .string()
+    .matches(ENGLISH_ONLY_REGEX, '* только английские буквы')
+    .required('* цвет обязательное поле'),
+  gender: yup.string().required('* гендер обязательное поле'),
   mainTag: yup.string(),
   // .lessThan(yup.ref('price')) // js solution
   description: yup.string().trim()

@@ -1,15 +1,13 @@
 import React from 'react'
+import Fade from '@material-ui/core/Fade'
 import TextInput from '../../shared/FormFields/TextInput/TextInput'
+import { useField } from 'formik'
 import { ReactComponent as MaterialIcon } from '../../asset/svg/icons/product-material.svg'
 import { ReactComponent as ColorIcon } from '../../asset/svg/icons/product-color.svg'
 import { ReactComponent as GenderIcon } from '../../asset/svg/icons/product-gender.svg'
 import { ReactComponent as CategoryIcon } from '../../asset/svg/icons/product-category.svg'
 import { materialOptions, genderOptions, categoryOptions } from './fieldsOptions'
 import { makeStyles } from '@material-ui/core'
-
-interface PropertiesProps {
-  validationError: boolean
-}
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -19,7 +17,8 @@ const useStyles = makeStyles(() => ({
   list: {
     display: 'flex',
     flexWrap: 'wrap',
-    padding: '10px 0',
+    padding: '10px 10px 15px 15px',
+    margin: '10px 0px 5px 0px',
     listStyle: 'none',
     borderRadius: 10,
     boxShadow: '0px 1px 9px -1px rgba(0, 0, 0, 0.1)',
@@ -55,11 +54,29 @@ const useStyles = makeStyles(() => ({
     '& span': {
       fontSize: 16
     }
+  },
+  errorMessage: {
+    margin: 0,
+    fontSize: 16,
+    height: 23,
+    color: '#ff182e',
+    paddingLeft: 20
   }
 }))
 
-const Properties: React.FC<PropertiesProps> = () => {
+const Properties: React.FC = () => {
   const classes = useStyles()
+
+  const [_a, categoryMeta] = useField('category')
+  const [_b, materialMeta] = useField('material')
+  const [_c, colorMeta] = useField('color')
+  const [_d, genderMeta] = useField('gender')
+
+  const validationError =
+    (categoryMeta.touched && categoryMeta.error) ||
+    (materialMeta.touched && materialMeta.error) ||
+    (colorMeta.touched && colorMeta.error) ||
+    (genderMeta.touched && genderMeta.error)
 
   return (
     <div>
@@ -123,6 +140,9 @@ const Properties: React.FC<PropertiesProps> = () => {
           </div>
         </li>
       </ul>
+      <Fade in={!!validationError}>
+        <p className={classes.errorMessage}>{validationError}</p>
+      </Fade>
     </div>
   )
 }
