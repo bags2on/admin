@@ -75,8 +75,8 @@ const CreateProduct: React.FC = () => {
     basePrice: '',
     currentPrice: '',
     gender: '',
-    color: '', // TOTO: add to gql
-    material: '', // TOTO: add to gql
+    color: '',
+    material: '',
     mainTag: 'REGULAR',
     category: '',
     description: ''
@@ -133,6 +133,9 @@ const CreateProduct: React.FC = () => {
             }
           })
 
+          setMainPhoto({
+            preview: product.preview
+          })
           setHidden(product.isHidden)
           setDiscount(product.basePrice !== product.currentPrice)
         } else {

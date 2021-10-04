@@ -13,7 +13,7 @@ query getProductByID($id: ID!) {
       mainTag
       category
       description
-      # preview: $preview
+      preview
       # images: $images
       # tags: $tags
       features {

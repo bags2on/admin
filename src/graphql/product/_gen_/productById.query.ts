@@ -21,6 +21,7 @@ export type GetProductByIdQuery = {
         mainTag: Types.MainTag
         category: Types.CategoryType
         description: string
+        preview: string
         features: {
           __typename?: 'ProductFeatures'
           material: string
@@ -68,6 +69,7 @@ export const GetProductByIdDocument = gql`
         mainTag
         category
         description
+        preview
         features {
           material
           color

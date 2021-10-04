@@ -88,6 +88,8 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({
   const classes = useStyles()
 
   const handleFileDrop = (acceptedFiles: globalThis.File[]) => {
+    if (mainPhoto) URL.revokeObjectURL(mainPhoto.preview)
+
     if (acceptedFiles.length) {
       const uploaded: unknown = acceptedFiles[0] // Type assertions
       const file: File = uploaded as File
