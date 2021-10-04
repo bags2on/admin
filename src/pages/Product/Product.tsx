@@ -7,6 +7,7 @@ import Fallback from '../../components/Fallback/Fallback'
 import MainInputs from './MainInputs'
 import PhotosUpload from './PhotosUpload/PhotosUpload'
 import { useLazyQuery, useMutation } from '@apollo/client'
+import { UiMutations } from '../../apollo/cache/mutations'
 import { Formik, Form } from 'formik'
 import { makeStyles } from '@material-ui/core/styles'
 import { createProductSchema } from '../../utils/validation/validationSchemas'
@@ -159,7 +160,7 @@ const CreateProduct: React.FC = () => {
   }, [])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     console.log(values)
 
     const {
@@ -203,13 +204,17 @@ const CreateProduct: React.FC = () => {
       }
 
       if (isCreateMode) {
-        createProduct({
+        await createProduct({
           variables: {
             ...data
           }
         })
+        UiMutations.openSnackbar({
+          message: 'Продукт успешно создан',
+          type: 'success'
+        })
       } else {
-        updateProduct({
+        await updateProduct({
           variables: {
             id,
             ...data
@@ -217,7 +222,10 @@ const CreateProduct: React.FC = () => {
         })
       }
     } catch (error) {
-      console.log('error: ', error)
+      UiMutations.openSnackbar({
+        message: 'Ошибка создания продукта',
+        type: 'error'
+      })
     }
   }
 

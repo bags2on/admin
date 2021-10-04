@@ -1,5 +1,27 @@
-import { InMemoryCache } from '@apollo/client'
+import { InMemoryCache, makeVar } from '@apollo/client'
 
-const cache: InMemoryCache = new InMemoryCache()
+interface snackbarMessage {
+  type: 'error' | 'success'
+  message: string
+}
+
+export const snackbarMessageVar = makeVar<snackbarMessage>({
+  type: 'success',
+  message: ''
+})
+
+const cache: InMemoryCache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        snackbarMessage: {
+          read(): snackbarMessage {
+            return snackbarMessageVar()
+          }
+        }
+      }
+    }
+  }
+})
 
 export { cache }
