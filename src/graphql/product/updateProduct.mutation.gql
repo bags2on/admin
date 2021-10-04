@@ -11,6 +11,7 @@ mutation updateProduct(
   # $preview: Upload!
   # $images: [String]
   # $tags: [String]
+  $features: ProductFeaturesInput!
   $description: String
 ) {
   updateProduct(
@@ -24,6 +25,7 @@ mutation updateProduct(
       instock: $instock
       mainTag: $mainTag
       category: $category
+      features: $features
       description: $description
       # preview: $preview
       # images: $images

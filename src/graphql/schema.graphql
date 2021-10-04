@@ -193,6 +193,7 @@ input UpdateProductInput {
   mainTag: MainTag!
   category: CategoryType!
   description: String
+  features: ProductFeaturesInput!
 }
 
 type UpdateProductResponse {

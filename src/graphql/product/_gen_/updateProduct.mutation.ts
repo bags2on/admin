@@ -12,6 +12,7 @@ export type UpdateProductMutationVariables = Types.Exact<{
   gender: Types.Gender
   mainTag: Types.MainTag
   category: Types.CategoryType
+  features: Types.ProductFeaturesInput
   description?: Types.Maybe<Types.Scalars['String']>
 }>
 
@@ -34,6 +35,7 @@ export const UpdateProductDocument = gql`
     $gender: Gender!
     $mainTag: MainTag!
     $category: CategoryType!
+    $features: ProductFeaturesInput!
     $description: String
   ) {
     updateProduct(
@@ -47,6 +49,7 @@ export const UpdateProductDocument = gql`
         instock: $instock
         mainTag: $mainTag
         category: $category
+        features: $features
         description: $description
       }
     ) {

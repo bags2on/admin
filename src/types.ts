@@ -223,6 +223,7 @@ export type UpdateProductInput = {
   mainTag: MainTag
   category: CategoryType
   description?: Maybe<Scalars['String']>
+  features: ProductFeaturesInput
 }
 
 export type UpdateProductResponse = {
