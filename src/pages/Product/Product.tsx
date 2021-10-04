@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
+import Grid from '@material-ui/core/Grid'
+import routeNames from '../../utils/routeNames'
+import Fallback from '../../components/Fallback/Fallback'
+import MainInputs from './MainInputs'
+import PhotosUpload from './PhotosUpload/PhotosUpload'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { Formik, Form } from 'formik'
 import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import PhotosUpload from './PhotosUpload/PhotosUpload'
 import { createProductSchema } from '../../utils/validation/validationSchemas'
 import {
   CreateProductMutation,
@@ -23,9 +26,6 @@ import {
   UpdateProductDocument
 } from '../../graphql/product/_gen_/updateProduct.mutation'
 import { useLocation, useParams } from 'react-router-dom'
-import routeNames from '../../utils/routeNames'
-
-import MainInputs from './MainInputs'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,7 +108,7 @@ const CreateProduct: React.FC = () => {
     UpdateProductDocument
   )
 
-  const [getProductById] = useLazyQuery<GetProductByIdQuery, GetProductByIdVariables>(
+  const [getProductById, { loading }] = useLazyQuery<GetProductByIdQuery, GetProductByIdVariables>(
     GetProductByIdDocument,
     {
       fetchPolicy: 'network-only',
@@ -234,6 +234,10 @@ const CreateProduct: React.FC = () => {
   }
 
   // const isPhotoExist = Boolean(mainPhoto) // TODO
+
+  if (loading) {
+    return <Fallback />
+  }
 
   return (
     <div style={{ position: 'relative' }}>
