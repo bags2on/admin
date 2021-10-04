@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react'
+import clsx from 'clsx'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { Formik, Form } from 'formik'
 import { makeStyles } from '@material-ui/core/styles'
@@ -30,12 +31,18 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: '21px 30px 10px 30px'
   },
+  rootEdit: {
+    paddingTop: 40
+  },
   editPlug: {
     margin: 0,
     backgroundColor: theme.palette.primary.main,
     color: '#343434',
     textAlign: 'center',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    position: 'fixed',
+    width: '100%',
+    zIndex: 100
   },
   container: {
     display: 'flex',
@@ -226,9 +233,14 @@ const CreateProduct: React.FC = () => {
   // const isPhotoExist = Boolean(mainPhoto) // TODO
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
       {!isCreateMode && <p className={classes.editPlug}>режим редактирования</p>}
-      <div className={classes.root}>
+      <div
+        className={clsx({
+          [classes.root]: true,
+          [classes.rootEdit]: !isCreateMode
+        })}
+      >
         <Formik
           enableReinitialize
           onSubmit={handleSubmit}
