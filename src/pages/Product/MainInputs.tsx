@@ -2,7 +2,6 @@ import React from 'react'
 import clsx from 'clsx'
 import Properties from './Properties'
 import FormControl from '@material-ui/core/FormControl'
-import Button from '../../shared/Button/Button'
 import TextInput from '../../shared/FormFields/TextInput/TextInput'
 import EditControls from './EditControls/EditControls'
 import CheckBox from '../../shared/FormFields/Checkbox/Checkbox'
@@ -19,18 +18,7 @@ interface MainInputsProps {
   onDiscountCheck(check: boolean): void
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  mainWrapper: {
-    padding: '21px 30px 0 30px'
-  },
-  editPlug: {
-    margin: 0,
-    backgroundColor: theme.palette.primary.main,
-    color: '#343434',
-    textAlign: 'center',
-    textTransform: 'uppercase'
-  },
+const useStyles = makeStyles(() => ({
   container: {
     display: 'flex',
     alignItems: 'center',
@@ -62,22 +50,12 @@ const useStyles = makeStyles((theme) => ({
   priceField: {
     marginRight: 20
   },
-  genderField: {
-    maxWidth: 300
-  },
-  categoryField: {
-    maxWidth: 300
-  },
   discountWrapper: {
     display: 'flex',
     alignItems: 'center'
   },
   discountCheckbox: {
     paddingBottom: 24
-  },
-  submitButton: {
-    width: 200,
-    padding: '15px 0'
   }
 }))
 
@@ -158,15 +136,6 @@ const MainInputs: React.FC<MainInputsProps> = ({
       <FormControl className={clsx(classes.formField)}>
         <TextInput label="Описание" name="description" fullWidth multiline rows={5} />
       </FormControl>
-      <Button
-        type="submit"
-        disableShadow
-        color="secondary"
-        // disabled={!isPhotoExist || !isPhotoExist || !isValid}
-        className={classes.submitButton}
-      >
-        {isEditMode ? 'создать' : 'сохранить'}
-      </Button>
     </div>
   )
 }

@@ -41,8 +41,20 @@ const UI: React.FC = () => {
               <TextInput label="Label" name="price" type="number" />
               <h4>Button</h4>
               <Button>send message</Button>
-              <p>button with loading</p>
+              <p>button with loading - main</p>
               <Button loading>send message</Button>
+              <p>button with loading - main [disabled]</p>
+              <Button disabled loading>
+                send message
+              </Button>
+              <p>button with loading - secondary</p>
+              <Button color="secondary" loading>
+                send
+              </Button>
+              <p>button with loading - secondary [disabled]</p>
+              <Button disabled color="secondary" loading>
+                send
+              </Button>
               <p>light button</p>
               <Button color="secondary" disableShadow>
                 send message

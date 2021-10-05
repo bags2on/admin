@@ -40,16 +40,19 @@ const useStyles = makeStyles((theme) => ({
   },
   main: {
     background: '#363636',
-    '&:hover': {
+    '&:hover:not(:disabled)': {
       background: '#323232'
+    },
+    '&:disabled': {
+      pointerEvents: 'initial',
+      cursor: 'not-allowed'
     }
   },
   secondary: {
     background: theme.palette.secondary.main,
     color: '#343434',
     '&:hover:not(:disabled)': {
-      background: '#343434',
-      color: theme.palette.secondary.main
+      background: '#fff233'
     },
     '&:disabled': {
       pointerEvents: 'initial',
@@ -76,7 +79,7 @@ const Button: React.FC<BottonProps> = ({
   return (
     <MaterialButton className={clsx(classes[color], classes.root, className)} {...otherProps}>
       {loading ? (
-        <ScaleLoader dark={darkLoader} />
+        <ScaleLoader dark={color !== 'main'} />
       ) : (
         <span className={classes.text}>{children}</span>
       )}

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import Grid from '@material-ui/core/Grid'
+import Button from '../../shared/Button/Button'
 import routeNames from '../../utils/routeNames'
 import Fallback from '../../components/Fallback/Fallback'
 import MainInputs from './MainInputs'
@@ -49,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap'
+  },
+  submitButton: {
+    width: 200,
+    padding: '15px 0'
   }
 }))
 
@@ -71,15 +76,15 @@ const CreateProduct: React.FC = () => {
 
   const [initialValues, setInitialValues] = useState({
     instock: true,
-    title: 'jsdjbsjdhbhsbdfh',
-    amount: '12',
-    basePrice: '12',
-    currentPrice: '12',
-    gender: 'MALE',
-    color: 'green',
-    material: 'plastic',
+    title: '',
+    amount: '',
+    basePrice: '',
+    currentPrice: '',
+    gender: '',
+    color: '',
+    material: '',
     mainTag: 'REGULAR',
-    category: 'BACKPACK',
+    category: '',
     description: ''
   })
 
@@ -99,11 +104,7 @@ const CreateProduct: React.FC = () => {
   const [createProduct, createProductMeta] = useMutation<
     CreateProductMutation,
     CreateProductVariables
-  >(CreateProductDocument, {
-    onCompleted: (data) => {
-      console.log(data.createProduct?.id)
-    }
-  })
+  >(CreateProductDocument)
 
   const [updateProduct, updateProductMeta] = useMutation<
     UpdateProductMutation,
@@ -229,8 +230,6 @@ const CreateProduct: React.FC = () => {
         })
       }
     } catch (error) {
-      console.log(error)
-
       const e = isCreateMode ? 'создания' : 'обновления'
 
       UiMutations.openSnackbar({
@@ -275,7 +274,7 @@ const CreateProduct: React.FC = () => {
         >
           {({ values }) => (
             <Form>
-              {/* {console.log(values)} */}
+              {console.log(values)}
               <Grid container>
                 <Grid item xs={5}>
                   <PhotosUpload
@@ -295,6 +294,16 @@ const CreateProduct: React.FC = () => {
                   />
                 </Grid>
               </Grid>
+              <Button
+                type="submit"
+                disableShadow
+                color="secondary"
+                loading={createProductMeta.loading || updateProductMeta.loading}
+                disabled={createProductMeta.loading || updateProductMeta.loading} // isPhotoExist
+                className={classes.submitButton}
+              >
+                {isCreateMode ? 'создать' : 'сохранить'}
+              </Button>
             </Form>
           )}
         </Formik>
