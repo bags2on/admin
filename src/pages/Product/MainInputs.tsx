@@ -22,10 +22,14 @@ const useStyles = makeStyles(() => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginBottom: 10
   },
   titleGroup: {
     display: 'flex'
+  },
+  amountField: {
+    flexBasis: '30%'
   },
   priceGroup: {
     display: 'flex'
@@ -45,7 +49,8 @@ const useStyles = makeStyles(() => ({
   },
   titleField: {
     flexBasis: '70%',
-    marginRight: 20
+    marginRight: 20,
+    maxWidth: 'initial'
   },
   priceField: {
     marginRight: 20
@@ -90,8 +95,8 @@ const MainInputs: React.FC<MainInputsProps> = ({
         <FormControl className={clsx(classes.formField, classes.titleField)}>
           <TextInput fullWidth label="Наименование" name="title" />
         </FormControl>
-        <FormControl className={clsx(classes.formField)}>
-          <TextInput label="Количество" name="amount" type="number" />
+        <FormControl className={clsx(classes.formField, classes.amountField)}>
+          <TextInput fullWidth label="Количество" name="amount" type="number" />
         </FormControl>
       </div>
       <div className={classes.priceGroup}>
