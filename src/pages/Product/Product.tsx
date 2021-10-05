@@ -71,15 +71,15 @@ const CreateProduct: React.FC = () => {
 
   const [initialValues, setInitialValues] = useState({
     instock: true,
-    title: '',
-    amount: '',
-    basePrice: '',
-    currentPrice: '',
-    gender: '',
-    color: '',
-    material: '',
+    title: 'jsdjbsjdhbhsbdfh',
+    amount: '12',
+    basePrice: '12',
+    currentPrice: '12',
+    gender: 'MALE',
+    color: 'green',
+    material: 'plastic',
     mainTag: 'REGULAR',
-    category: '',
+    category: 'BACKPACK',
     description: ''
   })
 
@@ -96,18 +96,19 @@ const CreateProduct: React.FC = () => {
     }
   ])
 
-  const [createProduct] = useMutation<CreateProductMutation, CreateProductVariables>(
-    CreateProductDocument,
-    {
-      onCompleted: (data) => {
-        console.log(data.createProduct?.id)
-      }
+  const [createProduct, createProductMeta] = useMutation<
+    CreateProductMutation,
+    CreateProductVariables
+  >(CreateProductDocument, {
+    onCompleted: (data) => {
+      console.log(data.createProduct?.id)
     }
-  )
+  })
 
-  const [updateProduct] = useMutation<UpdateProductMutation, UpdateProductVariables>(
-    UpdateProductDocument
-  )
+  const [updateProduct, updateProductMeta] = useMutation<
+    UpdateProductMutation,
+    UpdateProductVariables
+  >(UpdateProductDocument)
 
   const [getProductById, { loading }] = useLazyQuery<GetProductByIdQuery, GetProductByIdVariables>(
     GetProductByIdDocument,
@@ -209,6 +210,7 @@ const CreateProduct: React.FC = () => {
             ...data
           }
         })
+
         UiMutations.openSnackbar({
           message: 'Продукт успешно создан',
           type: 'success'
@@ -220,10 +222,19 @@ const CreateProduct: React.FC = () => {
             ...data
           }
         })
+
+        UiMutations.openSnackbar({
+          message: 'Продукт успешно обновлен',
+          type: 'success'
+        })
       }
     } catch (error) {
+      console.log(error)
+
+      const e = isCreateMode ? 'создания' : 'обновления'
+
       UiMutations.openSnackbar({
-        message: 'Ошибка создания продукта',
+        message: `Ошибка ${e} продукта: ${(error as Error).message}`,
         type: 'error'
       })
     }
