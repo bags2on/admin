@@ -2,11 +2,11 @@ import { ApolloClient } from '@apollo/client'
 import { cache } from './cache/cache'
 
 // const API_URL = 'https://api.bags2on.com.ua/graphql'
-const API_URL = process.env.REACT_APP_API_GRAPHQL
+const GRAPHQL_URL = process.env.REACT_APP_API_URL + 'graphql'
 const withDevTools = process.env.NODE_ENV === 'development'
 
 const client = new ApolloClient({
-  uri: API_URL,
+  uri: GRAPHQL_URL,
   cache,
   connectToDevTools: withDevTools,
   headers: {
