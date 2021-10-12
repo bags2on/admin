@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { ApolloProvider } from '@apollo/client'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
+import { EventsProvider } from '@sse-lib/react-sse'
 import { Router } from 'react-router-dom'
 import theme from './utils/theme'
 import history from './utils/history'
@@ -9,13 +10,17 @@ import client from './apollo/apollo'
 import App from './App'
 // import reportWebVitals from './reportWebVitals'
 
+const SSE_URL = process.env.REACT_APP_API_URL + 'sse'
+
 const Application: React.FC = () => {
   return (
     <Router history={history}>
       <ThemeProvider theme={theme}>
         <ApolloProvider client={client}>
-          <CssBaseline />
-          <App />
+          <EventsProvider url={SSE_URL}>
+            <CssBaseline />
+            <App />
+          </EventsProvider>
         </ApolloProvider>
       </ThemeProvider>
     </Router>
