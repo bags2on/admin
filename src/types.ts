@@ -9,6 +9,7 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
+  Date: any
   Upload: any
 }
 
@@ -50,7 +51,7 @@ export enum MainTag {
 
 export type Mutation = {
   __typename?: 'Mutation'
-  createOrder?: Maybe<OrderResponse>
+  createOrder?: Maybe<NewOrderResponse>
   createProduct?: Maybe<NewProductResponse>
   updateProduct?: Maybe<UpdateProductResponse>
   deleteProduct?: Maybe<DeleteProductResponse>
@@ -58,7 +59,7 @@ export type Mutation = {
 }
 
 export type MutationCreateOrderArgs = {
-  input?: Maybe<OrderInput>
+  input?: Maybe<NewOrderInput>
 }
 
 export type MutationCreateProductArgs = {
@@ -76,6 +77,21 @@ export type MutationDeleteProductArgs = {
 export type MutationHideProductArgs = {
   id: Scalars['ID']
   isHidden: Scalars['Boolean']
+}
+
+export type NewOrderInput = {
+  name: Scalars['String']
+  surname: Scalars['String']
+  email: Scalars['String']
+  phone: Scalars['String']
+  cityId: Scalars['String']
+  postOfficeId: Scalars['String']
+  cartItems: Array<CartItem>
+}
+
+export type NewOrderResponse = {
+  __typename?: 'NewOrderResponse'
+  message: Scalars['String']
 }
 
 export type NewProductInput = {
@@ -101,19 +117,15 @@ export type NotFound = {
   message: Scalars['String']
 }
 
-export type OrderInput = {
-  name: Scalars['String']
-  surname: Scalars['String']
-  email: Scalars['String']
-  phone: Scalars['String']
-  cityId: Scalars['String']
-  postOfficeId: Scalars['String']
-  cartItems: Array<CartItem>
+export type Order = {
+  __typename?: 'Order'
+  id: Scalars['ID']
+  status: Scalars['String']
+  createdAt: Scalars['Date']
 }
 
-export type OrderResponse = {
-  __typename?: 'OrderResponse'
-  message: Scalars['String']
+export type OrderFilter = {
+  status: Scalars['String']
 }
 
 export type PriceRange = {
@@ -180,11 +192,16 @@ export type ProductsResponse = {
 
 export type Query = {
   __typename?: 'Query'
+  allOrders: Array<Order>
   product?: Maybe<ProductResult>
   allProducts: ProductsResponse
   cartProducts: Array<Product>
   productsByID: Array<Product>
   searchProductByName: Array<Product>
+}
+
+export type QueryAllOrdersArgs = {
+  input: OrderFilter
 }
 
 export type QueryProductArgs = {

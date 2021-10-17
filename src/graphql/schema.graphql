@@ -47,6 +47,8 @@ enum CategoryType {
   SUITCASE
 }
 
+scalar Date
+
 type DeleteProductResponse {
   message: String!
 }
@@ -69,11 +71,25 @@ enum MainTag {
 }
 
 type Mutation {
-  createOrder(input: OrderInput): OrderResponse
+  createOrder(input: NewOrderInput): NewOrderResponse
   createProduct(input: NewProductInput!): NewProductResponse
   updateProduct(input: UpdateProductInput): UpdateProductResponse
   deleteProduct(id: ID!): DeleteProductResponse
   hideProduct(id: ID!, isHidden: Boolean!): HideProductResponse
+}
+
+input NewOrderInput {
+  name: String!
+  surname: String!
+  email: String!
+  phone: String!
+  cityId: String!
+  postOfficeId: String!
+  cartItems: [CartItem!]!
+}
+
+type NewOrderResponse {
+  message: String!
 }
 
 input NewProductInput {
@@ -97,18 +113,14 @@ type NotFound {
   message: String!
 }
 
-input OrderInput {
-  name: String!
-  surname: String!
-  email: String!
-  phone: String!
-  cityId: String!
-  postOfficeId: String!
-  cartItems: [CartItem!]!
+type Order {
+  id: ID!
+  status: String!
+  createdAt: Date!
 }
 
-type OrderResponse {
-  message: String!
+input OrderFilter {
+  status: String!
 }
 
 input PriceRange {
@@ -170,6 +182,7 @@ type ProductsResponse {
 }
 
 type Query {
+  allOrders(input: OrderFilter!): [Order!]!
   product(id: ID!): ProductResult
   allProducts(filter: ProductFilter!): ProductsResponse!
   cartProducts(input: [CartItem!]): [Product!]!

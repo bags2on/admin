@@ -1,0 +1,7 @@
+query AllOrders($input: OrderFilter!) {
+  allOrders(input: $input) {
+    id
+    status
+    createdAt
+  }
+}
