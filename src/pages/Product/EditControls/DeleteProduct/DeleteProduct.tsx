@@ -51,7 +51,7 @@ const DeleteProduct: React.FC<DeleteProductProps> = ({ id }) => {
     DeleteProductDocument,
     {
       onCompleted: () => {
-        history.replace(routeNames.products)
+        history.replace(routeNames.catalog)
       },
       onError: (err) => {
         console.log(err.message)

@@ -8,7 +8,7 @@ const routeNames: routeNamesMap = {
   editProduct: '/edit-product/:id',
   orders: '/orders',
   communication: '/communication',
-  products: '/products',
+  catalog: '/catalog',
   banners: '/banners',
   ui: '/ui'
 }

@@ -6,7 +6,7 @@ import Fallback from './components/Fallback/Fallback'
 const UI = lazy(() => import('./pages/UI'))
 const Product = lazy(() => import('./pages/Product'))
 const Orders = lazy(() => import('./pages/Orders'))
-const Products = lazy(() => import('./pages/Products'))
+const Catalog = lazy(() => import('./pages/Catalog'))
 
 const App: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const App: React.FC = () => {
           <Route path="/orders" component={Orders} />
           <Route key="crete_product" path="/create-product" component={Product} />
           <Route key="edit_product" exact path="/edit-product/:id" component={Product} />
-          <Route path="/products" component={Products} />
+          <Route path="/catalog" component={Catalog} />
           <Route exact path="/ui" component={UI} />
           <Redirect exact from="/" to="/create-product" />
         </Switch>

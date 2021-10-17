@@ -73,7 +73,7 @@ const navItems = [
   {
     text: 'Товары',
     icon: StorageIcon,
-    path: routeNames.products
+    path: routeNames.catalog
   },
   {
     text: 'Баннеры',

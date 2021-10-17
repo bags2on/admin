@@ -10,7 +10,6 @@ import {
   AllProductsVariables
 } from '../../graphql/product/_gen_/products.query'
 import { makeStyles } from '@material-ui/core/styles'
-// import { Gender } from '../../types'
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -20,7 +19,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const Products: React.FC = () => {
+const Catalog: React.FC = () => {
   const classes = useStyles()
 
   const { loading, data, error } = useQuery<AllProductsQuery, AllProductsVariables>(
@@ -70,4 +69,4 @@ const Products: React.FC = () => {
   )
 }
 
-export default Products
+export default Catalog
