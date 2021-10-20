@@ -8,6 +8,8 @@ import {
   AllOrdersVariables,
   AllOrdersDocument
 } from '../../graphql/order/_gen_/allOrders.query'
+import history from '../../utils/history'
+import routeNames from '../../utils/routeNames'
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -33,7 +35,9 @@ const Orders: React.FC = () => {
     }
   })
 
-  console.log(data?.allOrders)
+  const handleRedirect = (id: string) => {
+    history.push(routeNames.orderDetails + id)
+  }
 
   return (
     <div className={classes.root}>
@@ -53,13 +57,31 @@ const Orders: React.FC = () => {
           })
 
           return (
-            <li key={order.id} className={classes.listItem}>
+            <li
+              key={order.id}
+              className={classes.listItem}
+              onClick={() => handleRedirect(order.id)}
+            >
               <span>{order.id};</span>&nbsp;
               <span>{order.status};</span>&nbsp;
               <span>{formatDate}</span>
             </li>
           )
         })}
+        <li
+          className={classes.listItem}
+          style={{ background: 'red' }}
+          onClick={() => handleRedirect('-1')}
+        >
+          Does not exist!
+        </li>
+        <li
+          className={classes.listItem}
+          style={{ background: 'red' }}
+          onClick={() => handleRedirect('---')}
+        >
+          Invalid ID
+        </li>
       </ul>
     </div>
   )

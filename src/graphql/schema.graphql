@@ -39,6 +39,11 @@ input CartItem {
   amount: Int!
 }
 
+type CartItemType {
+  id: String!
+  amount: Int!
+}
+
 enum CategoryType {
   BAG
   OTHER
@@ -115,9 +120,19 @@ type NotFound {
 
 type Order {
   id: ID!
+  receiverName: String!
+  receiverSurname: String!
+  receiverEmail: String!
+  receiverPhone: String!
+  cityId: String!
+  postOfficeId: String!
+  products: [Product!]!
   status: String!
+  cartItems: [CartItemType!]!
   createdAt: Date!
 }
+
+union OrderByIdResult = Order | NotFound
 
 input OrderFilter {
   status: String!
@@ -182,6 +197,7 @@ type ProductsResponse {
 }
 
 type Query {
+  order(id: ID!): OrderByIdResult
   allOrders(input: OrderFilter!): [Order!]!
   product(id: ID!): ProductResult
   allProducts(filter: ProductFilter!): ProductsResponse!

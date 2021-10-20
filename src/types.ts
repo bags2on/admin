@@ -18,6 +18,12 @@ export type CartItem = {
   amount: Scalars['Int']
 }
 
+export type CartItemType = {
+  __typename?: 'CartItemType'
+  id: Scalars['String']
+  amount: Scalars['Int']
+}
+
 export enum CategoryType {
   Bag = 'BAG',
   Other = 'OTHER',
@@ -120,9 +126,19 @@ export type NotFound = {
 export type Order = {
   __typename?: 'Order'
   id: Scalars['ID']
+  receiverName: Scalars['String']
+  receiverSurname: Scalars['String']
+  receiverEmail: Scalars['String']
+  receiverPhone: Scalars['String']
+  cityId: Scalars['String']
+  postOfficeId: Scalars['String']
+  products: Array<Product>
   status: Scalars['String']
+  cartItems: Array<CartItemType>
   createdAt: Scalars['Date']
 }
+
+export type OrderByIdResult = Order | NotFound
 
 export type OrderFilter = {
   status: Scalars['String']
@@ -192,12 +208,17 @@ export type ProductsResponse = {
 
 export type Query = {
   __typename?: 'Query'
+  order?: Maybe<OrderByIdResult>
   allOrders: Array<Order>
   product?: Maybe<ProductResult>
   allProducts: ProductsResponse
   cartProducts: Array<Product>
   productsByID: Array<Product>
   searchProductByName: Array<Product>
+}
+
+export type QueryOrderArgs = {
+  id: Scalars['ID']
 }
 
 export type QueryAllOrdersArgs = {
@@ -255,6 +276,7 @@ export interface PossibleTypesResultData {
 }
 const result: PossibleTypesResultData = {
   possibleTypes: {
+    OrderByIdResult: ['Order', 'NotFound'],
     ProductResult: ['Product', 'NotFound']
   }
 }

@@ -24,9 +24,10 @@ interface CatalogItemProps {
   title: string
   basePrice: number
   inStock: boolean
-  hidden: boolean
+  hidden?: boolean
   currentPrice: number
   mainTag: string
+  hideControls?: boolean
 }
 
 const CatalogItem: React.FC<CatalogItemProps> = ({
@@ -35,9 +36,10 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
   title,
   basePrice,
   inStock,
-  hidden,
+  hidden = false,
   mainTag,
-  currentPrice
+  currentPrice,
+  hideControls = false
 }) => {
   const [isHidden, setHidden] = useState<boolean>(hidden)
 
@@ -95,24 +97,26 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
             )}
             <span>{formatPrice(currentPrice)}&nbsp;₴</span>
           </div>
-          <div className={classes.likeButton}>
-            <IconButton onClick={handleHiddenClick} disabled={loading}>
-              {loading ? (
-                <CircularProgress size={20} style={{ padding: 0 }} />
-              ) : (
-                <Icon
-                  classes={{
-                    root: clsx({
-                      [classes.eyeIcon]: true,
-                      [classes.eyeIconHidden]: isHidden
-                    })
-                  }}
-                >
-                  {isHidden ? <EyeHidddenIcon /> : <EyeIcon />}
-                </Icon>
-              )}
-            </IconButton>
-          </div>
+          {!hideControls && (
+            <div className={classes.likeButton}>
+              <IconButton onClick={handleHiddenClick} disabled={loading}>
+                {loading ? (
+                  <CircularProgress size={20} style={{ padding: 0 }} />
+                ) : (
+                  <Icon
+                    classes={{
+                      root: clsx({
+                        [classes.eyeIcon]: true,
+                        [classes.eyeIconHidden]: isHidden
+                      })
+                    }}
+                  >
+                    {isHidden ? <EyeHidddenIcon /> : <EyeIcon />}
+                  </Icon>
+                )}
+              </IconButton>
+            </div>
+          )}
         </div>
         <Link className={classes.title} title={title} to={generateLink(routes.editProduct, id)}>
           {title}

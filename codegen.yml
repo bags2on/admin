@@ -24,7 +24,7 @@ generates:
       reactApolloVersion: 3
       noNamespaces: true
       withResultType: false
-      scalars: 
+      scalars:
         Date: string
 hooks:
   afterAllFileWrite:

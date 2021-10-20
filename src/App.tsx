@@ -6,6 +6,7 @@ import Fallback from './components/Fallback/Fallback'
 const UI = lazy(() => import('./pages/UI'))
 const Product = lazy(() => import('./pages/Product'))
 const Orders = lazy(() => import('./pages/Orders'))
+const OrderDetails = lazy(() => import('./pages/OrderDetails'))
 const Catalog = lazy(() => import('./pages/Catalog'))
 
 const App: React.FC = () => {
@@ -13,6 +14,7 @@ const App: React.FC = () => {
     <Suspense fallback={<Fallback />}>
       <AppLayout>
         <Switch>
+          <Route path="/order/:orderId" component={OrderDetails} />
           <Route path="/orders" component={Orders} />
           <Route key="crete_product" path="/create-product" component={Product} />
           <Route key="edit_product" exact path="/edit-product/:id" component={Product} />
