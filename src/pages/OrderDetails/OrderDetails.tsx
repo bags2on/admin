@@ -58,6 +58,9 @@ const OrderDetails: React.FC = () => {
         </Grid>
         <Grid item xs={7}>
           <Info
+            city={data?.order?.cityId}
+            postOffice={data?.order?.postOfficeId}
+            shipper="nova-poshta"
             receiver={{
               name: data?.order?.receiverName,
               surname: data?.order?.receiverSurname,
