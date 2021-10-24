@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import { ReactComponent as AvatarIcon } from '../../../asset/svg/icons/avatar.svg'
 import { ReactComponent as NovaPoshtaIcon } from '../../../asset/svg/nova_poshta.svg'
 import { ReactComponent as JustinIcon } from '../../../asset/svg/justin.svg'
@@ -12,11 +13,15 @@ type receiver = {
   phone: string | undefined
 }
 
+type delivery = {
+  city: string | undefined
+  supplier: string | undefined
+  postOffice: string | undefined
+}
+
 interface InfoProps {
   receiver: receiver
-  city: string | undefined
-  shipper: 'nova-poshta' | 'justin'
-  postOffice: string | undefined
+  delivery: delivery
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -24,26 +29,32 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px 10px 0 10px'
   },
   wrapper: {
-    display: 'flex',
-    backgroundColor: '#3c3c3c'
+    backgroundColor: '#3c3c3c',
+    padding: '10px 10px',
+    marginBottom: 20,
+    borderRadius: 15
   },
   listTitle: {
     margin: 0,
     marginBottom: 10
   },
   customerBox: {
-    flexBasis: '60%',
-    display: 'flex',
-    padding: '15px 10px'
+    display: 'flex'
   },
   avatarIcon: {
     width: 100,
     fill: theme.palette.primary.main,
     marginRight: 20
   },
-  shipperIcon: {
-    width: 170,
-    margin: '0 auto'
+  supplierIcon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    width: 100,
+    borderTopRightRadius: 15,
+    padding: '0 4px',
+    borderBottomLeftRadius: 15
   },
   infoField: {
     '& span': {
@@ -54,54 +65,72 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   deliveryBox: {
-    flexBasis: '40%'
+    display: 'flex',
+    position: 'relative'
+  },
+  deliveryRow: {
+    width: '100%',
+    maxWidth: 330
+  },
+  supplierField: {
+    display: 'flex',
+    alignItems: 'center'
   }
 }))
 
-const Info: React.FC<InfoProps> = ({ receiver, shipper, city, postOffice }) => {
+const Info: React.FC<InfoProps> = ({ receiver, delivery }) => {
   const classes = useStyles()
 
   const { name, surname, email, phone } = receiver
+  const { supplier, city, postOffice } = delivery
 
   return (
     <section className={classes.root}>
       <h1 className={classes.listTitle}>Общая информация:</h1>
-      <div className={classes.wrapper}>
-        <div className={classes.customerBox}>
-          <AvatarIcon className={classes.avatarIcon} />
-          <div>
-            <p className={classes.infoField}>
-              <span>Имя:</span>
-              {name}
-            </p>
-            <p className={classes.infoField}>
-              <span>Фамилия:</span>
-              {surname}
-            </p>
-            <p className={classes.infoField}>
-              <span>Email:</span>
-              {email}
-            </p>
-            <p className={classes.infoField}>
-              <span>Телефон:</span>
-              {formatPhoneNumber(phone)}
-            </p>
-          </div>
+      <div className={clsx(classes.wrapper, classes.customerBox)}>
+        <AvatarIcon className={classes.avatarIcon} />
+        <div>
+          <p className={classes.infoField}>
+            <span>Имя:</span>
+            {name}
+          </p>
+          <p className={classes.infoField}>
+            <span>Фамилия:</span>
+            {surname}
+          </p>
+          <p className={classes.infoField}>
+            <span>Email:</span>
+            {email}
+          </p>
+          <p className={classes.infoField}>
+            <span>Телефон:</span>
+            {formatPhoneNumber(phone)}
+          </p>
         </div>
-        <div className={classes.deliveryBox}>
-          {shipper === 'nova-poshta' ? (
-            <NovaPoshtaIcon className={classes.shipperIcon} />
-          ) : (
-            <JustinIcon className={classes.shipperIcon} />
-          )}
+      </div>
+      <div className={clsx(classes.wrapper, classes.deliveryBox)}>
+        <div className={classes.deliveryRow}>
+          <p className={clsx(classes.infoField, classes.supplierField)}>
+            <span>Служба доставки:</span>
+            &#34;{supplier}&#34;
+          </p>
+          <p className={classes.infoField}>
+            <span>Область:</span>
+            {city}
+          </p>
+        </div>
+        <div className={classes.deliveryRow}>
+          <p className={classes.infoField}>
+            <span>Отделение №:</span>
+            {postOffice}
+          </p>
           <p className={classes.infoField}>
             <span>Город:</span>
             {city}
           </p>
-          <p className={classes.infoField}>
-            <span>Отделение:</span>
-            {postOffice}
-          </p>
+        </div>
+        <div className={classes.supplierIcon}>
+          {supplier === 'nova-poshta' ? <NovaPoshtaIcon /> : <JustinIcon />}
         </div>
       </div>
     </section>

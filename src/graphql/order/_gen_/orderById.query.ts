@@ -18,6 +18,7 @@ export type OrderByIdQuery = {
         cityId: string
         postOfficeId: string
         status: string
+        supplier: string
         createdAt: string
         cartItems: Array<{ __typename?: 'CartItemType'; id: string; amount: number }>
         products: Array<{
@@ -71,6 +72,7 @@ export const OrderByIdDocument = gql`
         cityId
         postOfficeId
         status
+        supplier
         createdAt
         cartItems {
           id

@@ -10,6 +10,7 @@ query OrderById($id: ID!) {
       cityId
       postOfficeId
       status
+      supplier
       createdAt
       cartItems {
         id

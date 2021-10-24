@@ -90,6 +90,7 @@ input NewOrderInput {
   phone: String!
   cityId: String!
   postOfficeId: String!
+  supplier: String!
   cartItems: [CartItem!]!
 }
 
@@ -129,6 +130,7 @@ type Order {
   products: [Product!]!
   status: String!
   cartItems: [CartItemType!]!
+  supplier: String!
   createdAt: Date!
 }
 

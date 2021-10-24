@@ -92,6 +92,7 @@ export type NewOrderInput = {
   phone: Scalars['String']
   cityId: Scalars['String']
   postOfficeId: Scalars['String']
+  supplier: Scalars['String']
   cartItems: Array<CartItem>
 }
 
@@ -135,6 +136,7 @@ export type Order = {
   products: Array<Product>
   status: Scalars['String']
   cartItems: Array<CartItemType>
+  supplier: Scalars['String']
   createdAt: Scalars['Date']
 }
 
