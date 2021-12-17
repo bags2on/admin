@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import Search from './Search/Search'
 import Loader from '../../shared/Loader/Loader'
 import CatalogItem from '../../components/CatalogItem/CatalogItem'
+import Pagination from '../../components/Pagination/Pagination'
 import { useQuery } from '@apollo/client'
 import {
   AllProductsDocument,
@@ -65,6 +66,7 @@ const Catalog: React.FC = () => {
           </Grid>
         ))}
       </Grid>
+      <Pagination currentPage={1} total={3} route="/catalog" />
     </div>
   )
 }
