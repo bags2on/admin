@@ -8,13 +8,15 @@ export type AllProductsQueryVariables = Types.Exact<{
   mainTag?: Types.Maybe<Types.MainTag>
   price?: Types.Maybe<Types.PriceRange>
   category?: Types.Maybe<Array<Types.Maybe<Types.CategoryType>> | Types.Maybe<Types.CategoryType>>
+  page: Types.Scalars['Int']
 }>
 
 export type AllProductsQuery = {
   __typename?: 'Query'
   allProducts: {
     __typename?: 'ProductsResponse'
-    priceRange: { __typename?: 'PriceRangeType'; lt: number; gt: number }
+    priceRange: { __typename?: 'PriceRangeType'; gt: number; lt: number }
+    pagination: { __typename?: 'Pagination'; totalPages: number; currentPage: number }
     products: Array<{
       __typename?: 'Product'
       id: string
@@ -34,6 +36,9 @@ export type AllProductsAllProducts = NonNullable<AllProductsQuery['allProducts']
 export type AllProductsPriceRange = NonNullable<
   NonNullable<AllProductsQuery['allProducts']>['priceRange']
 >
+export type AllProductsPagination = NonNullable<
+  NonNullable<AllProductsQuery['allProducts']>['pagination']
+>
 export type AllProductsProducts = NonNullable<
   NonNullable<NonNullable<AllProductsQuery['allProducts']>['products']>[number]
 >
@@ -41,11 +46,12 @@ export type AllProductsProducts = NonNullable<
 export const AllProductsDocument = gql`
   query AllProducts(
     $gender: [Gender]
-    $isHidden: Boolean
+    $isHidden: Boolean = false
     $instock: Boolean
     $mainTag: MainTag
     $price: PriceRange
     $category: [CategoryType]
+    $page: Int!
   ) {
     allProducts(
       filter: {
@@ -55,11 +61,16 @@ export const AllProductsDocument = gql`
         mainTag: $mainTag
         price: $price
         category: $category
+        page: $page
       }
     ) {
       priceRange {
-        lt
         gt
+        lt
+      }
+      pagination {
+        totalPages
+        currentPage
       }
       products {
         id

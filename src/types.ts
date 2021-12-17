@@ -13,6 +13,11 @@ export type Scalars = {
   Upload: any
 }
 
+export type AttachedRating = {
+  __typename?: 'AttachedRating'
+  rating: Scalars['Float']
+}
+
 export type CartItem = {
   id: Scalars['String']
   amount: Scalars['Int']
@@ -48,6 +53,15 @@ export type HideProductResponse = {
   isHidden: Scalars['Boolean']
 }
 
+export type LogInInput = {
+  keyWord: Scalars['String']
+}
+
+export type LogInRsponse = {
+  __typename?: 'LogInRsponse'
+  token: Scalars['String']
+}
+
 export enum MainTag {
   Stock = 'STOCK',
   New = 'NEW',
@@ -62,6 +76,7 @@ export type Mutation = {
   updateProduct?: Maybe<UpdateProductResponse>
   deleteProduct?: Maybe<DeleteProductResponse>
   hideProduct?: Maybe<HideProductResponse>
+  productRatingVote?: Maybe<ProductRatingVoteResponse>
 }
 
 export type MutationCreateOrderArgs = {
@@ -83,6 +98,10 @@ export type MutationDeleteProductArgs = {
 export type MutationHideProductArgs = {
   id: Scalars['ID']
   isHidden: Scalars['Boolean']
+}
+
+export type MutationProductRatingVoteArgs = {
+  input: ProductRatingVoteInput
 }
 
 export type NewOrderInput = {
@@ -146,6 +165,12 @@ export type OrderFilter = {
   status: Scalars['String']
 }
 
+export type Pagination = {
+  __typename?: 'Pagination'
+  totalPages: Scalars['Int']
+  currentPage: Scalars['Int']
+}
+
 export type PriceRange = {
   lt: Scalars['Int']
   gt: Scalars['Int']
@@ -153,8 +178,8 @@ export type PriceRange = {
 
 export type PriceRangeType = {
   __typename?: 'PriceRangeType'
-  lt: Scalars['Int']
   gt: Scalars['Int']
+  lt: Scalars['Int']
 }
 
 export type Product = {
@@ -174,6 +199,7 @@ export type Product = {
   mainTag: MainTag
   description: Scalars['String']
   features: ProductFeatures
+  rating: AttachedRating
 }
 
 export type ProductFeatures = {
@@ -198,6 +224,17 @@ export type ProductFilter = {
   mainTag?: Maybe<MainTag>
   price?: Maybe<PriceRange>
   category?: Maybe<Array<Maybe<CategoryType>>>
+  page: Scalars['Int']
+}
+
+export type ProductRatingVoteInput = {
+  productId: Scalars['String']
+  rating: Scalars['Int']
+}
+
+export type ProductRatingVoteResponse = {
+  __typename?: 'ProductRatingVoteResponse'
+  isSaved: Scalars['Boolean']
 }
 
 export type ProductResult = Product | NotFound
@@ -206,6 +243,7 @@ export type ProductsResponse = {
   __typename?: 'ProductsResponse'
   products: Array<Product>
   priceRange: PriceRangeType
+  pagination: Pagination
 }
 
 export type Query = {
@@ -217,6 +255,7 @@ export type Query = {
   cartProducts: Array<Product>
   productsByID: Array<Product>
   searchProductByName: Array<Product>
+  logInRoot?: Maybe<LogInRsponse>
 }
 
 export type QueryOrderArgs = {
@@ -245,6 +284,10 @@ export type QueryProductsByIdArgs = {
 
 export type QuerySearchProductByNameArgs = {
   input: Scalars['String']
+}
+
+export type QueryLogInRootArgs = {
+  input: LogInInput
 }
 
 export enum Role {

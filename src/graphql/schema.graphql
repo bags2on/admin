@@ -1,4 +1,4 @@
-directive @hasRole(role: Role!) on FIELD_DEFINITION | MUTATION
+directive @hasRole(role: [Role!]!) on FIELD_DEFINITION | MUTATION
 
 """
 Direct the client to resolve this field locally, either from the cache or local resolvers.
@@ -34,6 +34,10 @@ directive @connection(
   filter: [String!]
 ) on FIELD
 
+type AttachedRating {
+  rating: Float!
+}
+
 input CartItem {
   id: String!
   amount: Int!
@@ -68,6 +72,14 @@ type HideProductResponse {
   isHidden: Boolean!
 }
 
+input LogInInput {
+  keyWord: String!
+}
+
+type LogInRsponse {
+  token: String!
+}
+
 enum MainTag {
   STOCK
   NEW
@@ -81,6 +93,7 @@ type Mutation {
   updateProduct(input: UpdateProductInput): UpdateProductResponse
   deleteProduct(id: ID!): DeleteProductResponse
   hideProduct(id: ID!, isHidden: Boolean!): HideProductResponse
+  productRatingVote(input: ProductRatingVoteInput!): ProductRatingVoteResponse
 }
 
 input NewOrderInput {
@@ -140,14 +153,19 @@ input OrderFilter {
   status: String!
 }
 
+type Pagination {
+  totalPages: Int!
+  currentPage: Int!
+}
+
 input PriceRange {
   lt: Int!
   gt: Int!
 }
 
 type PriceRangeType {
-  lt: Int!
   gt: Int!
+  lt: Int!
 }
 
 type Product {
@@ -166,6 +184,7 @@ type Product {
   mainTag: MainTag!
   description: String!
   features: ProductFeatures!
+  rating: AttachedRating!
 }
 
 type ProductFeatures {
@@ -189,6 +208,16 @@ input ProductFilter {
   mainTag: MainTag
   price: PriceRange
   category: [CategoryType]
+  page: Int!
+}
+
+input ProductRatingVoteInput {
+  productId: String!
+  rating: Int!
+}
+
+type ProductRatingVoteResponse {
+  isSaved: Boolean!
 }
 
 union ProductResult = Product | NotFound
@@ -196,6 +225,7 @@ union ProductResult = Product | NotFound
 type ProductsResponse {
   products: [Product!]!
   priceRange: PriceRangeType!
+  pagination: Pagination!
 }
 
 type Query {
@@ -206,6 +236,7 @@ type Query {
   cartProducts(input: [CartItem!]): [Product!]!
   productsByID(input: [String!]): [Product!]!
   searchProductByName(input: String!): [Product!]!
+  logInRoot(input: LogInInput!): LogInRsponse
 }
 
 enum Role {

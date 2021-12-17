@@ -1,10 +1,11 @@
 query AllProducts(
   $gender: [Gender]
-  $isHidden: Boolean
+  $isHidden: Boolean = false
   $instock: Boolean
   $mainTag: MainTag
   $price: PriceRange
   $category: [CategoryType]
+  $page: Int!
 ) {
   allProducts(
     filter: {
@@ -14,11 +15,16 @@ query AllProducts(
       mainTag: $mainTag
       price: $price
       category: $category
+      page: $page
     }
   ) {
     priceRange {
-      lt
       gt
+      lt
+    }
+    pagination {
+      totalPages
+      currentPage
     }
     products {
       id

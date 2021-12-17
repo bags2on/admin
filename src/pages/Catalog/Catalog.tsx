@@ -26,7 +26,7 @@ const Catalog: React.FC = () => {
     AllProductsDocument,
     {
       fetchPolicy: 'network-only',
-      variables: { instock: undefined, gender: [] }
+      variables: { instock: undefined, gender: [], page: 1 }
     }
   )
 
