@@ -4,6 +4,7 @@ interface routeNamesMap {
 
 const routeNames: routeNamesMap = {
   root: '/',
+  auth: '/auth',
   createProduct: '/create-product',
   editProduct: '/edit-product/:id',
   orders: '/orders',

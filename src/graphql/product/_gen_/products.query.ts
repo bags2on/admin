@@ -46,7 +46,7 @@ export type AllProductsProducts = NonNullable<
 export const AllProductsDocument = gql`
   query AllProducts(
     $gender: [Gender]
-    $isHidden: Boolean = false
+    $isHidden: Boolean
     $instock: Boolean
     $mainTag: MainTag
     $price: PriceRange

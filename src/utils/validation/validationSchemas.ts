@@ -32,6 +32,7 @@ function lessThanOtherField(
 yup.addMethod<NumberSchema>(yup.number, 'lessThanOtherField', lessThanOtherField)
 
 export const createProductSchema = yup.object().shape({
+  instock: yup.boolean(),
   title: yup
     .string()
     .min(10, '* минимум 10 символов')
@@ -86,3 +87,7 @@ export const editProductSchema = yup.object().shape({
 })
 
 export type EditPropductSchemaType = yup.InferType<typeof editProductSchema>
+
+export const loginRootSchema = yup.object().shape({
+  keyWord: yup.string().required('* обязательное поле')
+})

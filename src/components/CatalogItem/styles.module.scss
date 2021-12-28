@@ -19,8 +19,6 @@ $red: #f44336;
 .image {
   position: relative;
   margin-bottom: 10px;
-  -webkit-appearance: none;
-  -webkit-tap-highlight-color: transparent;
   & > a {
     outline: none;
   }
@@ -60,7 +58,7 @@ $red: #f44336;
 
 .title {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: #343434;
   line-height: 18px;
   height: 35px;
@@ -81,8 +79,13 @@ $red: #f44336;
   }
 }
 
-.actionButton {
+.likeButton {
   flex-basis: 25%;
+}
+
+.disabledActionButton {
+  width: 40px;
+  height: 40px;
 }
 
 .tag {
@@ -102,23 +105,29 @@ $red: #f44336;
   }
 }
 
-.deleteIcon {
-  color: #626262;
+.eyeIcon {
+  fill: #343434;
+  font-size: 21px;
+}
+
+.eyeIconHidden {
+  fill: #969696;
+}
+
+@media screen and (min-width: $sm) {
+  .title {
+    font-size: 14px;
+  }
 }
 
 @media screen and (min-width: $md) {
-  .title {
-    font-size: 13px;
-    color: #929292;
-  }
-
   .root {
     margin: 8px 4px;
 
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
       & .title {
-        color: #343434;
+        color: #000;
       }
     }
   }

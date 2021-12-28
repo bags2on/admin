@@ -97,8 +97,9 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
             )}
             <span>{formatPrice(currentPrice)}&nbsp;₴</span>
           </div>
-          {!hideControls && (
-            <div className={classes.likeButton}>
+
+          <div className={clsx(hideControls ? classes.disabledActionButton : classes.likeButton)}>
+            {!hideControls && (
               <IconButton onClick={handleHiddenClick} disabled={loading}>
                 {loading ? (
                   <CircularProgress size={20} style={{ padding: 0 }} />
@@ -115,8 +116,8 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
                   </Icon>
                 )}
               </IconButton>
-            </div>
-          )}
+            )}
+          </div>
         </div>
         <Link className={classes.title} title={title} to={generateLink(routes.editProduct, id)}>
           {title}

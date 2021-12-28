@@ -1,3 +1,5 @@
+import jwt from 'jwt-decode'
+
 export const formatPrice = (num: number): string =>
   num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
 
@@ -14,4 +16,29 @@ export const formatPhoneNumber = (number: string | undefined): string => {
   }
 
   return 'not a number'
+}
+
+export const checkToken = (): boolean => {
+  const token = localStorage.getItem('token') || ''
+  return !!token
+}
+
+interface userData {
+  id: string
+  name: string
+  picture: string
+}
+
+export const decodeJWT = (): userData => {
+  const token = localStorage.getItem('token') || ''
+  try {
+    const decoded = jwt<userData>(token)
+    return decoded
+  } catch (error) {
+    return {
+      id: '',
+      name: '',
+      picture: ''
+    }
+  }
 }

@@ -241,7 +241,7 @@ type Query {
 
 enum Role {
   ADMIN
-  USER
+  CUSTOMER
 }
 
 input UpdateProductInput {

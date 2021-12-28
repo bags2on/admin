@@ -292,7 +292,7 @@ export type QueryLogInRootArgs = {
 
 export enum Role {
   Admin = 'ADMIN',
-  User = 'USER'
+  Customer = 'CUSTOMER'
 }
 
 export type UpdateProductInput = {

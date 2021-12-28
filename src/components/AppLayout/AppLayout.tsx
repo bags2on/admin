@@ -3,6 +3,7 @@ import SideBar from '../SideBar/SideBar'
 import Snackbar from '../Snackbar/Snackbar'
 import { useQuery } from '@apollo/client'
 import { GET_SNACKBAR_MESSAGE } from '../../apollo/cache/queries/ui'
+import { GET_AUTHENTICATION_STATE } from '../../apollo/cache/queries/user'
 import { makeStyles } from '@material-ui/core/styles'
 
 interface AppLayoutProps {
@@ -23,14 +24,16 @@ const useStyles = makeStyles(() => ({
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const classes = useStyles()
+  const auth = useQuery(GET_AUTHENTICATION_STATE)
+
+  const isAuth = auth.data?.isAuthenticated
 
   const snackbarMessage = useQuery(GET_SNACKBAR_MESSAGE)
   const snackbarData = snackbarMessage.data.snackbarMessage
 
   return (
     <div className={classes.root}>
-      {/* {isAuthenticated && <Sidebar menuLinks={getSidebarLinks(userRole)} />} */}
-      <SideBar />
+      {isAuth && <SideBar />}
       <main className={classes.content}>{children}</main>
       <Snackbar message={snackbarData.message} type={snackbarData.type} />
     </div>

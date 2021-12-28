@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import NavList from './NavList/NavList'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
+import UserInfo from './UserInfo/UserInfo'
+import { useQuery } from '@apollo/client'
+import { GET_USER_DATA } from '../../apollo/cache/queries/user'
 import { ReactComponent as RightArrowIcon } from '../../asset/svg/right-arrow.svg'
 import { ReactComponent as LeftArrowIcon } from '../../asset/svg/left-arrow.svg'
 import { makeStyles } from '@material-ui/core/styles'
@@ -26,9 +29,21 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+interface userData {
+  id: string
+  name: string
+  picture: string
+}
+
+interface userDataQuery {
+  userData: userData
+}
+
 const SideBar: React.FC = () => {
   const classes = useStyles()
   const [isExpanded, setExpanded] = useState<boolean>(false)
+
+  const { data } = useQuery<userDataQuery>(GET_USER_DATA)
 
   const handleExpandButtonClick = (): void => {
     setExpanded((prev) => !prev)
@@ -37,6 +52,7 @@ const SideBar: React.FC = () => {
   return (
     <aside className={classes.root}>
       <NavList isExpanded={isExpanded} />
+      <UserInfo name={data?.userData.name || ''} picture={data?.userData.picture || ''} />
       <IconButton disableRipple className={classes.expandButton} onClick={handleExpandButtonClick}>
         <Icon>{isExpanded ? <LeftArrowIcon /> : <RightArrowIcon />}</Icon>
       </IconButton>
