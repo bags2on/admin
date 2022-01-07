@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ReactiveVar } from '@apollo/client'
 import jwt from 'jwt-decode'
-import history from '../../../../utils/history'
-import routeNames from '../../../../utils/routeNames'
 
 interface userData {
   id: string
@@ -25,8 +22,8 @@ export default (
   userDataVar: ReactiveVar<userData>,
   isAuthenticatedVar: ReactiveVar<boolean>,
   snackbarMessageVar: ReactiveVar<snackbarMessage>
-): ((token: string) => void) => {
-  return (token: string): void => {
+): ((token: string) => boolean) => {
+  return (token: string): boolean => {
     try {
       const decoded = jwt<tokenData>(token)
 
@@ -40,12 +37,13 @@ export default (
 
       isAuthenticatedVar(true)
 
-      history.push(routeNames.orders)
+      return true
     } catch (error) {
       snackbarMessageVar({
         type: 'error',
         message: 'Невалидный токен'
       })
+      return false
     }
   }
 }

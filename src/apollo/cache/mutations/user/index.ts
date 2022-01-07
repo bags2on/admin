@@ -1,3 +1,4 @@
 import extractUserData from './extractUserData'
+import logout from './logout'
 
-export { extractUserData }
+export { extractUserData, logout }

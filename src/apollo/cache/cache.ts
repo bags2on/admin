@@ -1,5 +1,5 @@
 import { InMemoryCache, makeVar } from '@apollo/client'
-import { checkToken, decodeJWT } from '../../utils/helpers'
+import { decodeToken } from '../../utils/helpers'
 
 interface snackbarMessage {
   type: 'error' | 'success'
@@ -12,7 +12,7 @@ export const snackbarMessageVar = makeVar<snackbarMessage>({
   message: ''
 })
 
-export const isAuthenticatedVar = makeVar<boolean>(checkToken())
+export const isAuthenticatedVar = makeVar<boolean>(!!decodeToken())
 
 interface userData {
   id: string
@@ -20,7 +20,13 @@ interface userData {
   picture: string
 }
 
-export const userDataVar = makeVar<userData>(decodeJWT())
+const raw = {
+  id: '',
+  name: '',
+  picture: ''
+}
+
+export const userDataVar = makeVar<userData>(decodeToken() || raw)
 
 const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {

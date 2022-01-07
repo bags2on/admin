@@ -1,5 +1,5 @@
 import { openSnackbar, closeSnackbar } from './ui'
-import { extractUserData } from './user'
+import { extractUserData, logout } from './user'
 
 import { snackbarMessageVar, userDataVar, isAuthenticatedVar } from '../cache'
 
@@ -10,5 +10,6 @@ export const UiMutations = {
 }
 
 export const UserMutations = {
-  extractUserData: extractUserData(userDataVar, isAuthenticatedVar, snackbarMessageVar)
+  extractUserData: extractUserData(userDataVar, isAuthenticatedVar, snackbarMessageVar),
+  logout: logout(userDataVar, isAuthenticatedVar)
 }

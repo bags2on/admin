@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
+import clsx from 'clsx'
 import NavList from './NavList/NavList'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
@@ -11,16 +13,20 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    width: 70,
     position: 'relative',
+    flexShrink: 0,
     height: '100%',
     backgroundColor: '#232323',
-    overflowX: 'hidden'
+    overflowX: 'hidden',
+    transition: 'all .2s'
+  },
+  rootExpanded: {
+    width: 270
   },
   expandButton: {
-    position: 'absolute',
-    bottom: 10,
-    left: '50%',
-    transform: 'translate(-50%, 0)',
+    display: 'block',
+    margin: '10px 10px 10px auto',
     fill: '#fff',
     '&:hover': {
       background: 'none',
@@ -50,12 +56,17 @@ const SideBar: React.FC = () => {
   }
 
   return (
-    <aside className={classes.root}>
-      <NavList isExpanded={isExpanded} />
-      <UserInfo name={data?.userData.name || ''} picture={data?.userData.picture || ''} />
+    <aside
+      className={clsx({
+        [classes.root]: true,
+        [classes.rootExpanded]: isExpanded
+      })}
+    >
       <IconButton disableRipple className={classes.expandButton} onClick={handleExpandButtonClick}>
         <Icon>{isExpanded ? <LeftArrowIcon /> : <RightArrowIcon />}</Icon>
       </IconButton>
+      <NavList />
+      <UserInfo name={data?.userData.name || ''} picture={data?.userData.picture || ''} />
     </aside>
   )
 }

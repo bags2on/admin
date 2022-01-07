@@ -106,6 +106,7 @@ const Catalog: React.FC = () => {
     AllProductsQuery,
     AllProductsVariables
   >(AllProductsDocument, {
+    fetchPolicy: 'network-only',
     onCompleted: (data) => {
       if (data?.allProducts.priceRange) {
         const { gt, lt } = data.allProducts.priceRange

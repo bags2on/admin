@@ -11,6 +11,8 @@ import {
 } from '../../graphql/user/_gen_/loginRoot.query'
 import { UserMutations } from '../../apollo/cache/mutations'
 import { makeStyles } from '@material-ui/core/styles'
+import history from '../../utils/history'
+import routeNames from '../../utils/routeNames'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -100,7 +102,8 @@ const Auth: React.FC = () => {
 
   const [logIn, { loading }] = useLazyQuery<LogInRootQuery, LogInRootVariables>(LogInRootDocument, {
     onCompleted: (data) => {
-      UserMutations.extractUserData(data.logInRoot?.token || '')
+      const ok = UserMutations.extractUserData(data.logInRoot?.token || '')
+      if (ok) history.replace(routeNames.orders)
     },
     onError: () => {
       if (formRef) formRef.current?.reset()

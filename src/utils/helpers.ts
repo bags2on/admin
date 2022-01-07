@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt from 'jwt-decode'
+import { Observable } from '@apollo/client'
 
 export const formatPrice = (num: number): string =>
   num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
@@ -18,27 +20,32 @@ export const formatPhoneNumber = (number: string | undefined): string => {
   return 'not a number'
 }
 
-export const checkToken = (): boolean => {
-  const token = localStorage.getItem('token') || ''
-  return !!token
-}
-
-interface userData {
+interface tokenData {
   id: string
   name: string
   picture: string
+  refreshToken: string
 }
 
-export const decodeJWT = (): userData => {
+export const decodeToken = (): tokenData | undefined => {
   const token = localStorage.getItem('token') || ''
+  if (!token) return
   try {
-    const decoded = jwt<userData>(token)
+    const decoded = jwt<tokenData>(token)
     return decoded
   } catch (error) {
-    return {
-      id: '',
-      name: '',
-      picture: ''
-    }
+    return
   }
 }
+
+export const promiseToObservable = (promise: Promise<any>): Observable<unknown> =>
+  new Observable((subscriber: any) => {
+    promise.then(
+      (value) => {
+        if (subscriber.closed) return
+        subscriber.next(value)
+        subscriber.complete()
+      },
+      (err) => subscriber.error(err)
+    )
+  })
