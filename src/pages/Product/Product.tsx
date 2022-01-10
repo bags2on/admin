@@ -8,7 +8,7 @@ import Fallback from '../../components/Fallback/Fallback'
 import MainInputs from './MainInputs'
 import PhotosUpload from './PhotosUpload/PhotosUpload'
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { UiMutations } from '../../apollo/cache/mutations'
+import { SharedMutations } from '../../apollo/cache/mutations'
 import { Formik, Form } from 'formik'
 import { makeStyles } from '@material-ui/core/styles'
 import { createProductSchema } from '../../utils/validation/validationSchemas'
@@ -212,7 +212,7 @@ const CreateProduct: React.FC = () => {
           }
         })
 
-        UiMutations.openSnackbar({
+        SharedMutations.openSnackbar({
           message: 'Продукт успешно создан',
           type: 'success'
         })
@@ -224,7 +224,7 @@ const CreateProduct: React.FC = () => {
           }
         })
 
-        UiMutations.openSnackbar({
+        SharedMutations.openSnackbar({
           message: 'Продукт успешно обновлен',
           type: 'success'
         })
@@ -232,7 +232,7 @@ const CreateProduct: React.FC = () => {
     } catch (error) {
       const e = isCreateMode ? 'создания' : 'обновления'
 
-      UiMutations.openSnackbar({
+      SharedMutations.openSnackbar({
         message: `Ошибка ${e} продукта: ${(error as Error).message}`,
         type: 'error'
       })

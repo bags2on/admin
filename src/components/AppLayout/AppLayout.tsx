@@ -2,7 +2,7 @@ import React from 'react'
 import SideBar from '../SideBar/SideBar'
 import Snackbar from '../Snackbar/Snackbar'
 import { useQuery } from '@apollo/client'
-import { GET_SNACKBAR_MESSAGE } from '../../apollo/cache/queries/ui'
+import { GET_SNACKBAR_EVENT } from '../../apollo/cache/queries/shared'
 import { GET_AUTHENTICATION_STATE } from '../../apollo/cache/queries/user'
 import { useWindowHeight } from '../../hooks'
 import { makeStyles } from '@material-ui/core/styles'
@@ -30,8 +30,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
   const isAuth = auth.data?.isAuthenticated
 
-  const snackbarMessage = useQuery(GET_SNACKBAR_MESSAGE)
-  const snackbarData = snackbarMessage.data.snackbarMessage
+  const snackbarEvent = useQuery(GET_SNACKBAR_EVENT)
+  const snackbarData = snackbarEvent.data.snackbarEvent
 
   return (
     <div className={classes.root}>

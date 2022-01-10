@@ -3,7 +3,7 @@ import MuiSnackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import IconButton from '@material-ui/core/IconButton'
 import { SvgIcon } from '@material-ui/core'
-import { UiMutations } from '../../apollo/cache/mutations'
+import { SharedMutations } from '../../apollo/cache/mutations'
 import { ReactComponent as CloseIcon } from '../../asset/svg/close.svg'
 import { ReactComponent as ErrorIcon } from '../../asset/svg/icons/error.svg'
 import { ReactComponent as CheckIcon } from '../../asset/svg/icons/check.svg'
@@ -52,7 +52,7 @@ const Snackbar: React.FC<SnackbarProps> = ({ message, type }) => {
       return
     }
 
-    UiMutations.closeSnackbar()
+    SharedMutations.closeSnackbar()
   }
 
   if (!message) return null

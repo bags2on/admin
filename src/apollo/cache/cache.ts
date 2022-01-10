@@ -1,32 +1,6 @@
-import { InMemoryCache, makeVar } from '@apollo/client'
-import { decodeToken } from '../../utils/helpers'
-
-interface snackbarMessage {
-  type: 'error' | 'success'
-  message: string
-}
-
-// TODO: maybe snackbarEventVar
-export const snackbarMessageVar = makeVar<snackbarMessage>({
-  type: 'success',
-  message: ''
-})
-
-export const isAuthenticatedVar = makeVar<boolean>(!!decodeToken())
-
-interface userData {
-  id: string
-  name: string
-  picture: string
-}
-
-const raw = {
-  id: '',
-  name: '',
-  picture: ''
-}
-
-export const userDataVar = makeVar<userData>(decodeToken() || raw)
+import { InMemoryCache } from '@apollo/client'
+import { isAuthenticatedVar, userDataVar, snackbarEventVar } from './variables'
+import type { userData, snackbarEvent } from './variables'
 
 const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
@@ -42,9 +16,9 @@ const cache: InMemoryCache = new InMemoryCache({
             return userDataVar()
           }
         },
-        snackbarMessage: {
-          read(): snackbarMessage {
-            return snackbarMessageVar()
+        snackbarEvent: {
+          read(): snackbarEvent {
+            return snackbarEventVar()
           }
         }
       }

@@ -12,7 +12,7 @@ import {
   OrderByIdVariables,
   OrderByIdDocument
 } from '../../graphql/order/_gen_/orderById.query'
-import { UiMutations } from '../../apollo/cache/mutations'
+import { SharedMutations } from '../../apollo/cache/mutations'
 
 interface routeParams {
   orderId: string
@@ -33,7 +33,7 @@ const OrderDetails: React.FC = () => {
   }
 
   if (data?.order?.__typename === 'NotFound') {
-    UiMutations.openSnackbar({
+    SharedMutations.openSnackbar({
       message: 'Ордер не найден',
       type: 'error'
     })
@@ -41,7 +41,7 @@ const OrderDetails: React.FC = () => {
   }
 
   if (error) {
-    UiMutations.openSnackbar({
+    SharedMutations.openSnackbar({
       message: 'Неверный идентификатор ордера',
       type: 'error'
     })

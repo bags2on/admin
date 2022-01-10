@@ -1,12 +1,7 @@
 import { ReactiveVar } from '@apollo/client'
 import history from '../../../../utils/history'
 import routeNames from '../../../../utils/routeNames'
-
-interface userData {
-  id: string
-  name: string
-  picture: string
-}
+import type { userData } from '../../variables'
 
 export default (
   userDataVar: ReactiveVar<userData>,

@@ -1,11 +1,6 @@
 import { ReactiveVar } from '@apollo/client'
 import jwt from 'jwt-decode'
-
-interface userData {
-  id: string
-  name: string
-  picture: string
-}
+import type { userData, snackbarEvent } from '../../variables'
 
 interface tokenData {
   userId: string
@@ -13,15 +8,10 @@ interface tokenData {
   username: string
 }
 
-interface snackbarMessage {
-  type: 'error' | 'success'
-  message: string
-}
-
 export default (
   userDataVar: ReactiveVar<userData>,
   isAuthenticatedVar: ReactiveVar<boolean>,
-  snackbarMessageVar: ReactiveVar<snackbarMessage>
+  snackbarEventVar: ReactiveVar<snackbarEvent>
 ): ((token: string) => boolean) => {
   return (token: string): boolean => {
     try {
@@ -39,7 +29,7 @@ export default (
 
       return true
     } catch (error) {
-      snackbarMessageVar({
+      snackbarEventVar({
         type: 'error',
         message: 'Невалидный токен'
       })

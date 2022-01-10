@@ -1,15 +1,14 @@
-import { openSnackbar, closeSnackbar } from './ui'
+import { openSnackbar, closeSnackbar } from './shared'
 import { extractUserData, logout } from './user'
 
-import { snackbarMessageVar, userDataVar, isAuthenticatedVar } from '../cache'
+import { snackbarEventVar, userDataVar, isAuthenticatedVar } from '../variables'
 
-export const UiMutations = {
-  // TODO: maybe SharedMutations
-  openSnackbar: openSnackbar(snackbarMessageVar),
-  closeSnackbar: closeSnackbar(snackbarMessageVar)
+export const SharedMutations = {
+  openSnackbar: openSnackbar(snackbarEventVar),
+  closeSnackbar: closeSnackbar(snackbarEventVar)
 }
 
 export const UserMutations = {
-  extractUserData: extractUserData(userDataVar, isAuthenticatedVar, snackbarMessageVar),
+  extractUserData: extractUserData(userDataVar, isAuthenticatedVar, snackbarEventVar),
   logout: logout(userDataVar, isAuthenticatedVar)
 }
