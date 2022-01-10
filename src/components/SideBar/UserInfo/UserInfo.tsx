@@ -12,9 +12,6 @@ interface UserInfoProps {
 
 const useStyles = makeStyles(() => ({
   root: {
-    position: 'absolute',
-    bottom: 0,
-    overflowX: 'hidden',
     padding: '13px 10px 13px 10px',
     display: 'flex',
     alignItems: 'center',

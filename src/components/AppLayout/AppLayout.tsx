@@ -19,7 +19,8 @@ const useStyles = makeStyles(() => ({
   content: {
     width: '100%',
     overflowY: 'auto',
-    backgroundColor: '#313131'
+    backgroundColor: '#313131',
+    paddingLeft: 70
   }
 }))
 

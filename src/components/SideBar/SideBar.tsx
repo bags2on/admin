@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import clsx from 'clsx'
 import NavList from './NavList/NavList'
@@ -14,24 +13,40 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 70,
-    position: 'relative',
-    flexShrink: 0,
+    position: 'fixed',
     height: '100%',
     backgroundColor: '#232323',
     overflowX: 'hidden',
-    transition: 'all .2s'
+    transition: 'all .2s',
+    zIndex: 1000
   },
   rootExpanded: {
     width: 270
   },
   expandButton: {
-    display: 'block',
-    margin: '10px 10px 10px auto',
+    position: 'absolute',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    bottom: 10,
     fill: '#fff',
     '&:hover': {
       background: 'none',
       fill: theme.palette.primary.main
     }
+  },
+  overlay: {
+    display: 'none',
+    position: 'fixed',
+    zIndex: 900,
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 'calc(100 * var(--vh))',
+    'backdrop-filter': 'blur(3px)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)'
+  },
+  overlayVisible: {
+    display: 'block'
   }
 }))
 
@@ -52,22 +67,38 @@ const SideBar: React.FC = () => {
   const { data } = useQuery<userDataQuery>(GET_USER_DATA)
 
   const handleExpandButtonClick = (): void => {
-    setExpanded((prev) => !prev)
+    setExpanded((prev) => {
+      document.body.style.overflow = !prev ? 'hidden' : 'unset'
+      return !prev
+    })
   }
 
   return (
-    <aside
-      className={clsx({
-        [classes.root]: true,
-        [classes.rootExpanded]: isExpanded
-      })}
-    >
-      <IconButton disableRipple className={classes.expandButton} onClick={handleExpandButtonClick}>
-        <Icon>{isExpanded ? <LeftArrowIcon /> : <RightArrowIcon />}</Icon>
-      </IconButton>
-      <NavList />
-      <UserInfo name={data?.userData.name || ''} picture={data?.userData.picture || ''} />
-    </aside>
+    <>
+      <aside
+        className={clsx({
+          [classes.root]: true,
+          [classes.rootExpanded]: isExpanded
+        })}
+      >
+        <NavList />
+        <UserInfo name={data?.userData.name || ''} picture={data?.userData.picture || ''} />
+        <IconButton
+          disableRipple
+          className={classes.expandButton}
+          onClick={handleExpandButtonClick}
+        >
+          <Icon>{isExpanded ? <LeftArrowIcon /> : <RightArrowIcon />}</Icon>
+        </IconButton>
+      </aside>
+      <div
+        onClick={handleExpandButtonClick}
+        className={clsx({
+          [classes.overlay]: true,
+          [classes.overlayVisible]: isExpanded
+        })}
+      />
+    </>
   )
 }
 
