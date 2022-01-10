@@ -8,8 +8,7 @@ import { useMutation } from '@apollo/client'
 import { Link } from 'react-router-dom'
 import { ReactComponent as EyeIcon } from '../../asset/svg/eye.svg'
 import { ReactComponent as EyeHidddenIcon } from '../../asset/svg/eye-hide.svg'
-import { formatPrice, generateLink } from '../../utils/helpers'
-import { getColorForMainTagName } from '../../utils/styling'
+import { formatPrice, generateLink, tagToLocal, getColorForMainTagName } from '../../utils/helpers'
 import routes from '../../utils/routeNames'
 import classes from './styles.module.scss'
 import {
@@ -130,7 +129,7 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
             backgroundColor: getColorForMainTagName(mainTag)
           }}
         >
-          <span>{mainTag}</span>
+          <span>{tagToLocal(mainTag)}</span>
         </div>
       )}
     </div>

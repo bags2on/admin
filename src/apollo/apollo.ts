@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloClient, HttpLink, ApolloLink, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import { cache } from './cache/cache'
@@ -24,6 +23,8 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation)
 })
 
+// https://github.com/apollographql/apollo-link/issues/646
+// https://pretagteam.com/question/why-cant-refresh-jwt-token-with-apollo-client
 const refreshLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
   if (graphQLErrors) {
     const err = graphQLErrors[0].extensions

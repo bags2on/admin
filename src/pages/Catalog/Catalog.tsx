@@ -1,40 +1,52 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import Grid from '@material-ui/core/Grid'
-import Search from './Search/Search'
-import Loader from '../../shared/Loader/Loader'
-import CatalogItem from '../../components/CatalogItem/CatalogItem'
-import Pagination from '../../components/Pagination/Pagination'
+import React, { useState, useEffect } from 'react'
+import clsx from 'clsx'
+import SvgIcon from '@material-ui/core/SvgIcon'
+import Button from '../../shared/Button/Button'
+import Filters from './Filters/Filters'
+import Products from './Products/Products'
+import ScaleLoader from '../../shared/Loader/Loader'
+import { ReactComponent as FilterIcon } from '../../asset/svg/icons/product-category.svg'
+import { useParams, useLocation, Redirect } from 'react-router-dom'
 import { useLazyQuery } from '@apollo/client'
 import {
   AllProductsDocument,
   AllProductsQuery,
   AllProductsVariables
 } from '../../graphql/product/_gen_/products.query'
-import { makeStyles } from '@material-ui/core/styles'
 import { CategoryType, Gender, MainTag, PriceRange } from '../../types'
-import { useParams } from 'react-router-dom'
-import Filters from './Filters/Filters'
+import classes from './Catalog.module.scss'
+import routeNames from '../../utils/routeNames'
+import appHistory from '../../utils/history'
 
-const useStyles = makeStyles(() => ({
-  list: {
-    margin: 0,
-    padding: 0,
-    listStyle: 'none'
-  },
-  filtersBox: {
-    width: 300,
-    flex: '1 0 auto',
-    display: 'flex',
-    flexDirection: 'column',
-    right: '-100%',
-    outline: 'none',
-    zIndex: 1200,
-    height: 'calc(100 * var(--vh))',
-    transition: 'all 0.3s',
-    padding: '0 10px'
-  }
-}))
+interface ParamTypes {
+  page: string
+}
+
+type genderType = 'FEMALE' | 'MALE' | 'UNISEX'
+type availabilityType = 'inStock' | 'byOrder'
+type mainTagType = 'STOCK' | 'NEW'
+type categoryType = 'BAG' | 'WALLET' | 'BACKPACK' | 'SUITCASE' | 'OTHER'
+
+interface FilterValues {
+  availability: Array<availabilityType>
+  gender: Array<genderType>
+  mainTag: mainTagType
+  priceRange: [number, number]
+  category: Array<categoryType>
+}
+
+interface LocationState {
+  categoryName?: categoryType | ''
+  genderType?: genderType | ''
+}
+
+type queryValues = {
+  instock: boolean | undefined
+  price: PriceRange | undefined
+  mainTag: MainTag
+  gender: Gender[]
+  category: CategoryType[]
+}
 
 function getQueryValues(values: FilterValues): queryValues {
   const { gender, availability, mainTag, priceRange, category } = values as FilterValues
@@ -61,52 +73,21 @@ function getQueryValues(values: FilterValues): queryValues {
   }
 }
 
-type genderType = 'FEMALE' | 'MALE' | 'UNISEX'
-type availabilityType = 'inStock' | 'byOrder'
-type mainTagType = 'STOCK' | 'NEW'
-type categoryType = 'BAG' | 'WALLET' | 'BACKPACK' | 'SUITCASE' | 'OTHER'
-interface ParamTypes {
-  page: string
-}
-
-interface FilterValues {
-  availability: Array<availabilityType>
-  gender: Array<genderType>
-  mainTag: mainTagType
-  priceRange: [number, number]
-  category: Array<categoryType>
-}
-
-type queryValues = {
-  instock: boolean | undefined
-  price: PriceRange | undefined
-  mainTag: MainTag
-  gender: Gender[]
-  category: CategoryType[]
-}
-
 const Catalog: React.FC = () => {
-  const classes = useStyles()
   const { page } = useParams<ParamTypes>()
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 0])
+  const location = useLocation<LocationState>()
 
-  const formikRef = React.useRef<HTMLFormElement>(null)
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 0])
+  const [isOpen, setOpen] = useState<boolean>(false)
+
+  const { categoryName, genderType } = location.state || { categoryName: '', genderType: '' }
 
   const numOfPage = !isNaN(Number(page)) ? Number(page) : 1
-
-  const filtersInitialValues = {
-    gender: [] as Gender[],
-    availability: [],
-    mainTag: '',
-    priceRange: priceRange,
-    category: [] as CategoryType[]
-  }
 
   const [getProducts, { loading, data, error }] = useLazyQuery<
     AllProductsQuery,
     AllProductsVariables
   >(AllProductsDocument, {
-    fetchPolicy: 'network-only',
     onCompleted: (data) => {
       if (data?.allProducts.priceRange) {
         const { gt, lt } = data.allProducts.priceRange
@@ -115,8 +96,18 @@ const Catalog: React.FC = () => {
     }
   })
 
+  const filtersInitialValues = {
+    gender: genderType ? [genderType] : [],
+    availability: [],
+    mainTag: '',
+    priceRange: priceRange,
+    category: categoryName ? [categoryName] : []
+  }
+
   useEffect(() => {
     window.scrollTo({ top: 0 })
+
+    if (categoryName || genderType) history.replaceState({}, '')
 
     const filters = sessionStorage.getItem('filters')
 
@@ -129,28 +120,14 @@ const Catalog: React.FC = () => {
     } else {
       getProducts({
         variables: {
-          gender: [],
+          gender: genderType ? ([genderType] as Gender[]) : [],
           instock: undefined,
-          category: [],
+          category: categoryName ? ([categoryName] as CategoryType[]) : [],
           page: numOfPage
         }
       })
     }
   }, [numOfPage])
-
-  if (loading) {
-    return (
-      <div
-        style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      >
-        <Loader fallback />
-      </div>
-    )
-  }
-
-  if (error) {
-    return <h1>Access denied</h1>
-  }
 
   const handleFiltersSubmit = (values: FilterValues) => {
     sessionStorage.setItem('filters', JSON.stringify(values))
@@ -160,44 +137,92 @@ const Catalog: React.FC = () => {
     })
   }
 
-  console.log(data)
+  const handleFilterClick = (): void => {
+    document.body.style.overflow = 'hidden'
+    setOpen(true)
+  }
+
+  const handleDrawerClose = (): void => {
+    document.body.style.overflow = 'unset'
+    setOpen(false)
+  }
+
+  const formikRef = React.useRef<HTMLFormElement>(null)
+
+  const handleReftesh = (): void => {
+    if (formikRef) formikRef.current?.reset()
+    appHistory.push(routeNames.catalog + '/1')
+  }
+
+  if (error) {
+    if (error.message === 'invalid page') {
+      return <Redirect to={routeNames.catalog} />
+    }
+    return <h1>Errror</h1>
+  }
 
   const totalPages = data?.allProducts.pagination.totalPages
 
   return (
-    <div>
-      <Search />
-      <div style={{ display: 'flex' }}>
-        <div className={classes.filtersBox}>
-          <Filters
-            initValues={filtersInitialValues}
-            priceRange={priceRange}
-            formRef={formikRef}
-            onSubmit={handleFiltersSubmit}
-          />
-        </div>
-        <Grid container component="ul" className={classes.list}>
-          {data?.allProducts.products.map((product) => (
-            <Grid key={product.id} component="li" item xs={6} md={4} lg={3} xl={2}>
-              <CatalogItem
-                id={product.id}
-                hidden={product.isHidden}
-                url={product.preview}
-                title={product.title}
-                basePrice={product.basePrice}
-                currentPrice={product.currentPrice}
-                mainTag={product.mainTag}
-                inStock={product.instock}
+    <div className={classes.root}>
+      <div className={classes.wrapper}>
+        <div className={classes.pageContainer}>
+          <div className={classes.controlContainer}>
+            <div className={classes.filterButtonWrapper}>
+              <Button
+                onClick={handleFilterClick}
+                className={classes.filterButton}
+                disableShadow
+                disabled={loading}
+                fullWidth
+                startIcon={
+                  <SvgIcon component="span">
+                    <FilterIcon />
+                  </SvgIcon>
+                }
+              >
+                фильтр
+              </Button>
+            </div>
+            <div
+              className={clsx({
+                [classes.filtersBox]: true,
+                [classes.filtersBoxVisible]: isOpen
+              })}
+            >
+              <Filters
+                initValues={filtersInitialValues}
+                priceRange={priceRange}
+                formRef={formikRef}
+                onSubmit={handleFiltersSubmit}
               />
-            </Grid>
-          ))}
-        </Grid>
+            </div>
+          </div>
+          <div className={classes.viewBox}>
+            {loading ? (
+              <div className={classes.loaderWapper}>
+                <ScaleLoader fallback />
+              </div>
+            ) : (
+              <div className={classes.productsContainer}>
+                <Products
+                  totalPages={totalPages ? totalPages : 1}
+                  currentPage={isNaN(numOfPage) ? 1 : numOfPage}
+                  products={data?.allProducts.products}
+                  onActionButtonClick={handleReftesh}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+        <div
+          onClick={handleDrawerClose}
+          className={clsx({
+            [classes.overlay]: true,
+            [classes.overlayVisible]: isOpen
+          })}
+        />
       </div>
-      <Pagination
-        currentPage={isNaN(numOfPage) ? 1 : numOfPage}
-        total={totalPages ? totalPages : 1}
-        route="/catalog"
-      />
     </div>
   )
 }

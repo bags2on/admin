@@ -4,6 +4,7 @@ import Snackbar from '../Snackbar/Snackbar'
 import { useQuery } from '@apollo/client'
 import { GET_SNACKBAR_MESSAGE } from '../../apollo/cache/queries/ui'
 import { GET_AUTHENTICATION_STATE } from '../../apollo/cache/queries/user'
+import { useWindowHeight } from '../../hooks'
 import { makeStyles } from '@material-ui/core/styles'
 
 interface AppLayoutProps {
@@ -23,6 +24,7 @@ const useStyles = makeStyles(() => ({
 }))
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
+  useWindowHeight()
   const classes = useStyles()
   const auth = useQuery(GET_AUTHENTICATION_STATE)
 

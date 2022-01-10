@@ -23,7 +23,7 @@ const App: React.FC = () => {
           <PrivateRoute key="edit_product" exact path="/edit-product/:id" component={Product} />
           <PrivateRoute path="/catalog/:page?" component={Catalog} />
           <PrivateRoute exact path="/ui" component={UI} />
-          <Redirect exact from="/" to="/create-product" />
+          <Redirect exact from="/" to="/orders" />
         </Switch>
       </AppLayout>
     </Suspense>

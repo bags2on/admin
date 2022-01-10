@@ -32,6 +32,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
 
 export default createMuiTheme({
   breakpoints: {
+    keys: ['xs', 'sm', 'md', 'lg', 'xl', 'tablet', 'laptop', 'desktop'],
     values: {
       xs: 0,
       sm: 450,
@@ -73,6 +74,12 @@ export default createMuiTheme({
           height: '100%',
           overflowY: 'hidden'
         }
+      }
+    },
+    MuiBackdrop: {
+      root: {
+        backdropFilter: 'blur(3px)',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)'
       }
     }
   }

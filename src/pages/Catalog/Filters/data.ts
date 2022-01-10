@@ -8,15 +8,15 @@ interface FilterItem {
 const gender: FilterItem = {
   options: [
     {
-      label: 'FEMALE',
+      label: 'Женский',
       value: 'FEMALE'
     },
     {
-      label: 'MALE',
+      label: 'Мужской',
       value: 'MALE'
     },
     {
-      label: 'UNISEX',
+      label: 'Uni-sex',
       value: 'UNISEX'
     }
   ]
@@ -25,15 +25,15 @@ const gender: FilterItem = {
 const availability: FilterItem = {
   options: [
     {
-      label: 'inStock',
+      label: 'В наличии',
       value: 'inStock'
     },
     {
-      label: 'byOrder',
+      label: 'Под заказ',
       value: 'byOrder'
     },
     {
-      label: 'isHidden',
+      label: 'Не публичный',
       value: 'ishidden'
     }
   ]
@@ -48,17 +48,17 @@ const radioGroup: {
 } = {
   options: [
     {
-      label: 'All',
+      label: 'Все',
       value: '',
       disabled: false
     },
     {
-      label: 'New',
+      label: 'Новые',
       value: 'NEW',
       disabled: false
     },
     {
-      label: 'Stock',
+      label: 'Акция',
       value: 'STOCK',
       disabled: false
     }
@@ -68,23 +68,23 @@ const radioGroup: {
 const categories: FilterItem = {
   options: [
     {
-      label: 'SUITCASE',
+      label: 'Чемоданы',
       value: 'SUITCASE'
     },
     {
-      label: 'BAG',
+      label: 'Сумки',
       value: 'BAG'
     },
     {
-      label: 'WALLET',
+      label: 'Кошельки',
       value: 'WALLET'
     },
     {
-      label: 'BACKPACK',
+      label: 'Рюкзаки',
       value: 'BACKPACK'
     },
     {
-      label: 'OTHER',
+      label: 'Другое',
       value: 'OTHER'
     }
   ]
