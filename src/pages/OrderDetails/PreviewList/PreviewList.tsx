@@ -30,10 +30,11 @@ const useStyles = makeStyles(() => ({
   },
   list: {
     margin: 0,
-    padding: 10,
+    padding: '5px 10px',
     listStyle: 'none',
     backgroundColor: '#3c3c3c',
-    minHeight: 600
+    borderRadius: 15,
+    minHeight: 555
   }
 }))
 
