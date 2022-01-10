@@ -16,6 +16,7 @@ interface ProductsProps {
         instock: boolean
         currentPrice: number
         basePrice: number
+        isHidden: boolean
         mainTag: string
         preview: string
       }>
@@ -120,6 +121,7 @@ const Products: React.FC<ProductsProps> = ({
                 inStock={product.instock}
                 mainTag={product.mainTag}
                 basePrice={product.basePrice}
+                hidden={product.isHidden}
               />
             </ExpandedGrid>
           )

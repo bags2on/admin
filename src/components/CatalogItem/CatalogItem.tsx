@@ -16,6 +16,7 @@ import {
   HideProductMutation,
   HideProductVariables
 } from '../../graphql/product/_gen_/hideProduct.mutation'
+import { SharedMutations } from '../../apollo/cache/mutations'
 
 interface CatalogItemProps {
   id: string
@@ -43,7 +44,21 @@ const CatalogItem: React.FC<CatalogItemProps> = ({
   const [isHidden, setHidden] = useState<boolean>(hidden)
 
   const [hideProduct, { loading }] = useMutation<HideProductMutation, HideProductVariables>(
-    HideProductDocument
+    HideProductDocument,
+    {
+      onCompleted: (data) => {
+        SharedMutations.openSnackbar({
+          message: `«${id}» — ` + (data.hideProduct?.isHidden ? 'cпрятан' : 'публичен'),
+          type: 'success'
+        })
+      },
+      onError: () => {
+        SharedMutations.openSnackbar({
+          message: `«${id}» — ошибка статуса видимости`,
+          type: 'error'
+        })
+      }
+    }
   )
 
   const onHiddenChange = async () => {
