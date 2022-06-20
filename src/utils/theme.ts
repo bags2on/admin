@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 import { BreakpointOverrides } from '@material-ui/core/styles/createBreakpoints'
 
 declare module '@material-ui/core/styles/createBreakpoints' {
@@ -14,7 +14,7 @@ declare module '@material-ui/core/styles/createBreakpoints' {
   }
 }
 
-declare module '@material-ui/core/styles/createMuiTheme' {
+declare module '@material-ui/core/styles/createTheme' {
   interface Theme {
     appDrawer: {
       width: React.CSSProperties['width']
@@ -30,7 +30,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
   }
 }
 
-export default createMuiTheme({
+export default createTheme({
   breakpoints: {
     keys: ['xs', 'sm', 'md', 'lg', 'xl', 'tablet', 'laptop', 'desktop'],
     values: {
