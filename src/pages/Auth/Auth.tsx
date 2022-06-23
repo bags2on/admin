@@ -10,8 +10,8 @@ import {
   LogInRootDocument
 } from '../../graphql/user/_gen_/loginRoot.query'
 import { UserMutations } from '../../apollo/cache/mutations'
-import history from '../../utils/history'
 import routeNames from '../../utils/routeNames'
+import { useNavigate } from 'react-router-dom'
 
 interface formValues {
   keyWord: string
@@ -20,11 +20,12 @@ interface formValues {
 const Auth: React.FC = () => {
   const [withError, setWithError] = useState<boolean>(false)
   const formRef = useRef<HTMLFormElement>(null)
+  const navigate = useNavigate()
 
   const [logIn, { loading }] = useLazyQuery<LogInRootQuery, LogInRootVariables>(LogInRootDocument, {
     onCompleted: (data) => {
       const ok = UserMutations.extractUserData(data.logInRoot?.token || '')
-      if (ok) history.replace(routeNames.orders)
+      if (ok) navigate(routeNames.orders)
     },
     onError: () => {
       if (formRef) formRef.current?.reset()
