@@ -6,7 +6,7 @@ import Filters from './Filters/Filters'
 import Products from './Products/Products'
 import ScaleLoader from '../../shared/Loader/Loader'
 import { ReactComponent as FilterIcon } from '../../asset/svg/icons/product-category.svg'
-import { useParams, useLocation, Redirect } from 'react-router-dom'
+import { useParams, useLocation, Navigate } from 'react-router-dom'
 import { useLazyQuery } from '@apollo/client'
 import {
   AllProductsDocument,
@@ -36,8 +36,10 @@ interface FilterValues {
 }
 
 interface LocationState {
-  categoryName?: categoryType | ''
-  genderType?: genderType | ''
+  state: {
+    categoryName?: categoryType | ''
+    genderType?: genderType | ''
+  }
 }
 
 type queryValues = {
@@ -74,8 +76,8 @@ function getQueryValues(values: FilterValues): queryValues {
 }
 
 const Catalog: React.FC = () => {
-  const { page } = useParams<ParamTypes>()
-  const location = useLocation<LocationState>()
+  const { page } = useParams<keyof ParamTypes>() as ParamTypes
+  const location = useLocation() as LocationState
 
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 0])
   const [isOpen, setOpen] = useState<boolean>(false)
@@ -156,7 +158,7 @@ const Catalog: React.FC = () => {
 
   if (error) {
     if (error.message === 'invalid page') {
-      return <Redirect to={routeNames.catalog} />
+      return <Navigate to={routeNames.catalog} />
     }
     return <h1>Errror</h1>
   }

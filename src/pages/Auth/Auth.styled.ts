@@ -8,6 +8,7 @@ export const Box = styled.div`
   height: 100vh;
 `
 export const Title = styled.p`
+  color: #fff;
   margin: 0;
   font-size: 14px;
   font-weight: 500;
@@ -68,7 +69,7 @@ export const Input = styled(Field)<InputProps>`
   text-align: center;
   outline: none;
   width: 300px;
-  border-radius: 10px;
+  border-radius: 7px;
   border: 2px solid;
   border-color: #afafaf;
   color: #fff;

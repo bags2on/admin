@@ -49,7 +49,7 @@ const Auth: React.FC = () => {
           keyWord: ''
         }}
       >
-        {(): React.ReactElement => (
+        {() => (
           <Form ref={formRef}>
             <div>
               <Title>keyword:</Title>

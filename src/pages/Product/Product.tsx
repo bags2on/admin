@@ -70,7 +70,7 @@ const CreateProduct: React.FC = () => {
   const classes = useStyles()
 
   const { pathname } = useLocation()
-  const { id } = useParams<routeParams>()
+  const { id } = useParams<keyof routeParams>() as routeParams
 
   const isCreateMode = pathname === routeNames.createProduct
 
