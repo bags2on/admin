@@ -2,7 +2,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { ApolloProvider } from '@apollo/client'
 import { CssBaseline, ThemeProvider } from '@material-ui/core'
-import { unstable_HistoryRouter as HistoryRouter, BrowserRouter } from 'react-router-dom'
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom'
 import theme from './utils/theme'
 import client from './apollo/apollo'
 import App from './App'
@@ -22,7 +22,6 @@ const Application: React.FC = () => {
   )
 }
 
-const root = createRoot(document.getElementById('root')!)
+const root = createRoot(document.getElementById('root') as HTMLElement)
 root.render(<Application />)
-
 // reportWebVitals(console.log)
