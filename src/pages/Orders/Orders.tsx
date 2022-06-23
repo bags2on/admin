@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
+import styled from 'styled-components'
 import { useQuery } from '@apollo/client'
-import { useEventSource } from '@sse-lib/react-sse'
-import { makeStyles } from '@material-ui/core/styles'
 import {
   AllOrdersQuery,
   AllOrdersVariables,
@@ -11,22 +10,16 @@ import {
 import history from '../../utils/history'
 import routeNames from '../../utils/routeNames'
 
-const useStyles = makeStyles(() => ({
-  root: {},
-  list: {
-    listStyle: 'none'
-  },
-  listItem: {
-    margin: 10,
-    border: '1px solid #fff'
-  }
-}))
+const List = styled.ul`
+  list-style: none;
+`
+
+const ListItem = styled.li`
+  margin: 10px;
+  border: 1px solid #fff;
+`
 
 const Orders: React.FC = () => {
-  const classes = useStyles()
-
-  const event = useEventSource('new-order')
-
   const { data } = useQuery<AllOrdersQuery, AllOrdersVariables>(AllOrdersDocument, {
     variables: {
       input: {
@@ -40,10 +33,9 @@ const Orders: React.FC = () => {
   }
 
   return (
-    <div className={classes.root}>
+    <div>
       <h1>Orders:</h1>
-      <div>{JSON.stringify(event.data)}</div>
-      <ul className={classes.list}>
+      <List>
         {data?.allOrders.map((order) => {
           const data = new Date(Date.parse(order.createdAt))
           const formatDate = data.toLocaleString('ru-UA', {
@@ -57,32 +49,20 @@ const Orders: React.FC = () => {
           })
 
           return (
-            <li
-              key={order.id}
-              className={classes.listItem}
-              onClick={() => handleRedirect(order.id)}
-            >
+            <ListItem key={order.id} onClick={() => handleRedirect(order.id)}>
               <span>{order.id};</span>&nbsp;
               <span>{order.status};</span>&nbsp;
               <span>{formatDate}</span>
-            </li>
+            </ListItem>
           )
         })}
-        <li
-          className={classes.listItem}
-          style={{ background: 'red' }}
-          onClick={() => handleRedirect('-1')}
-        >
+        <ListItem style={{ background: 'red' }} onClick={() => handleRedirect('-1')}>
           Does not exist!
-        </li>
-        <li
-          className={classes.listItem}
-          style={{ background: 'red' }}
-          onClick={() => handleRedirect('---')}
-        >
+        </ListItem>
+        <ListItem style={{ background: 'red' }} onClick={() => handleRedirect('---')}>
           Invalid ID
-        </li>
-      </ul>
+        </ListItem>
+      </List>
     </div>
   )
 }

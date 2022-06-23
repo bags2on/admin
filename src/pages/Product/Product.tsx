@@ -274,7 +274,7 @@ const CreateProduct: React.FC = () => {
         >
           {({ values }) => (
             <Form>
-              {console.log(values)}
+              {/* {console.log(values)} */}
               <Grid container>
                 <Grid item xs={5}>
                   <PhotosUpload

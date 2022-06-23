@@ -8,7 +8,8 @@ import { ReactComponent as CloseIcon } from '../../asset/svg/close.svg'
 import { ReactComponent as ErrorIcon } from '../../asset/svg/icons/error.svg'
 import { ReactComponent as CheckIcon } from '../../asset/svg/icons/check.svg'
 import Slide, { SlideProps } from '@material-ui/core/Slide'
-import { makeStyles } from '@material-ui/core/styles'
+
+import classes from './styles.module.scss'
 
 interface SnackbarProps {
   message?: string
@@ -20,34 +21,12 @@ const variantIcon = {
   error: ErrorIcon
 }
 
-const useStyles = makeStyles(() => ({
-  success: {
-    backgroundColor: '#2bab2b'
-  },
-  error: {
-    backgroundColor: '#f44336'
-  },
-  icon: {
-    fontSize: 20,
-    marginRight: 10
-  },
-  closeIcon: {
-    fontSize: 15
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center'
-  }
-}))
-
 function SlideTransition(props: Omit<SlideProps, 'direction'>) {
   return <Slide {...props} direction="up" />
 }
 
 const Snackbar: React.FC<SnackbarProps> = ({ message, type }) => {
-  const classes = useStyles()
-
-  const handleClose = (_: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return
     }

@@ -108,12 +108,8 @@ const PriceRange: React.FC<PriceRangeProps> = ({ title, name, min, max, step = 1
   }
 
   const marks = {
-    [String(min)]: {
-      label: min
-    },
-    [String(max)]: {
-      label: max
-    }
+    [min]: min,
+    [max]: max
   }
 
   return (

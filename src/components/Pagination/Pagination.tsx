@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import clsx from 'clsx'
+import styled, { css } from 'styled-components'
 import history from '../../utils/history'
-import { makeStyles } from '@material-ui/core'
 
 interface PaginationProps {
   total: number
@@ -9,40 +8,46 @@ interface PaginationProps {
   route: string
 }
 
-const useStyles = makeStyles((theme) => ({
-  pagination: {
-    display: 'flex',
-    justifyContent: 'center',
-    listStyle: 'none',
-    margin: 0,
-    padding: 0
-  },
-  pagingItem: {
-    margin: 5,
-    display: 'flex',
-    fontWeight: 600,
-    cursor: 'pointer',
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#444444',
-    borderRadius: 5,
-    fontSize: 15,
-    outline: 'none',
-    width: 35,
-    height: 35,
-    padding: 0,
-    userSelect: 'none',
-    transition: 'opacity .3s',
-    '&:hover': {
-      opacity: '0.6'
-    }
-  },
-  activePage: {
-    backgroundColor: theme.palette.type === 'light' ? '#fff' : '#696C72',
-    boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px'
+const PaginationList = styled.ul`
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`
+
+interface PaginationItemProps {
+  active: boolean
+}
+
+const PaginationItem = styled.li<PaginationItemProps>`
+  display: flex;
+  margin: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  background-color: #444444;
+  border-radius: 5px;
+  font-size: 15px;
+  outline: none;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  user-select: none;
+  transition: opacity 0.3s;
+  &:hover {
+    opacity: 0.6;
   }
-}))
+  ${({ active }) =>
+    active
+      ? css`
+          background-color: #696c72; // 'light' ? '#fff' : '#696C72',
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        `
+      : undefined}
+`
 
 const Pagination: React.FC<PaginationProps> = ({ total, currentPage, route }) => {
   const [current, setCurrent] = useState<number>(currentPage > total ? total : currentPage)
@@ -56,8 +61,6 @@ const Pagination: React.FC<PaginationProps> = ({ total, currentPage, route }) =>
       history.push(route + `/${value}`)
     }
   }
-
-  const classes = useStyles()
 
   const constantSlots = 8
 
@@ -104,22 +107,19 @@ const Pagination: React.FC<PaginationProps> = ({ total, currentPage, route }) =>
 
   return (
     <section>
-      <ul className={classes.pagination}>
+      <PaginationList>
         {items.map((page, ind) => {
           return (
-            <li
+            <PaginationItem
               key={ind}
-              className={clsx({
-                [classes.pagingItem]: true,
-                [classes.activePage]: current === page
-              })}
+              active={current === page}
               onClick={(): void => handlePaginationChange(page)}
             >
               {page}
-            </li>
+            </PaginationItem>
           )
         })}
-      </ul>
+      </PaginationList>
     </section>
   )
 }

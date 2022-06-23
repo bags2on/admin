@@ -7,7 +7,7 @@ import fieldProps from './data'
 import Button from '../../../shared/Button/Button'
 import AutoSave from '../../../shared/AutoSave'
 import { Formik, Form } from 'formik'
-import { makeStyles } from '@material-ui/core'
+import classes from './styles.module.scss'
 
 type PriceRange = {
   lt: number
@@ -30,43 +30,7 @@ interface FiltersProps {
   onSubmit(values: any): void
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: '10px 10px 20px 10px',
-    backgroundColor: '#2a2a2a'
-  },
-  title: {
-    margin: 0,
-    lineHeight: '1.5',
-    fontSize: 21,
-    textAlign: 'center',
-    position: 'relative',
-    fontWeight: 500,
-    [theme.breakpoints.up('lg')]: {
-      textAlign: 'start'
-    }
-  },
-  divider: {
-    backgroundColor: '#d8bbbb80',
-    marginBottom: '10px',
-    height: 2
-  },
-  clearButton: {
-    fontSize: 11,
-    padding: 3,
-    background: '#f44336',
-    '&:hover': {
-      background: '#ff5346'
-    }
-  },
-  generalWrapper: {
-    padding: '8px 10px'
-  }
-}))
-
 const Filters: React.FC<FiltersProps> = ({ priceRange, initValues, formRef, onSubmit }) => {
-  const classes = useStyles()
-
   const { gender, availability, radioGroup, categories } = fieldProps
   const [minPrice, maxPrice] = priceRange
 

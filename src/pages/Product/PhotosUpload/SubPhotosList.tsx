@@ -108,7 +108,8 @@ const SubPhotosList: React.FC<SubPhotosListProps> = ({
     const updatedPhotos = cloneDeep(subPhotos)
 
     const newFile: File = file
-    newFile.preview = URL.createObjectURL(file)
+    const s: unknown = newFile
+    newFile.preview = URL.createObjectURL(s as Blob)
 
     updatedPhotos[position] = newFile
     onSubPhotoUpload(updatedPhotos)

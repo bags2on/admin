@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
+import styled from 'styled-components'
 import List from '@material-ui/core/List'
-import Icon from '@material-ui/core/Icon'
-import ListItem from '@material-ui/core/ListItem'
+import MiUIcon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
 import { NavLink } from 'react-router-dom'
 import { ReactComponent as ActiveOrdersIcon } from '../../../asset/svg/supplies.svg'
@@ -11,45 +11,45 @@ import { ReactComponent as CreateProductIcon } from '../../../asset/svg/create_p
 import { ReactComponent as StorageIcon } from '../../../asset/svg/storage.svg'
 import { ReactComponent as BannerIcon } from '../../../asset/svg/filter-picture.svg'
 import { ReactComponent as UIicon } from '../../../asset/svg/ui.svg'
-import { makeStyles } from '@material-ui/core/styles'
 import routeNames from '../../../utils/routeNames'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: 10
-  },
-  drawerItem: {
-    padding: '6px 0'
-  },
-  icon: {
-    marginRight: 20,
-    height: 42,
-    fontSize: 35,
-    fill: '#fff',
-    transition: 'all .2s'
-  },
-  linkWrapper: {
-    padding: '8px 0 8px 7px',
-    display: 'flex',
-    alignItems: 'center',
-    color: '#fff',
-    fontWeight: 400,
-    textDecoration: 'none',
-    width: 'inherit',
-    transition: 'all .2s',
-    '&:hover:not($active)': {
-      '& > $icon': {
-        transform: 'scale(1.2)',
-        fill: theme.palette.primary.main
-      }
-    }
-  },
-  active: {
-    '& $icon': {
-      fill: theme.palette.primary.main
+const Nav = styled.nav`
+  padding-left: 10px;
+`
+
+const DrawerItem = styled.li`
+  padding: 6px 0;
+`
+
+const Icon = styled(MiUIcon)`
+  margin-right: 20px;
+  height: 42px;
+  font-size: 35px;
+  fill: #fff;
+  transition: all 0.2s;
+`
+
+const Link = styled(NavLink)`
+  padding: 8px 0 8px 7px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-weight: 400;
+  text-decoration: none;
+  width: inherit;
+  transition: all 0.2s;
+  &:hover:not(.active) {
+    & > .icon {
+      transform: scale(1.2);
+      fill: yellow; // TODO: needs theme
     }
   }
-}))
+  &.active {
+    & > .icon {
+      fill: yellow; // TODO: needs theme
+    }
+  }
+`
 
 const navItems = [
   {
@@ -86,27 +86,21 @@ const navItems = [
 ]
 
 const NavList: React.FC = () => {
-  const classes = useStyles()
-
   return (
-    <nav className={classes.root}>
+    <Nav>
       <List component="ul" aria-label="Навигация">
         {navItems.map((item) => (
-          <ListItem key={item.text} component="li" className={classes.drawerItem}>
-            <NavLink
-              to={item.path}
-              className={classes.linkWrapper}
-              activeClassName={classes.active}
-            >
-              <Icon className={classes.icon}>
+          <DrawerItem key={item.text}>
+            <Link to={item.path}>
+              <Icon>
                 <item.icon />
               </Icon>
               <Typography>{item.text}</Typography>
-            </NavLink>
-          </ListItem>
+            </Link>
+          </DrawerItem>
         ))}
       </List>
-    </nav>
+    </Nav>
   )
 }
 

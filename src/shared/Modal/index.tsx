@@ -10,6 +10,7 @@ import { TransitionProps } from '@material-ui/core/transitions'
 interface ModalProps {
   open: boolean
   onClose(): void
+  children?: React.ReactElement
 }
 
 const useStyles = makeStyles((theme) => ({

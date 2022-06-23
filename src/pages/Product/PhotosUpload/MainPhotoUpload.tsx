@@ -94,7 +94,9 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({
       const uploaded: unknown = acceptedFiles[0] // Type assertions
       const file: File = uploaded as File
 
-      file.preview = URL.createObjectURL(file)
+      const s: unknown = file
+
+      file.preview = URL.createObjectURL(s as Blob)
 
       onMainPhotoUpload(file)
     }
@@ -111,7 +113,9 @@ const MainPhotoUpload: React.FC<MainPhotoUploadProps> = ({
   }
 
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
-    accept: acceptedTypes,
+    accept: {
+      'image/*': acceptedTypes
+    },
     maxSize: 700000, // 700KB
     maxFiles: 1,
     multiple: false,

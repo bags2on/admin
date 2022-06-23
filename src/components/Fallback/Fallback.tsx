@@ -1,23 +1,19 @@
 import React from 'react'
 import Loader from '../../shared/Loader/Loader'
-import { makeStyles } from '@material-ui/core'
+import styled from 'styled-components'
 
-const useStyles = makeStyles(() => ({
-  root: {
-    height: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-}))
+const Box = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 const Fallback: React.FC = () => {
-  const classes = useStyles()
-
   return (
-    <div className={classes.root}>
+    <Box>
       <Loader fallback />
-    </div>
+    </Box>
   )
 }
 
