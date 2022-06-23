@@ -11,7 +11,7 @@ import { useLazyQuery, useMutation } from '@apollo/client'
 import { SharedMutations } from '../../apollo/cache/mutations'
 import { Formik, Form } from 'formik'
 import { makeStyles } from '@material-ui/core/styles'
-import { createProductSchema } from '../../utils/validation/validationSchemas'
+import { createProductSchema } from '../../utils/validationSchemas'
 import {
   CreateProductMutation,
   CreateProductVariables,

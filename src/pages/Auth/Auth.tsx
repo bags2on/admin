@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Box, Input, Title, LoaderWrapper } from './Auth.styled'
 import ScaleLoader from '../../shared/Loader/Loader'
 import { useLazyQuery } from '@apollo/client'
-import { loginRootSchema } from '../../utils/validation/validationSchemas'
+import { loginRootSchema } from '../../utils/validationSchemas'
 import { Formik, Form } from 'formik'
 import {
   LogInRootQuery,
