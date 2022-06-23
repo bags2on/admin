@@ -1,32 +1,30 @@
 import React from 'react'
+import styled from 'styled-components'
 import SideBar from '../SideBar/SideBar'
 import Snackbar from '../Snackbar/Snackbar'
 import { useQuery } from '@apollo/client'
 import { GET_SNACKBAR_EVENT } from '../../apollo/cache/queries/shared'
 import { GET_AUTHENTICATION_STATE } from '../../apollo/cache/queries/user'
 import { useWindowHeight } from '../../hooks'
-import { makeStyles } from '@material-ui/core/styles'
 
 interface AppLayoutProps {
   children: React.ReactNode
 }
 
-const useStyles = makeStyles(() => ({
-  root: {
-    display: 'flex',
-    height: '100vh'
-  },
-  content: {
-    width: '100%',
-    overflowY: 'auto',
-    backgroundColor: '#313131',
-    paddingLeft: 70
-  }
-}))
+const Box = styled.div`
+  display: flex;
+  height: 100vh;
+`
+
+const MainContent = styled.main`
+  width: 100%;
+  overflow-y: auto;
+  background-color: #313131;
+  padding-left: 70px;
+`
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   useWindowHeight()
-  const classes = useStyles()
   const auth = useQuery(GET_AUTHENTICATION_STATE)
 
   const isAuth = auth.data?.isAuthenticated
@@ -35,11 +33,11 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const snackbarData = snackbarEvent.data.snackbarEvent
 
   return (
-    <div className={classes.root}>
+    <Box>
       {isAuth && <SideBar />}
-      <main className={classes.content}>{children}</main>
+      <MainContent>{children}</MainContent>
       <Snackbar message={snackbarData.message} type={snackbarData.type} />
-    </div>
+    </Box>
   )
 }
 

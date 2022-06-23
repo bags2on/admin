@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
+import classes from './styles.module.scss'
 import clsx from 'clsx'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import { useDropzone } from 'react-dropzone'
-import { makeStyles } from '@material-ui/core'
 import { ReactComponent as CloseIcon } from '../../asset/svg/close.svg'
 import { ReactComponent as DeleteIcon } from '../../asset/svg/delete.svg'
 import placeholderPhoto from '../../asset/rastr/placeholder.png'
@@ -25,64 +25,6 @@ interface FileReaderProps {
   onError(code: string): void
 }
 
-const useStyles = makeStyles(() => ({
-  root: {
-    position: 'relative',
-    height: 140,
-    outline: 'none'
-  },
-  imageWrapper: {
-    border: '3px solid #e9f5f8',
-    width: 'inherit',
-    height: 'inherit',
-    transition: 'border .3s',
-    '& > img': {
-      width: '100%',
-      height: '100%'
-    },
-    '&:hover': {
-      border: '3px solid #afdbe6'
-    }
-  },
-  dragActive: {
-    '& $imageWrapper': {
-      border: '3px solid #2196f3'
-    }
-  },
-  dragAccept: {
-    '& $imageWrapper': {
-      border: '3px solid #5b9066'
-    }
-  },
-  dragReject: {
-    color: '#ff182e',
-    '& $imageWrapper': {
-      border: '3px solid #ff182e'
-    }
-  },
-  buttonBox: {
-    position: 'absolute',
-    top: -12,
-    right: -4
-  },
-  removeButton: {
-    padding: 8,
-    backgroundColor: '#e9f5f8',
-    transition: 'background-color .3s',
-    '&:hover': {
-      backgroundColor: '#ff182e',
-      '& $closeIcon': {
-        fill: '#fff'
-      }
-    }
-  },
-  closeIcon: {
-    fontSize: 15,
-    fill: '#ff182e',
-    transition: 'fill .3s'
-  }
-}))
-
 const FileReader: React.FC<FileReaderProps> = ({
   preview,
   position,
@@ -94,8 +36,6 @@ const FileReader: React.FC<FileReaderProps> = ({
   onDelete,
   onError
 }) => {
-  const classes = useStyles()
-
   const handleFileDrop = (acceptedFiles: globalThis.File[]) => {
     if (acceptedFiles.length) {
       const uploaded: unknown = acceptedFiles[0] // Type assertions
@@ -112,7 +52,9 @@ const FileReader: React.FC<FileReaderProps> = ({
   }
 
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
-    accept: acceptedTypes,
+    accept: {
+      'image/*': acceptedTypes
+    },
     maxSize: 700000, // 700KB
     maxFiles: 1,
     multiple: false,

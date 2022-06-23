@@ -84,12 +84,12 @@ const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({ src, altText, plain
 
   const plainPlug = <div className={classes.shine} />
 
-  const plug = plain ? plainPlug : placeholderPlug
+  const plug: React.ReactNode = plain ? plainPlug : placeholderPlug
 
   return (
     <picture className={classes.root}>
       <ProgressiveImage src={src} placeholder="">
-        {(src: string, loading: boolean): JSX.Element => {
+        {(src: string, loading: boolean) => {
           return loading ? plug : <img src={src} alt={altText} className={classes.productImage} />
         }}
       </ProgressiveImage>

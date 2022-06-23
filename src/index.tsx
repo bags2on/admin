@@ -1,35 +1,28 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { ApolloProvider } from '@apollo/client'
-import { ThemeProvider, CssBaseline } from '@material-ui/core'
-import { EventsProvider } from '@sse-lib/react-sse'
-import { Router } from 'react-router-dom'
+import { CssBaseline, ThemeProvider } from '@material-ui/core'
+import { unstable_HistoryRouter as HistoryRouter, BrowserRouter } from 'react-router-dom'
 import theme from './utils/theme'
-import history from './utils/history'
 import client from './apollo/apollo'
 import App from './App'
+import history from './utils/history'
 // import reportWebVitals from './reportWebVitals'
-
-const SSE_URL = process.env.REACT_APP_API_URL + 'sse'
 
 const Application: React.FC = () => {
   return (
-    <Router history={history}>
+    <HistoryRouter history={history}>
       <ThemeProvider theme={theme}>
         <ApolloProvider client={client}>
-          <EventsProvider url={SSE_URL}>
-            <CssBaseline />
-            <App />
-          </EventsProvider>
+          <CssBaseline />
+          <App />
         </ApolloProvider>
       </ThemeProvider>
-    </Router>
+    </HistoryRouter>
   )
 }
 
-ReactDOM.render(<Application />, document.getElementById('root'))
+const root = createRoot(document.getElementById('root')!)
+root.render(<Application />)
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 // reportWebVitals(console.log)

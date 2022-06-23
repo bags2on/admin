@@ -13,6 +13,7 @@ interface ExpandedGridProps {
   laptop?: boolean | GridSize
   xl?: boolean | GridSize
   desktop?: boolean | GridSize
+  children: React.ReactNode
 }
 
 const ExpandedGrid: React.FC<ExpandedGridProps> = ({ className, laptop, desktop, ...other }) => {

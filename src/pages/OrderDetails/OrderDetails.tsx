@@ -6,7 +6,7 @@ import PreviewList from './PreviewList/PreviewList'
 import routeNames from '../../utils/routeNames'
 import { Grid } from '@material-ui/core'
 import { useQuery } from '@apollo/client'
-import { Redirect, useParams } from 'react-router'
+import { Navigate, useParams } from 'react-router'
 import {
   OrderByIdQuery,
   OrderByIdVariables,
@@ -14,12 +14,12 @@ import {
 } from '../../graphql/order/_gen_/orderById.query'
 import { SharedMutations } from '../../apollo/cache/mutations'
 
-interface routeParams {
+interface RouteParams {
   orderId: string
 }
 
 const OrderDetails: React.FC = () => {
-  const { orderId } = useParams<routeParams>()
+  const { orderId } = useParams<keyof RouteParams>() as RouteParams
 
   const { data, loading, error } = useQuery<OrderByIdQuery, OrderByIdVariables>(OrderByIdDocument, {
     variables: {
@@ -37,7 +37,7 @@ const OrderDetails: React.FC = () => {
       message: 'Ордер не найден',
       type: 'error'
     })
-    return <Redirect to={routeNames.orders} />
+    return <Navigate to={routeNames.orders} />
   }
 
   if (error) {
@@ -45,7 +45,7 @@ const OrderDetails: React.FC = () => {
       message: 'Неверный идентификатор ордера',
       type: 'error'
     })
-    return <Redirect to={routeNames.orders} />
+    return <Navigate to={routeNames.orders} />
   }
 
   console.log(data)

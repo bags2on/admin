@@ -11,7 +11,7 @@ import { useLazyQuery, useMutation } from '@apollo/client'
 import { SharedMutations } from '../../apollo/cache/mutations'
 import { Formik, Form } from 'formik'
 import { makeStyles } from '@material-ui/core/styles'
-import { createProductSchema } from '../../utils/validation/validationSchemas'
+import { createProductSchema } from '../../utils/validationSchemas'
 import {
   CreateProductMutation,
   CreateProductVariables,
@@ -70,7 +70,7 @@ const CreateProduct: React.FC = () => {
   const classes = useStyles()
 
   const { pathname } = useLocation()
-  const { id } = useParams<routeParams>()
+  const { id } = useParams<keyof routeParams>() as routeParams
 
   const isCreateMode = pathname === routeNames.createProduct
 
@@ -274,7 +274,7 @@ const CreateProduct: React.FC = () => {
         >
           {({ values }) => (
             <Form>
-              {console.log(values)}
+              {/* {console.log(values)} */}
               <Grid container>
                 <Grid item xs={5}>
                   <PhotosUpload
