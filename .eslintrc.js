@@ -12,7 +12,7 @@ module.exports = {
   rules: {
     'react/prop-types': 0,
     '@typescript-eslint/no-unused-vars': [
-      'error',
+      'warn',
       {
         varsIgnorePattern: '^_',
         argsIgnorePattern: '^_',
