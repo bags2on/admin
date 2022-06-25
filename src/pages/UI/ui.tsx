@@ -4,9 +4,11 @@ import { Formik, Form } from 'formik'
 import TextInput from '../../shared/FormFields/TextInput/TextInput'
 import Button from '../../shared/Button/Button'
 
+import TextInputs from './TextInputs/TextInputs'
+
 const UISchema = yup.object({
   simpleInput: yup.string(),
-  errorInput: yup.string().min(10, 'Мин 10 символов')
+  errorInput: yup.string().min(10, 'Мин 10 символов').required('Необходимое поле')
 })
 
 const UI: React.FC = () => {
@@ -17,28 +19,25 @@ const UI: React.FC = () => {
 
   return (
     <div>
-      <div style={{ paddingLeft: 50 }}>
+      <div style={{ paddingLeft: 20 }}>
         <h3>Ваш шедевр готов!</h3>
         <Formik
           onSubmit={handleSubmit}
           validationSchema={UISchema}
           initialValues={{
-            input: '',
-            errorInput: 'Hello',
+            simpleInput: '',
+            errorInput: '',
+            password: 'password',
             price: ''
           }}
           initialErrors={{
-            input: 'errorInput',
+            input: '',
             errorInput: 'errorInput'
           }}
         >
           {() => (
             <Form>
-              <h4>Text Inputs</h4>
-              <TextInput label="Label" name="simpleInput" />
-              <TextInput label="ERROR" name="errorInput" />
-              <h4>Number Input</h4>
-              <TextInput label="Label" name="price" type="number" />
+              <TextInputs />
               <h4>Button</h4>
               <Button>send message</Button>
               <p>button with loading - main</p>

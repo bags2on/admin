@@ -1,6 +1,8 @@
 import { createTheme } from '@material-ui/core/styles'
 import { BreakpointOverrides } from '@material-ui/core/styles/createBreakpoints'
 
+import { createGlobalStyle } from 'styled-components'
+
 declare module '@material-ui/core/styles/createBreakpoints' {
   interface BreakpointOverrides {
     xs: true
@@ -84,3 +86,48 @@ export default createTheme({
     }
   }
 })
+
+export interface ITheme {
+  colors: {
+    primary: string
+  }
+
+  breakpoints: {
+    xs: number
+    sm: number
+    md: number
+    lg: number
+    xl: number
+    tablet: number
+    laptop: number
+    desktop: number
+  }
+}
+
+export const styledTheme: ITheme = {
+  colors: {
+    primary: '#F2E30C'
+  },
+  breakpoints: {
+    xs: 0,
+    sm: 450,
+    md: 600,
+    lg: 900,
+    xl: 1200,
+    tablet: 800,
+    laptop: 1000,
+    desktop: 1400
+  }
+}
+
+export const GlobalStyles = createGlobalStyle`
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+`

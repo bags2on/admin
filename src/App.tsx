@@ -20,7 +20,6 @@ const App: React.FC = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/create-product" element={<Product />} />
             <Route path="/edit-product/:id" element={<Product />} />
-            <Route path="/ui" element={<UI />} />
             <Route path="/orders" element={<Orders />}>
               <Route path=":orderId" element={<OrderDetails />} />
             </Route>
@@ -28,6 +27,7 @@ const App: React.FC = () => {
               <Route path=":page" element={<Catalog />} />
             </Route>
           </Route>
+          <Route path="/ui" element={<UI />} />
           <Route path="*" element={<Navigate to="/orders" />} />
         </Routes>
       </AppLayout>
