@@ -1,31 +1,29 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core'
+import styled from 'styled-components'
 
-interface StyleProps {
-  fallback?: boolean
-  dark?: boolean
+interface LoaderStyledProps {
+  $fallback: boolean
+  $dark: boolean
 }
 
-const useStyles = makeStyles((theme) => ({
-  loader: {
-    width: (props: StyleProps) => (props.fallback ? 34 : 24),
-    height: (props: StyleProps) => (props.fallback ? 40 : 24),
-    '& > rect': {
-      fill: (props: StyleProps) => (props.dark ? '#343434' : theme.palette.secondary.main)
-    }
+const Loader = styled.svg<LoaderStyledProps>`
+  width: ${({ $fallback }) => ($fallback ? 34 : 18)}px;
+  height: ${({ $fallback }) => ($fallback ? 40 : 18)}px;
+  & > rect {
+    fill: ${({ $dark }) => ($dark ? '#343434' : 'yellow')};
   }
-}))
+`
 
 interface LoaderProps {
   fallback?: boolean
   dark?: boolean
 }
 
-const ScaleLoader: React.FC<LoaderProps> = ({ fallback = false, dark }) => {
-  const classes = useStyles({ fallback, dark })
+const ScaleLoader: React.FC<LoaderProps> = ({ fallback = false, dark = false }) => {
   return (
-    <svg
-      className={classes.loader}
+    <Loader
+      $fallback={fallback}
+      $dark={dark}
       xmlns="http://www.w3.org/2000/svg"
       width="24px"
       height="24px"
@@ -85,7 +83,7 @@ const ScaleLoader: React.FC<LoaderProps> = ({ fallback = false, dark }) => {
           repeatCount="indefinite"
         />
       </rect>
-    </svg>
+    </Loader>
   )
 }
 
