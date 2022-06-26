@@ -1,10 +1,9 @@
 import React from 'react'
 import * as yup from 'yup'
 import { Formik, Form } from 'formik'
-import TextInput from '../../shared/FormFields/TextInput/TextInput'
-import Button from '../../shared/Button/Button'
 
 import TextInputs from './TextInputs/TextInputs'
+import Buttons from './Buttons/Buttons'
 
 const UISchema = yup.object({
   simpleInput: yup.string(),
@@ -38,34 +37,7 @@ const UI: React.FC = () => {
           {() => (
             <Form>
               <TextInputs />
-              <h4>Button</h4>
-              <Button>send message</Button>
-              <p>button with loading - main</p>
-              <Button loading>send message</Button>
-              <p>button with loading - main [disabled]</p>
-              <Button disabled loading>
-                send message
-              </Button>
-              <p>button with loading - secondary</p>
-              <Button color="secondary" loading>
-                send
-              </Button>
-              <p>button with loading - secondary [disabled]</p>
-              <Button disabled color="secondary" loading>
-                send
-              </Button>
-              <p>light button</p>
-              <Button color="secondary" disableShadow>
-                send message
-              </Button>
-              <p>light button loading</p>
-              <Button color="secondary" loading darkLoader disableShadow>
-                send message
-              </Button>
-              <p>disabled button</p>
-              <Button color="secondary" disabled darkLoader disableShadow>
-                send message
-              </Button>
+              <Buttons />
             </Form>
           )}
         </Formik>
