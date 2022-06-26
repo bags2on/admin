@@ -20,12 +20,11 @@ interface BottonProps {
   disabled?: boolean
   fullWidth?: boolean
   disableShadow?: boolean // TODO: rename to withoutShadow
-  darkLoader?: boolean
-  className?: string
   onClick?(event: React.MouseEvent<HTMLButtonElement>): void
 }
 
 interface BaseButtonProps {
+  $fullWidth?: boolean
   $withoutShadow: boolean
   $color: ButtonColor
 }
@@ -34,7 +33,7 @@ const BaseButton = styled.button<BaseButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
   font-size: 18px;
   line-height: 18px;
   font-weight: 500;
@@ -103,18 +102,19 @@ const ButtonText = styled.span``
 const Button: React.FC<BottonProps> = ({
   loading,
   children,
-  darkLoader,
   color = ButtonColor.primary,
   disableShadow = false,
   startIcon,
   endIcon,
   type = 'button',
+  fullWidth,
   ...otherProps
 }: BottonProps) => {
   return (
     <BaseButton
-      $withoutShadow={!disableShadow}
       $color={color as ButtonColor}
+      $withoutShadow={!disableShadow}
+      $fullWidth={fullWidth}
       type={type}
       {...otherProps}
     >

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import Grid from '@material-ui/core/Grid'
-import Button from '../../shared/Button/Button'
+import Button from '../../shared/Button'
 import routeNames from '../../utils/routeNames'
 import Fallback from '../../components/Fallback/Fallback'
 import MainInputs from './MainInputs'
@@ -50,10 +50,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap'
-  },
-  submitButton: {
-    width: 200,
-    padding: '15px 0'
   }
 }))
 
@@ -300,7 +296,6 @@ const CreateProduct: React.FC = () => {
                 color="secondary"
                 loading={createProductMeta.loading || updateProductMeta.loading}
                 disabled={createProductMeta.loading || updateProductMeta.loading} // isPhotoExist
-                className={classes.submitButton}
               >
                 {isCreateMode ? 'создать' : 'сохранить'}
               </Button>
