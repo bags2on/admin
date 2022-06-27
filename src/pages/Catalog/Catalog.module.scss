@@ -48,22 +48,6 @@
   margin-bottom: 20px;
 }
 
-.filterButton {
-  max-width: 335px;
-  background: none;
-  border: 2px solid;
-  font-weight: 600;
-  color: var(--catalog-filter-btn-color);
-  background: var(--catalog-filter-btn-bgc);
-  &:disabled {
-    color: var(--sub-title-color);
-    border-color: var(--sub-title-color);
-  }
-  &:hover {
-    background: none;
-  }
-}
-
 .filtersBox {
   position: fixed;
   top: 0;
@@ -104,11 +88,6 @@
 @media screen and (min-width: $md) {
   .filterButtonWrapper {
     justify-content: flex-end;
-  }
-
-  .filterButton {
-    max-width: 170px;
-    margin-right: 5px;
   }
 }
 

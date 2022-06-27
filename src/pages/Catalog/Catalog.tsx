@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
-import SvgIcon from '@material-ui/core/SvgIcon'
-import Button from '../../shared/Button/Button'
+import Button from '../../shared/Button'
 import Filters from './Filters/Filters'
 import Products from './Products/Products'
 import ScaleLoader from '../../shared/Loader/Loader'
@@ -17,6 +16,7 @@ import { CategoryType, Gender, MainTag, PriceRange } from '../../types'
 import classes from './Catalog.module.scss'
 import routeNames from '../../utils/routeNames'
 import appHistory from '../../utils/history'
+import styled from 'styled-components'
 
 interface ParamTypes {
   page: string
@@ -74,6 +74,35 @@ function getQueryValues(values: FilterValues): queryValues {
     category: category as CategoryType[]
   }
 }
+
+const SVGFilterIcon = styled(FilterIcon)`
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  margin-right: 5px;
+`
+
+const FilterButton = styled(Button)`
+  && {
+    max-width: 335px;
+    background: none;
+    border: 2px solid;
+    color: var(--catalog-filter-btn-color);
+    background: var(--catalog-filter-btn-bgc);
+    &:disabled {
+      color: var(--sub-title-color);
+      border-color: var(--sub-title-color);
+    }
+    &:hover {
+      background: none;
+    }
+
+    @media ${({ theme }) => theme.media.md} {
+      max-width: 170px;
+      margin-right: 5px;
+    }
+  }
+`
 
 const Catalog: React.FC = () => {
   const { page } = useParams<keyof ParamTypes>() as ParamTypes
@@ -171,20 +200,16 @@ const Catalog: React.FC = () => {
         <div className={classes.pageContainer}>
           <div className={classes.controlContainer}>
             <div className={classes.filterButtonWrapper}>
-              <Button
+              <FilterButton
                 onClick={handleFilterClick}
-                className={classes.filterButton}
+                // className={classes.filterButton}
                 disableShadow
                 disabled={loading}
                 fullWidth
-                startIcon={
-                  <SvgIcon component="span">
-                    <FilterIcon />
-                  </SvgIcon>
-                }
+                startIcon={<SVGFilterIcon />}
               >
-                фильтр
-              </Button>
+                Фильтр
+              </FilterButton>
             </div>
             <div
               className={clsx({

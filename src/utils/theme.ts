@@ -102,21 +102,43 @@ export interface ITheme {
     laptop: number
     desktop: number
   }
+  media: {
+    xs: string
+    sm: string
+    md: string
+    lg: string
+    xl: string
+    tablet: string
+    laptop: string
+    desktop: string
+  }
+}
+
+const breakpoints = {
+  xs: 0,
+  sm: 450,
+  md: 600,
+  lg: 900,
+  xl: 1200,
+  tablet: 800,
+  laptop: 1000,
+  desktop: 1400
 }
 
 export const styledTheme: ITheme = {
   colors: {
     primary: '#F2E30C'
   },
-  breakpoints: {
-    xs: 0,
-    sm: 450,
-    md: 600,
-    lg: 900,
-    xl: 1200,
-    tablet: 800,
-    laptop: 1000,
-    desktop: 1400
+  breakpoints,
+  media: {
+    xs: `(min-width: ${breakpoints.xs}px)`,
+    sm: `(min-width: ${breakpoints.sm}px)`,
+    md: `(min-width: ${breakpoints.md}px)`,
+    lg: `(min-width: ${breakpoints.lg}px)`,
+    xl: `(min-width: ${breakpoints.xl}px)`,
+    tablet: `(min-width: ${breakpoints.tablet}px)`,
+    laptop: `(min-width: ${breakpoints.laptop}px)`,
+    desktop: `(min-width: ${breakpoints.desktop}px)`
   }
 }
 
