@@ -1,10 +1,11 @@
 import React from 'react'
-import Button from '../../../shared/Button/Button'
+import Button from '../../../shared/Button'
 import CatalogItem from '../../../components/CatalogItem/CatalogItem'
 import Pagination from '../../../components/Pagination/Pagination'
 import ExpandedGrid from '../../../shared/ExpandedGrid'
 import routeNames from '../../../utils/routeNames'
 import { makeStyles } from '@material-ui/core'
+import styled from 'styled-components'
 
 interface ProductsProps {
   totalPages: number
@@ -62,16 +63,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     margin: 0
   },
-  actionButton: {
-    display: 'block',
-    width: 200,
-    padding: '15px 10px',
-    margin: '0 auto',
-    backgroundColor: 'var(--green)',
-    '&:hover': {
-      backgroundColor: 'var(--green-light)'
-    }
-  },
   paginationWrapper: {
     position: 'absolute',
     bottom: 0,
@@ -82,6 +73,19 @@ const useStyles = makeStyles((theme) => ({
     }
   }
 }))
+
+const ShowAllButton = styled(Button)`
+  && {
+    display: block;
+    width: 200px;
+    padding: 15px 10px;
+    margin: 0 auto;
+    background-color: var(--green);
+    &:hover {
+      background-color: var(--green-light);
+    }
+  }
+`
 
 const Products: React.FC<ProductsProps> = ({
   totalPages,
@@ -99,9 +103,9 @@ const Products: React.FC<ProductsProps> = ({
         <div>
           <p className={classes.smile}>:(</p>
           <p className={classes.text}>Извините, но по вашему запросу ничего не найдено</p>
-          <Button fullWidth onClick={onActionButtonClick} className={classes.actionButton}>
+          <ShowAllButton fullWidth onClick={onActionButtonClick}>
             посмотреть все
-          </Button>
+          </ShowAllButton>
         </div>
       </div>
     )

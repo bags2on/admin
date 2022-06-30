@@ -6,13 +6,14 @@ import Collapse from '@material-ui/core/Collapse'
 import ListItemText from '@material-ui/core/ListItemText'
 import { ReactComponent as ExpandMoreIcon } from '../../../asset/svg/right-arrow.svg'
 import { ReactComponent as ExpandLessIcon } from '../../../asset/svg/right-arrow.svg'
-import Button from '../../../shared/Button/Button'
+import Button from '../../../shared/Button'
 import { useFormikContext } from 'formik'
 import { Range } from 'rc-slider'
 import { makeStyles } from '@material-ui/core'
 
 import 'rc-slider/assets/index.css'
 import './PriceRange.scss'
+import styled from 'styled-components'
 
 interface PriceRangeProps {
   title: string
@@ -54,6 +55,12 @@ const useStyles = makeStyles((theme) => ({
 interface FormFields {
   priceRange: Array<number>
 }
+
+const OkButton = styled(Button)`
+  && {
+    height: 34px;
+  }
+`
 
 const PriceRange: React.FC<PriceRangeProps> = ({ title, name, min, max, step = 1 }) => {
   const classes = useStyles()
@@ -132,13 +139,14 @@ const PriceRange: React.FC<PriceRangeProps> = ({ title, name, min, max, step = 1
             onChange={onMaxChange}
             className={clsx(classes.input, 'price-input')}
           />
-          <Button
+          <OkButton
             disableShadow
-            className={clsx(classes.submitButton, 'price-submit')}
+            color="success"
+            // className={clsx(classes.submitButton, 'price-submit')}
             onClick={handlePriceSubmit}
           >
-            ok
-          </Button>
+            Ok
+          </OkButton>
         </div>
         <Range
           min={min}

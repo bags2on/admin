@@ -7,13 +7,14 @@ import {
   DeleteProductDocument
 } from '../../../../graphql/product/_gen_/deleteProduct.mutation'
 import Modal from '../../../../shared/Modal'
-import Button from '../../../../shared/Button/Button'
+import Button from '../../../../shared/Button'
 
 import { useMutation } from '@apollo/client'
 import { ReactComponent as DeleteIcon } from '../../../../asset/svg/delete.svg'
 import { makeStyles } from '@material-ui/core/styles'
 import history from '../../../../utils/history'
 import routeNames from '../../../../utils/routeNames'
+import styled from 'styled-components'
 
 interface DeleteProductProps {
   id: string
@@ -42,6 +43,15 @@ const useStyles = makeStyles(() => ({
     }
   }
 }))
+
+const ConfirmButton = styled(Button)`
+  && {
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+`
 
 const DeleteProduct: React.FC<DeleteProductProps> = ({ id }) => {
   const classes = useStyles()
@@ -81,13 +91,9 @@ const DeleteProduct: React.FC<DeleteProductProps> = ({ id }) => {
       <Modal open={isOpen} onClose={() => setOpen((prev) => !prev)}>
         <div className={classes.modalContainer}>
           <h1>Действительно удалите товар?</h1>
-          <Button
-            loading={loading}
-            className={classes.submitButton}
-            onClick={handleSubmitButtonClick}
-          >
+          <ConfirmButton color="success" loading={loading} onClick={handleSubmitButtonClick}>
             Да
-          </Button>
+          </ConfirmButton>
         </div>
       </Modal>
     </>

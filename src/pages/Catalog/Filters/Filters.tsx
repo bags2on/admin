@@ -4,10 +4,11 @@ import RadioGroup from '../../../shared/FormFields/RadioGroup/RadioGroup'
 import CheckBoxGroup from '../../../shared/FormFields/CheckboxGroup'
 import PriceRange from '../../../shared/FormFields/PriceRange/PriceRange'
 import fieldProps from './data'
-import Button from '../../../shared/Button/Button'
+import Button from '../../../shared/Button'
 import AutoSave from '../../../shared/AutoSave'
 import { Formik, Form } from 'formik'
 import classes from './styles.module.scss'
+import styled from 'styled-components'
 
 type PriceRange = {
   lt: number
@@ -29,6 +30,18 @@ interface FiltersProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmit(values: any): void
 }
+
+const ClearBotton = styled(Button)`
+  && {
+    font-size: 11px;
+    padding: 3px;
+    color: #fff;
+    background: #f44336;
+    &:hover {
+      background: #ff5346;
+    }
+  }
+`
 
 const Filters: React.FC<FiltersProps> = ({ priceRange, initValues, formRef, onSubmit }) => {
   const { gender, availability, radioGroup, categories } = fieldProps
@@ -64,9 +77,9 @@ const Filters: React.FC<FiltersProps> = ({ priceRange, initValues, formRef, onSu
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 15 }}>
               <p className={classes.title}>Параметры</p>
               {dirty && (
-                <Button onClick={() => resetForm()} className={classes.clearButton} disableShadow>
-                  очистить
-                </Button>
+                <ClearBotton onClick={() => resetForm()} disableShadow>
+                  Очистить
+                </ClearBotton>
               )}
             </div>
             <Divider
