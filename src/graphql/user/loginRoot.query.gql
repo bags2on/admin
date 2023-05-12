@@ -1,5 +1,0 @@
-query LogInRoot($keyWord: String!) {
-  logInRoot(input: { keyWord: $keyWord }) {
-    token
-  }
-}

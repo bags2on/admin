@@ -1,89 +1,34 @@
 {
-  "name": "my-app",
+  "name": "admin",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@apollo/client": "^3.6.8",
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
-    "@material-ui/core": "^4.12.4",
-    "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.8.5",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^14.2.1",
-    "@types/jest": "^28.1.3",
-    "@types/node": "^18.0.0",
-    "@types/react": "^18.0.14",
-    "@types/react-dom": "^18.0.5",
-    "@types/styled-components": "^5.1.25",
-    "@types/yup": "^0.29.14",
-    "apollo-upload-client": "^17.0.0",
-    "formik": "^2.2.9",
-    "graphql": "^15.0.0",
-    "history": "^5.2.0",
-    "jwt-decode": "^3.1.2",
-    "lodash.clonedeep": "^4.5.0",
-    "node-sass": "^7.0.1",
-    "normalize.css": "^8.0.1",
-    "rc-slider": "^9.7.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-dropzone": "^14.2.1",
-    "react-progressive-graceful-image": "^0.6.14",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
-    "react-spring": "^9.4.5",
-    "styled-components": "^5.3.5",
-    "typescript": "^4.7.4",
-    "web-vitals": "^2.1.4",
-    "yup": "^0.32.11"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "prettier --write . && eslint src*/**/*.{ts,tsx}",
-    "generate": "graphql-codegen --config codegen.yml",
-    "schema:get": "apollo client:download-schema --endpoint=http://localhost:8080/graphql ./src/graphql/schema.graphql",
-    "schema:remove": "rm ./src/graphql/schema.graphql",
-    "generate:clear": "find . -name _gen_ -type d -exec rm -r {} +",
-    "gen": "npm run schema:remove && npm run generate:clear && npm run schema:get && npm run generate"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "autoprefixer": "^10",
+    "core-js": "^3.8.3",
+    "postcss": "^8",
+    "tailwindcss": "^3",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.3",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.6.2",
-    "@graphql-codegen/fragment-matcher": "^3.2.1",
-    "@graphql-codegen/near-operation-file-preset": "^2.2.14",
-    "@graphql-codegen/typescript": "2.5.1",
-    "@graphql-codegen/typescript-compatibility": "^2.1.5",
-    "@graphql-codegen/typescript-operations": "2.4.2",
-    "@graphql-codegen/typescript-react-apollo": "3.2.16",
-    "@types/lodash.clonedeep": "^4.5.7",
-    "@typescript-eslint/eslint-plugin": "^5.29.0",
-    "@typescript-eslint/parser": "^5.29.0",
-    "eslint-config-prettier": "^8.5.0",
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.30.0",
-    "prettier": "^2.7.1",
-    "react-error-overlay": "^6.0.11"
+    "eslint-plugin-vue": "^8.0.3",
+    "prettier": "^2.4.1",
+    "vue-cli-plugin-tailwind": "~3.0.0"
   }
 }
