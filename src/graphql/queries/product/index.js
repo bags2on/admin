@@ -1,0 +1,1 @@
+export { GetAllProductsQuery } from "./getAll"
