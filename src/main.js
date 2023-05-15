@@ -7,6 +7,7 @@ import client from "./apollo"
 import { DefaultApolloClient } from "@vue/apollo-composable"
 
 import CatalogItem from "./components/CatalogItem.vue"
+import IconBase from "./components/IconBase.vue"
 
 const app = createApp({
   setup() {
@@ -16,6 +17,7 @@ const app = createApp({
 })
 
 app.component("CatalogItem", CatalogItem)
+app.component("IconBase", IconBase)
 
 app.use(router)
 app.use(store)
