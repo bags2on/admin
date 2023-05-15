@@ -1,8 +1,12 @@
 <template>
   <p v-if="loading">Loading...</p>
-  <ul v-else>
-    <li v-for="product in products" :key="product.id" class="mb-5x">
-      <p>{{ product.title }}</p>
+  <ul v-else class="flex flex-wrap">
+    <li v-for="product in products" :key="product.id" class="mb-5x basis-3/12">
+      <CatalogItem
+        :id="product.id"
+        :title="product.title"
+        :preview="product.preview"
+      />
     </li>
   </ul>
 </template>
